@@ -1,0 +1,1 @@
+O código apresentado ilustra os conceitos básicos da POO em Lua, utilizando tabelas e metatabelas. É importante ressaltar que este é um método manual e que existem bibliotecas e frameworks em Lua que oferecem funcionalidades mais avançadas para POO.
