@@ -1,1 +1,1 @@
-O código apresentado ilustra os conceitos básicos da POO em Lua, utilizando tabelas e metatabelas. É importante ressaltar que este é um método manual e que existem bibliotecas e frameworks em Lua que oferecem funcionalidades mais avançadas para POO.
+Este repositório é um guia abrangente para a linguagem de programação Lua, oferecendo anotações claras desde conceitos básicos até técnicas avançadas. Ideal tanto para iniciantes quanto para desenvolvedores experientes, inclui exemplos práticos e soluções para desafios comuns em programação Lua.
