@@ -1,4 +1,4 @@
-## Manipulação de Strings em Lua
+# Manipulação de Strings em Lua
 
 ```lua
 -- Concatenação simples:
