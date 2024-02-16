@@ -98,7 +98,7 @@ print(str:gsub("fácil", "poderosa")) --> Lua é poderosa 1
 ```lua
 -- Substituir todas as ocorrências:
 local str = "O gato, o rato e o elefante"
-print(str:gsub("(%a+)", "Animal")) -- Animal, Animal e Animal 7
+print(str:gsub("(%a+)", "Animal")) --> Animal, Animal e Animal 7
 ```
 
 ```lua
