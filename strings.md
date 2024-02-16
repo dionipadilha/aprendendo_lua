@@ -1,5 +1,6 @@
--- Manipulação de Strings em Lua
+## Manipulação de Strings em Lua
 
+```lua
 -- Concatenação simples:
 local str1 = "Olá"
 local str2 = " Mundo"
@@ -122,3 +123,4 @@ end
 local str = "    Olá, Mundo!    "
 print(str:trim()) --> Olá, Mundo!
 print(#str, #(str:trim())) --> 20 12
+```
