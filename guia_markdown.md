@@ -12,15 +12,10 @@ Use `#` para criar cabeçalhos. O número de `#` determina o nível do cabeçalh
 
 ```markdown
 # Cabeçalho nível 1
-
 ## Cabeçalho nível 2
-
 ### Cabeçalho nível 3
-
 #### Cabeçalho nível 4
-
 ##### Cabeçalho nível 5
-
 ###### Cabeçalho nível 6
 ```
 
