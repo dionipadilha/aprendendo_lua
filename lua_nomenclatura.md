@@ -1,4 +1,4 @@
-# Guia Rápido para Nomenclatura em Lu
+# Guia Rápido para Nomenclatura em Lua
 
 Este guia visa auxiliar programadores Lua na criação de nomes eficazes para variáveis, funções, classes e outros elementos.
 
