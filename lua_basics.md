@@ -144,25 +144,17 @@ Exemple #1:
 ]]
 
 ----------------------------------------------------------------
--- Constants for multiples
-local FIRST_MULTIPLE = 3
-local SECOND_MULTIPLE = 5
-
--- Get FizzBuzz Result
-function getFizzBuzz(n)
-  -- Check for multiples
-  isFirstMultiple = n % FIRST_MULTIPLE == 0
-  isSecondeMultiple = n % SECOND_MULTIPLE == 0
-  isBothMultiple = isFirstMultiple and isSecondeMultiple
-  -- Return based on checks
-  if isBothMultiple then return "FizzBuzz"
-  elseif isFirstMultiple then return "Fizz"
-  elseif isSecondeMultiple then return "Buzz"
-  else return n
+for i = 1, 10 do
+    if i % 3 == 0 and i % 5 == 0 then
+        print("FizzBuzz")
+    elseif i % 3 == 0 then
+        print("Fizz")
+    elseif i % 5 == 0 then
+        print("Buzz")
+    else
+        print(i)
+    end
 end
-
--- Iterate from 1 to 10
-for n = 1, 10 do print(getFizzBuzz(n)) end
 ```
 
 Exemple #2:
