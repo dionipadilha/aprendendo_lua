@@ -4,21 +4,18 @@
 -- Initialization
 
 -- Initialize an empty array:
-local fruits = {}
+local emptyArray = {}
 
 -- Initialize an array with pre-defined elements:
-local fruits = {"apple","banana", "orange"}
+local predefinedArray = {"apple","banana", "orange"}
 
 -- Pack the elements into an array:
-local fruits = table.pack("apple", "banana", "orange")
+local packedArray = table.pack("apple", "banana", "orange")
 
 --------------------------------------------------------------------------------
 -- Element Access
 
 local fruits = {"apple","banana", "orange"}
-
--- Number of elements:
-print(#fruits) --> 3
 
 -- Accessing elements:
 print(fruits[1]) --> apple
@@ -28,7 +25,10 @@ print(fruits[4]) --> nil
 print(fruits[0]) --> nil
 print(fruits[-1]) --> nil
 
--- Looping through elements using #:
+-- Number of elements:
+print(#fruits) --> 3
+
+-- Looping through elements using range:
 for i = 1, #fruits do
   print(fruits[i]) --> apple, --> banana, --> orange
 end
@@ -38,7 +38,7 @@ for _, fruit in ipairs(fruits) do
   print(fruit) --> apple, --> banana, --> orange
 end
 
--- Iterating with next:
+-- Iterating with next function:
 local index, value = next(fruits)
 while index do
   print(value) --> apple, --> banana, --> orange
@@ -50,6 +50,8 @@ print(table.concat(fruits, ", ")) --> apple, banana, orange
 
 --------------------------------------------------------------------------------
 -- Manipulation
+
+local fruits = {"apple","banana", "orange"}
 
 -- Modifying elements by index:
 fruits[2] = "mango"
@@ -72,8 +74,7 @@ table.remove(fruits, 3)
 print(table.concat(fruits, ", ")) --> apple, pear, orange
 
 --------------------------------------------------------------------------------
--- Sort Elements
--- * The sort algorithm is not stable.
+-- Sort Elements*
 
 local fruits = {"apple","pear", "orange"}
 
@@ -81,40 +82,38 @@ local fruits = {"apple","pear", "orange"}
 table.sort(fruits)
 print(table.concat(fruits, ", ")) --> apple, orange, pear
 
--- Reverse sort with anonymous functions:
+-- Reverse sort:
 local ReverseSort = function(a, b) return a > b end
 table.sort(fruits, ReverseSort)
 print(table.concat(fruits, ", ")) --> pear, orange, apple
 
--- Custom sort with anonymous functions:
+-- Custom sort:
 local customSort = function (a, b) return #a > #b end
 table.sort(fruits, customSort)
 print(table.concat(fruits, ", ")) --> pear, apple, orange
 
+-- *The sort algorithm is not stable.
 -- see more about sort arrays on sort_arrays.lua
 
 --------------------------------------------------------------------------------
 -- Merging Elements
 
--- Merge the elements into the first array #1:
-local a1 = {1, 2, 3}
-local a2 = {4, 5, 6}
+local a1 = {"apple","banana", "cherry"}
+local a2 = {"mango","pear"}
+
+-- Merge the elements using table.insert:
 for _, item in ipairs(a2) do
   table.insert(a1, item)
 end
-print(table.concat(a1, ", ")) --> 1, 2, 3, 4, 5, 6
+print(table.concat(a1, ", ")) --> apple, banana, cherry, mango, pear
 
--- Merge the elements into the first array #3:
-local a1 = {1, 2, 3}
-local a2 = {4, 5, 6}
+-- Merge the elements using table.unpack:
 table.insert(a1, table.unpack(a2))
-print(table.concat(a1, ", ")) --> 1, 2, 3, 4, 5, 6
+print(table.concat(a1, ", ")) --> apple, banana, cherry, mango, pear
 
--- Merge the elements into the first array #2:
-local a1 = {1, 2, 3}
-local a2 = {4, 5, 6}
+-- Merge the elements using table.move:
 table.move(a2, 1, #a2, #a1+1, a1)
-print(table.concat(a1, ", ")) --> 1, 2, 3, 4, 5, 6
+print(table.concat(a1, ", ")) --> apple, banana, cherry, mango, pear
 
 -- see more about merge arrays on merge_arrays.lua
 
