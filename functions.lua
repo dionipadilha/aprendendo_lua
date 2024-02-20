@@ -1,3 +1,4 @@
+--------------------------------------------------------------------------------
 -- Functions:
 local function greet(name)
   print("Hello " .. name)
@@ -38,12 +39,24 @@ local function greet(...)
 end
 greet("Ana", "Bob", "Carlos") --> Hi Ana, Hi Bob, Hi Carlos
 
+--------------------------------------------------------------------------------
 -- Anonymous function:
+print((function(x) return 2*x end)(3)) --> 6
+print((function(x) return 2*x end)(5)) --> 10
+
+-- Variable with anonymous functions:
 local greet = function(name)
   print("Hi " .. name)
 end
 greet("Bob") --> Hi Bob
 
+-- Anonymous function with arguments:
+local greet = function(name, greeting)
+  print(greeting .. " " .. name)
+end
+greet("Bob", "Hey") --> Hey Bob
+
+--------------------------------------------------------------------------------
 -- First-class functions:
 local function greet(name)
   return function()
@@ -84,6 +97,17 @@ local function factorial(n)
 end
 print(factorial(5)) --> 120
 
+--------------------------------------------------------------------------------
+-- Error handling:
+local status, result = pcall(function() error("Some error") end)
+print(status) --> false
+print(result) --> Some error
+
+local status, result = pcall(function() return "Some result" end)
+print(status) --> true
+print(result) --> Some result
+
+--------------------------------------------------------------------------------
 -- Tail recursion:
 local function factorial(n, acc)
   if n == 0 then return acc
@@ -164,12 +188,3 @@ local function pipe(f, g)
 end
 local add2ThenMul3 = pipe(add2, mul3)
 print(add2ThenMul3(5)) --> 21
-
--- Error handling:
-local status, result = pcall(function() error("Some error") end)
-print(status) --> false
-print(result) --> Some error
-
-local status, result = pcall(function() return "Some result" end)
-print(status) --> true
-print(result) --> Some result
