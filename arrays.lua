@@ -96,26 +96,26 @@ print(table.concat(fruits, ", ")) --> pear, apple, orange
 -- see more about sort arrays on sort_arrays.lua
 
 --------------------------------------------------------------------------------
--- Merging Elements
+-- Merging arrays
 
+-- Merge arrays using table.insert:
 local a1 = {"apple","banana", "cherry"}
 local a2 = {"mango","pear"}
-
--- Merge the elements using table.insert:
 for _, item in ipairs(a2) do
   table.insert(a1, item)
 end
 print(table.concat(a1, ", ")) --> apple, banana, cherry, mango, pear
 
--- Merge the elements using table.unpack:
-table.insert(a1, table.unpack(a2))
-print(table.concat(a1, ", ")) --> apple, banana, cherry, mango, pear
-
--- Merge the elements using table.move:
+-- Merge arrays using table.move:
+local a1 = {"apple","banana", "cherry"}
+local a2 = {"mango","pear"}
 table.move(a2, 1, #a2, #a1+1, a1)
 print(table.concat(a1, ", ")) --> apple, banana, cherry, mango, pear
 
--- see more about merge arrays on merge_arrays.lua
+-- Merge arrays using table.unpack:
+local a2 = {"mango","pear"}
+local a1 = {"apple","banana", "cherry", table.unpack(a2)}
+print(table.concat(a1, ", ")) --> apple, banana, cherry, mango, pear
 
 --------------------------------------------------------------------------------
 -- Intro for Multi-dimensional Arrays
@@ -135,5 +135,4 @@ matrix[2][1] = 99
 print(matrix[2][1]) --> 99
 
 -- see more about multi-dimensional arrays on multidimensional.lua
-
 --------------------------------------------------------------------------------
