@@ -17,13 +17,22 @@ local packedArray = table.pack("apple", "banana", "orange")
 
 local fruits = {"apple","banana", "orange"}
 
--- Accessing elements:
+-- Accessing elements by index:
+print(fruits[2]) --> banana
+
+-- Index starts with 1:
 print(fruits[1]) --> apple
 
--- Accessing elements outside the range:
+-- Accessing out-of-bounds elements:
 print(fruits[4]) --> nil
 print(fruits[0]) --> nil
 print(fruits[-1]) --> nil
+
+
+--------------------------------------------------------------------------------
+-- Looping Through Arrays
+
+local fruits = {"apple","banana", "orange"}
 
 -- Number of elements:
 print(#fruits) --> 3
@@ -33,19 +42,19 @@ for i = 1, #fruits do
   print(fruits[i]) --> apple, --> banana, --> orange
 end
 
--- Looping through elements using ipairs:
+-- Looping using ipairs:
 for _, fruit in ipairs(fruits) do
   print(fruit) --> apple, --> banana, --> orange
 end
 
--- Iterating with next function:
+-- Iterating with next:
 local index, value = next(fruits)
 while index do
   print(value) --> apple, --> banana, --> orange
   index, value = next(fruits, index)
 end
 
--- Show concatenate elements:
+-- Print concatenates elements:
 print(table.concat(fruits, ", ")) --> apple, banana, orange
 
 --------------------------------------------------------------------------------
@@ -53,7 +62,7 @@ print(table.concat(fruits, ", ")) --> apple, banana, orange
 
 local fruits = {"apple","banana", "orange"}
 
--- Modifying elements by index:
+-- Modifying elements:
 fruits[2] = "mango"
 print(table.concat(fruits, ", ")) --> apple, mango, orange
 
@@ -61,20 +70,20 @@ print(table.concat(fruits, ", ")) --> apple, mango, orange
 table.insert(fruits, "kiwi")
 print(table.concat(fruits, ", ")) --> apple, mango, orange, kiwi
 
--- Insert element at specific index:
+-- Inserting at a specific index:
 table.insert(fruits, 2, "pear")
 print(table.concat(fruits, ", ")) --> apple, pear, mango, orange, kiwi
 
--- Remove last element:
+-- Remove the last element:
 table.remove(fruits)
 print(table.concat(fruits, ", ")) --> apple, pear, mango, orange
 
--- Remove element at specific index:
+-- Removing at a specific index:
 table.remove(fruits, 3)
 print(table.concat(fruits, ", ")) --> apple, pear, orange
 
 --------------------------------------------------------------------------------
--- Sort Elements*
+-- Sorting*
 
 local fruits = {"apple","pear", "orange"}
 
@@ -82,15 +91,15 @@ local fruits = {"apple","pear", "orange"}
 table.sort(fruits)
 print(table.concat(fruits, ", ")) --> apple, orange, pear
 
--- Reverse sort:
-local ReverseSort = function(a, b) return a > b end
-table.sort(fruits, ReverseSort)
-print(table.concat(fruits, ", ")) --> pear, orange, apple
-
 -- Custom sort:
 local customSort = function (a, b) return #a > #b end
 table.sort(fruits, customSort)
 print(table.concat(fruits, ", ")) --> pear, apple, orange
+
+-- Reverse sort:
+local ReverseSort = function(a, b) return a > b end
+table.sort(fruits, ReverseSort)
+print(table.concat(fruits, ", ")) --> pear, orange, apple
 
 -- *The sort algorithm is not stable.
 -- see more about sort arrays on sort_arrays.lua
@@ -120,6 +129,17 @@ print(table.concat(a1, ", ")) --> apple, banana, cherry, mango, pear
 --------------------------------------------------------------------------------
 -- Intro for Multi-dimensional Arrays
 
+-- Creating a grid (matrix):
+local n = 3
+local m = 4
+local grid = {}
+for i = 1, n do
+    grid[i] = {}
+    for j = 1, m do
+        grid[i][j] = 0
+    end
+end
+
 -- Create a multi-dimensional arrays:
 local matrix = {
   {1, 2, 3},
@@ -129,6 +149,14 @@ local matrix = {
 
 -- Accessing elements in multi-dimensional arrays:
 print(matrix[2][1]) --> 4
+
+
+-- Looping through a multi-dimensional array:
+for i = 1, #matrix do
+  for j = 1, #matrix[i] do
+      print(matrix[i][j]) --> 1, 2, 3, 4, 5, 6, 7, 8, 9
+  end
+end
 
 -- Manipulation elements in multi-dimensional arrays:
 matrix[2][1] = 99
