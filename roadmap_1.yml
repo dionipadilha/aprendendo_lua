@@ -1,0 +1,64 @@
+# Basics for Lua Programming Language
+Comments:
+  - Single line comments # -- Single line comments
+  - Multi-line comments # --[[ Multi-line comments --]]
+  - Expected output comments # print(fruits[1]) --> apple
+Variables:
+  - Variable scope # local and global
+  - Variable declaration # local variableName
+  - Variable assignment # local variableName = value
+Data Types:
+  - Strings # "Hello Lua!"
+  - Numbers # 3.14
+  - Booleans # true or false
+  - Tables # local fruits = {"apple", "banana", "cherry"}
+  - Nil # local x, print(x) --> nil
+  - Functions # function myFunction() end
+Operators:
+  - Precedence and associativity
+  - Arithmetic operators:
+      - Addition # 5 + 2 --> 7
+      - Subtraction # 5 - 2 --> 3
+      - Multiplication # 5 * 2 --> 10
+      - Division # 5/2 --> 2.5
+      - Floor Division # 5//2 --> 2
+      - Modulo # 5%2 --> 1
+      - Exponentiation # 2^3 --> 8
+  - Relational operators:
+      - Equality # 5 == 2 --> false
+      - Inequality # 5 ~= 2 --> true
+      - Less than # 5 < 2 --> false
+      - Greater than # 5 > 2 --> true
+      - Less than or equal to # 5 <= 2 --> false
+      - Greater than or equal to # 5 >= 2 --> true
+  - Logical operators:
+      - And # true and false --> false
+      - Or # true or false --> true
+      - Not # not true --> false
+  - Bitwise operators:
+      - Bitwise AND # 5 & 2 --> 0 (0000 0101 & 0000 0010 = 0000 0000)
+      - Bitwise OR # 5 | 2 --> 7 (0000 0101 | 0000 0010 = 0000 0111)
+      - Bitwise XOR # 5 ~ 2 --> 7 (0000 0101 ~ 0000 0010 = 0000 0111)
+      - Bitwise NOT # ~5 --> -6 (0000 0101 = 1111 1010)
+      - Bitwise Left Shift # 5 << 2 --> 20 (0000 0101 << 2 = 0001 0100)
+      - Bitwise Right Shift # 5 >> 2 --> 1 (0000 0101 >> 2 = 0000 0001)
+  - Concatenation operator # "Hello" .. " " .. "Lua!" --> "Hello Lua!"
+  - Length operator # #fruits --> 3
+Conditional statements:
+  - if # if condition then statement(s) end
+  - elseif # elseif condition then statement(s) end
+  - else # else statement(s) end
+Looping statements:
+  - while # while condition do statement(s) end
+  - repeat...until # repeat statement(s) until condition
+  - for range # for variable = start, end, step do statement(s) end
+  - for each # for key, value in pairs(table) do statement(s) end
+  - break # break (continue N/A)
+Functions:
+  - Function definition # function myFunction(parameters) end
+  - Function calling # myFunction(arg)
+  - Function default parameter values # function myFunction(param = value) end
+  - Function variable number of parameters # function myFunction(...) end
+  - Function return values # return value
+  - Function returning multiple values # return value1, value2
+  - Function returning with ternary operator # return a and b or c
