@@ -15,7 +15,6 @@ Data Types:
   - Nil # local x, print(x) --> nil
   - Functions # local function myFunction() end
 Operators:
-  - Precedence and associativity
   - Arithmetic operators:
       - Addition # 5 + 2 --> 7
       - Subtraction # 5 - 2 --> 3
