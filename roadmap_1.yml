@@ -62,15 +62,23 @@ Functions:
   - Return multiple values # return value1, value2
   - Conditional return with ternary operator # return a and b or c
 Tables as Arrays:
+  - Pack the elements into an array # local fruits = table.pack("apple", "banana")
   - Create an empty array # local array = {}
   - Create an array with elements # local fruits = {"apple", "banana", "cherry"}
   - Number of elements # print(#fruits) --> 3
   - Access elements # print(fruits[1]) --> apple
-  - Accessing elements outside the range # --> nil
+  - Access out-of-bounds elements # --> nil
   - Looping through elements # for _, fruit in ipairs(fruits) do something(fruit) end
   - Modifying elements by index # fruits[3] = "chocolate"
-  - Adding new elements # fruits:insert("orange")
+  - Appending new elements # fruits:insert("orange")
   - Adding new elements by index # fruits:insert("mango", 3)
-  
-Tables as Dictionar:
+  - Remove the last element # fruits:remove()
+  - Remove element by index # fruits:remove(3)
+  - Sorting # table.sort(fruits)
+  - Custom sort # table.sort(fruits, customSort)
+Tables as Dictionaries:
   - Create an map # local person = {name = "John Doe", age = 30}
+  - Access elements # print(person.name) --> John Doe
+  - Looping through elements # for k,v in pairs(table) do something(k, v) end
+  - Adding new elements # person.role = "lua programmer"
+  
