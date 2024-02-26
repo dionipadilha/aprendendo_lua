@@ -55,9 +55,9 @@ Looping statements:
   - break # break (continue N/A)
 Functions:
   - Function definition # function myFunction(parameters) end
-  - Function calling # myFunction(arg)
-  - Function default parameter values # function myFunction(param = value) end
-  - Function variable number of parameters # function myFunction(...) end
-  - Function return values # return value
-  - Function returning multiple values # return value1, value2
-  - Function returning with ternary operator # return a and b or c
+  - Function call # myFunction(arg)
+  - Default parameter values # function myFunction(param = value) end
+  - Variable number of parameters # function myFunction(...) end
+  - Return values # return value
+  - Return multiple values # return value1, value2
+  - Ternary operator # return a and b or c
