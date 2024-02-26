@@ -13,7 +13,7 @@ Data Types:
   - Booleans # true or false
   - Tables # local fruits = {"apple", "banana", "cherry"}
   - Nil # local x, print(x) --> nil
-  - Functions # function myFunction() end
+  - Functions # local function myFunction() end
 Operators:
   - Precedence and associativity
   - Arithmetic operators:
