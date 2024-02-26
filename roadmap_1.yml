@@ -4,7 +4,7 @@ Comments:
   - Multi-line comments # --[[ Multi-line comments --]]
   - Expected output comments # print(fruits[1]) --> apple
 Variables:
-  - Variable scope # local and global
+  - Variable scope # global, local
   - Variable declaration # local variableName
   - Variable assignment # local variableName = value
 Data Types:
