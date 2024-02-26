@@ -11,7 +11,7 @@ Data Types:
   - Strings # "Hello Lua!"
   - Numbers # 3.14
   - Booleans # true or false
-  - Tables # local fruits = {"apple", "banana", "cherry"}
+  - Tables # fruits = {"apple", ...}, person = {name = "John Doe", ...}
   - Nil # local x, print(x) --> nil
   - Functions # local function myFunction() end
 Operators:
@@ -44,20 +44,33 @@ Operators:
   - Concatenation operator # "Hello" .. " " .. "Lua!" --> "Hello Lua!"
   - Length operator # #fruits --> 3
 Conditional statements:
-  - if # if condition then statement(s) end
-  - elseif # elseif condition then statement(s) end
-  - else # else statement(s) end
+  - if # if condition then statements end
+  - elseif # elseif condition then statements end
+  - else # else statements end
 Looping statements:
-  - while # while condition do statement(s) end
-  - repeat...until # repeat statement(s) until condition
-  - for range # for variable = start, end, step do statement(s) end
-  - for each # for key, value in pairs(table) do statement(s) end
+  - while # while condition do statements end
+  - repeat...until # repeat statements until condition
+  - for range # for variable = start, end, step do statements end
+  - for each # for key, value in pairs(table) do statements end
   - break # break (continue N/A)
 Functions:
-  - Function definition # function myFunction(parameters) end
-  - Function call # myFunction(arg)
-  - Default parameter values # function myFunction(param = value) end
-  - Variable number of parameters # function myFunction(...) end
+  - Definition # local function myFunction(parameters) statements end
+  - Call # local x = myFunction(arg)
+  - Default parameter values # myFunction(param = value)
+  - Variable number of parameters # myFunction(...)
   - Return values # return value
   - Return multiple values # return value1, value2
-  - Ternary operator # return a and b or c
+  - Conditional return with ternary operator # return a and b or c
+Tables as Arrays:
+  - Create an empty array # local array = {}
+  - Create an array with elements # local fruits = {"apple", "banana", "cherry"}
+  - Number of elements # print(#fruits) --> 3
+  - Access elements # print(fruits[1]) --> apple
+  - Accessing elements outside the range # --> nil
+  - Looping through elements # for _, fruit in ipairs(fruits) do something(fruit) end
+  - Modifying elements by index # fruits[3] = "chocolate"
+  - Adding new elements # fruits:insert("orange")
+  - Adding new elements by index # fruits:insert("mango", 3)
+  
+Tables as Dictionar:
+  - Create an map # local person = {name = "John Doe", age = 30}
