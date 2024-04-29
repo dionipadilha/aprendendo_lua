@@ -58,7 +58,21 @@ table.remove(names, 3)
 print(table.concat(names, ", "))
 --> edu, duda, bob
 
--- Merge different lists:
+-- Merging lists:
 table.move(fruits, 1, #fruits, #names+1, names)
 print(table.concat(names, ", "))
 --> edu, duda, bob, apple, banana, orange
+
+-- Searching on lists:
+local this_name = "bob"
+
+local function search_on_list(target, list)
+  local indexes = {}
+  for i, item in ipairs(list) do
+    if item == target then table.insert(indexes, i) end
+  end
+  return indexes
+end
+
+local target_index_list = search_on_list(this_name, names)
+print(table.concat(target_index_list, ", ")) --> 3
