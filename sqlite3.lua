@@ -1,8 +1,11 @@
-local sqlite3 = {}
+local db_path = "database.db"
 
-function sqlite3.run(db, sql)
-  local cmd = "sqlite3 ".. db .. sql
+local sqlite_queries = {
+  [[".read create_music_library.sql"]],
+  [[".read insert_musics.sql"]]
+}
+
+for _, query in ipairs(sqlite_queries) do
+  local cmd = "sqlite3" .. " " .. db_path .. " " .. query
   os.execute(cmd)
 end
-
-sqlite3.run("database.db ", ".tables")
