@@ -1,4 +1,4 @@
-metatable.lua
+-- metatable.lua
 
 ---------------------------------------------------------
 -- Without metatables:
