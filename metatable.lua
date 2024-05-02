@@ -1,4 +1,4 @@
--- Metatables: customize the behavior of Lua tables.
+metatable.lua
 
 ---------------------------------------------------------
 -- Without metatables:
@@ -16,7 +16,7 @@ print(union(t1, t2)) --> 1, 2, 3, 4, 5, 6
 -- print(t1 + t2)    --> error
 
 ---------------------------------------------------------
--- Using metatables:
+-- Metatables: customize the behavior of Lua tables.
 
 local t3 = { 1, 3, 5 }
 local t4 = { 2, 4, 6 }
