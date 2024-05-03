@@ -31,14 +31,11 @@ fsm.triggers = {
 -- fsm loop:
 
 function fsm:update(current_state)
-  print("current_state: ", current_state)
-
   local possible_transitions = self.transitions[current_state]
-
   if possible_transitions then
     for next_state, trigger in pairs(possible_transitions) do
+      print("Transition from", current_state, "to", next_state)
       if self.triggers[trigger]() then
-        print("Transitioned from", current_state, "to", next_state)
         current_state = next_state
         return
       end
