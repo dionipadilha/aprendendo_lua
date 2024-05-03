@@ -5,9 +5,9 @@ local y = (function(x) return 2 * x end)(3)
 print(y) --> 6
 
 -- Variable with anonymous functions:
-local f = function(x) return 2 * x end
-print(f(3)) --> 6
-print(f(5)) --> 10
+local doubler = function(x) return 2 * x end
+print(doubler(3)) --> 6
+print(doubler(5)) --> 10
 
 -- Anonymous function with multiple arguments:
 local plus = function(a, b) return a + b end
@@ -33,14 +33,14 @@ evaluate(function(x) return x ^ (1 / 2) end, 9) --> 3.0
 evaluate(function(x) return x ^ 2 end, 3)       --> 9.0
 
 -- Anonymous function and Closures:
-local function counter()
+local function newCounter()
   local i = 0
   return function()
     i = i + 1
     return i
   end
 end
-local count = counter()
+local count = newCounter()
 print(count()) --> 1
 print(count()) --> 2
 print(count()) --> 3
@@ -57,3 +57,4 @@ stack:push(1)
 stack:push(2)
 print(stack:pop()) --> 2
 print(stack:pop()) --> 1
+print(stack:pop()) --> nil
