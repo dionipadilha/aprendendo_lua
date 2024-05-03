@@ -22,18 +22,19 @@ greet("Bob", "Hey") --> Hey Bob
 
 -- Required arguments:
 local function greet(name, greeting)
-  assert(name, "required name argument")
-  assert(greeting, "required greeting argument")
+  assert(name, "error: required argument")
+  assert(greeting, "error: required argument")
   print(greeting .. " " .. name)
 end
 greet("Ana", "Hi") --> Hi Ana
--- greet("Bob")    --> error: name and greeting are required
+-- greet("Bob")    --> error: required argument
 
 -- Default arguments:
 local function greet(name, greeting)
-  local _name = name or "Ana"
-  local _greeting = greeting or "Hi"
-  print(_greeting .. " " .. _name)
+  local default = { name = "Ana", greeting = "Hi" }
+  name = name or default.name
+  greeting = greeting or default.greeting
+  print(greeting .. " " .. name)
 end
 greet()             --> Hi Ana
 greet("Bob")        --> Hi Bob
@@ -42,9 +43,7 @@ greet("Bob", "Hey") --> Hey Bob
 -- Variable number of arguments:
 local function greet(...)
   local names = { ... }
-  for _, name in ipairs(names) do
-    print("Hi " .. name)
-  end
+  for _, name in ipairs(names) do print("Hi " .. name) end
 end
 greet("Ana")        --> Hi Ana
 greet("Ana", "Bob") --> Hi Ana, Hi Bob
