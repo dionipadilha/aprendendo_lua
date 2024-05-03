@@ -1,11 +1,11 @@
 -- Anonymous Functions
 
 -- Anonymous function execution:
-local y = (function(x) return 2*x end)(3)
+local y = (function(x) return 2 * x end)(3)
 print(y) --> 6
 
 -- Variable with anonymous functions:
-local f = function(x) return 2*x end
+local f = function(x) return 2 * x end
 print(f(3)) --> 6
 print(f(5)) --> 10
 
@@ -22,20 +22,23 @@ local function multiplyBy(x)
 end
 local timesTwo = multiplyBy(2)
 local timesFive = multiplyBy(5)
-print(timesTwo(3)) --> 6
+print(timesTwo(3))  --> 6
 print(timesFive(3)) --> 15
 
 -- Anonymous function and  Higher-order function:
 local function evaluate(f, x)
   return print(f(x))
 end
-evaluate(function(x) return x^(1/2) end, 9) --> 3.0
-evaluate(function(x) return x^2 end, 3) --> 9.0
+evaluate(function(x) return x ^ (1 / 2) end, 9) --> 3.0
+evaluate(function(x) return x ^ 2 end, 3)       --> 9.0
 
 -- Anonymous function and Closures:
 local function counter()
   local i = 0
-  return function() i = i + 1 return i end
+  return function()
+    i = i + 1
+    return i
+  end
 end
 local count = counter()
 print(count()) --> 1
