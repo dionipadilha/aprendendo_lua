@@ -14,22 +14,10 @@ local co = coroutine.create(doSomething)
 print(co)                   --> thread id
 print(coroutine.status(co)) --> suspended
 
--- Starts the coroutine and get the yielded value:
-local status, response = coroutine.resume(co) --> doSomething #1
-print(status, response)                       --> true, yielding #1
-print(coroutine.status(co))                   --> suspended
+-- Resumes the coroutine until it's finished:
+repeat
+  local sucess, response = coroutine.resume(co)
+  print(sucess, response)
+until coroutine.status(co) == "dead"
 
--- Restarting the coroutine and get the second yielded value:
-status, response = coroutine.resume(co) --> doSomething #2
-print(status, response)                 --> true, yielding #2
-print(coroutine.status(co))             --> suspended
-
--- Checking status after the last yielded value::
-status, response = coroutine.resume(co) --> coroutine finish!
-print(status, response)                 --> true, nil
-print(coroutine.status(co))             --> dead
-
--- Trying to resume a dead coroutine:
-status, response = coroutine.resume(co)
-print(status, response)     --> false	cannot resume dead coroutine
 print(coroutine.status(co)) --> dead
