@@ -6,10 +6,10 @@ local function doSomething()
   coroutine.yield("yielding #1")
   print("doSomething #2")
   coroutine.yield("yielding #2")
-  print("coroutine finish!")
+  return "coroutine finish!"
 end
 
--- Creates a coroutine with a coroutine function:
+-- Instantiation a coroutine object:
 local co = coroutine.create(doSomething)
 print(co)                   --> thread id
 print(coroutine.status(co)) --> suspended
@@ -23,5 +23,3 @@ repeat
   end
   print(success, response)
 until coroutine.status(co) == "dead"
-
-print(coroutine.status(co)) --> dead
