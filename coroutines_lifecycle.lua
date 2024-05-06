@@ -1,6 +1,6 @@
 -- coroutines_lifecycle.lua
 
--- Creates a coroutine function:
+--  creates a coroutine function:
 local function doSomething()
   print("doSomething #1")
   coroutine.yield("yielding #1")
@@ -9,12 +9,12 @@ local function doSomething()
   return "coroutine finish!"
 end
 
--- Instantiation a coroutine object:
+--  creates a coroutine object:
 local co = coroutine.create(doSomething)
 print(co)                   --> thread id
 print(coroutine.status(co)) --> suspended
 
--- Resumes the coroutine until it's finished:
+-- resumes the coroutine until it finishes:
 repeat
   local success, response = coroutine.resume(co)
   if not success then
