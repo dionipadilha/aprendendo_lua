@@ -2,22 +2,23 @@
 
 -- Creates a coroutine function:
 local function doSomething(initialData)
-  local newData = coroutine.yield("y#1: " .. initialData)
-  coroutine.yield("y#2: " .. newData)
+  local newData = coroutine.yield("initialData: " .. initialData)
+  coroutine.yield("newData: " .. tostring(newData))
+  return initialData .. tostring(newData)
 end
 
 -- Creates a coroutine object:
 local co = coroutine.create(doSomething)
+print(coroutine.status(co)) --> suspended
 
--- Resumes the coroutine:
-local success, response = coroutine.resume(co, "a")
-print(success, response) --> true y#1: a
+-- Resumes the coroutine with an initial value:
+local success, response = coroutine.resume(co, "bob")
+print(success, response, coroutine.status(co)) --> initialData: bob suspended
 
-success, response = coroutine.resume(co, "b")
-print(success, response) --> true y#2: b
+-- Resumes the coroutine with a new value:
+success, response = coroutine.resume(co, 42)
+print(success, response, coroutine.status(co)) --> newData: 42 suspended
 
+-- Resumes the coroutine without value:
 success, response = coroutine.resume(co)
-print(success, response) --> false nil
-
-success, response = coroutine.resume(co)
-print(success, response) --> false cannot resume dead coroutine
+print(success, response, coroutine.status(co)) --> false bob42 dead
