@@ -15,14 +15,20 @@ function stopwatch.diff(self)
   return self.final - self.initial
 end
 
--- Define a recursive factorial function:
-local function doSomething()
-  os.execute("sleep 10") -- TERMINAR
-  return "toast!"
+-- Define a function:
+local function delay(n)
+  assert(n > 0)
+  local start_time = os.clock()
+  while os.clock() - start_time < n do
+    -- nothing
+  end
 end
 
+-- Create an instance of the stopwatch:
+local myStopwatch = setmetatable({}, { __index = stopwatch })
+
 -- Stopwatch the recursive factorial function:
-stopwatch:start()
-print(doSomething())
-stopwatch:stop()
-print(string.format("elapsed time: %.5f seconds.", stopwatch:diff()))
+print("start: ", myStopwatch:start())
+delay(3)
+print("stop: ", myStopwatch:stop())
+print(string.format("elapsed time: %.5f seconds.", myStopwatch:diff()))
