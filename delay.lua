@@ -1,13 +1,10 @@
 -- delay.lua
 
---  cross-platform delay:
+-- Define a function:
 local function delay(n)
   assert(n > 0)
-  isLinux = os.getenv("HOME") or (os.getenv("XDG_SESSION_TYPE") and os.getenv("XDG_SESSION_TYPE") == "tty")
-  if isLinux then
-    os.execute("sleep " .. tonumber(n))
-  else
-    os.execute("ping -n " .. tonumber(n) .. " 127.0.0.1 > nul")
+  local start_time = os.clock()
+  while os.clock() - start_time < n do
+    -- nothing
   end
-  return true
 end
