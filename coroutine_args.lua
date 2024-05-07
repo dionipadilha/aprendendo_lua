@@ -11,10 +11,10 @@ local co = coroutine.create(doSomething)
 
 -- Resumes the coroutine:
 local success, response = coroutine.resume(co, "a")
-print(success, response) --> true	y#1: a
+print(success, response) --> true y#1: a
 
 success, response = coroutine.resume(co, "b")
-print(success, response) --> true	y#2: b
+print(success, response) --> true y#2: b
 
 success, response = coroutine.resume(co)
 print(success, response) --> false nil
