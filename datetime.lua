@@ -4,6 +4,7 @@
 print(os.time())                                                --> 1715105554
 print(os.time({ year = 2024, month = 05, day = 07, hour = 0 })) --> 1715050800
 print(os.time({ year = 2024, month = 05, day = 08, hour = 0 })) --> 1715137200
+print(os.difftime (1715137200, 1715050800)) --> 86400.0
 
 -- os.date:
 print(os.date())                 --> 05/07/24 15:12:34
@@ -22,6 +23,17 @@ print(os.date("%c")) --> 05/07/24 15:12:34
 print(os.date("%x")) --> 05/07/24
 print(os.date("%X")) --> 15:12:34
 
--- Customizing date and time output formats:
+-- Customizing date output formats:
 print(os.date("%d/%m/%Y %X"))        --> 07/05/2024 15:12:34
 print(os.date("%A, %d in %B in %Y")) --> Tuesday, 07 in May in 2024
+
+-- os.clock
+local function delay(interval)
+  local stop = os.clock() + interval
+  while os.clock() < stop do end
+end
+
+local start = os.clock()
+delay(5) -- seconds
+local stop = os.clock()
+print(stop - start)
