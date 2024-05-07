@@ -4,9 +4,10 @@
 -- returns the next value in the table:
 local function list_iterator(t)
   local i = 0
+  local n = #t
   return function()
     i = i + 1
-    if i <= #t then return t[i] end
+    if i <= n then return t[i] end
   end
 end
 
