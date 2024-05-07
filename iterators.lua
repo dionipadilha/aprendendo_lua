@@ -19,5 +19,10 @@ print(next_fruit()) --> cherry
 print(next_fruit()) -->
 
 -------------------------------------------------------
-local names = list_iterator({ "ana", "bob", "charlie" })
-for name in names do print(name) end
+local names = { "ana", "bob", "charlie" }
+for name in list_iterator(names) do print(name) end
+
+-------------------------------------------------------
+local students = { "ana", "bob", "charlie" }
+local students_list = list_iterator(students)
+for name in students_list do print(name) end
