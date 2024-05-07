@@ -2,7 +2,7 @@
 
 -------------------------------------------------------
 -- returns the next value in the table:
-local function list_iterator(t)
+local function iter(t)
   local i = 0
   return function()
     i = i + 1
@@ -12,17 +12,21 @@ end
 
 -------------------------------------------------------
 local fruits = { "apple", "banana", "cherry" }
-local next_fruit = list_iterator(fruits)
+local next_fruit = iter(fruits)
 print(next_fruit()) --> apple
 print(next_fruit()) --> banana
 print(next_fruit()) --> cherry
 print(next_fruit()) -->
 
 -------------------------------------------------------
-local names = { "ana", "bob", "charlie" }
-for name in list_iterator(names) do print(name) end
+local students = { "ana", "bob", "charlie" }
+local next_student = iter(students)
+local student = next_student()
+while student do
+  print(student)
+  student = next_student()
+end
 
 -------------------------------------------------------
-local students = { "ana", "bob", "charlie" }
-local students_list = list_iterator(students)
-for name in students_list do print(name) end
+local names = { "ana", "bob", "charlie" }
+for name in iter(names) do print(name) end
