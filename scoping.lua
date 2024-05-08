@@ -1,5 +1,7 @@
 -- scoping.lua
 
+-- local variables declared within blocks create their own scopes.
+
 -- Declares a variable in the outermost scope:
 local x = 10
 
