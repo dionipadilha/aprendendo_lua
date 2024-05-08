@@ -3,7 +3,7 @@
 -- Declares a variable in the outermost scope:
 local x = 10
 
--- Defines a block scope:
+-- Defines the first block scope scope:
 do
   local x = x -- inner x <-- outer x
   print(x)    --> 10
