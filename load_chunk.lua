@@ -9,6 +9,7 @@ local chunk = "local name='Bob' print('Hello ' .. name)"
 local compiledChunk = load(chunk)
 
 print(compiledChunk) --> function id
-if compiledChunk then
+
+if compiledChunk then -- need-check-nil
   compiledChunk()    --> Hello Bob
 end
