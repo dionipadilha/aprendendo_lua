@@ -44,17 +44,3 @@ local count = newCounter()
 print(count()) --> 1
 print(count()) --> 2
 print(count()) --> 3
-
--- Integration with Data Structures:
-local stack = {}
-stack.push = function(self, value)
-  table.insert(self, value)
-end
-stack.pop = function(self)
-  return table.remove(self)
-end
-stack:push(1)
-stack:push(2)
-print(stack:pop()) --> 2
-print(stack:pop()) --> 1
-print(stack:pop()) --> nil
