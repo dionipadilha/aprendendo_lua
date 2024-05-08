@@ -17,7 +17,9 @@ do
     print(x)    --> 12
   end
 
+  -- Exits the nested block scope:
   print(x) --> 11 (inner x)
 end
 
+-- Exits the outer block scope:
 print(x) --> 10 (outer x)
