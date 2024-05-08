@@ -26,4 +26,5 @@ local quadratic = function(x) return x ^ 2 end
 print(type(quadratic)) --> function
 
 -- thread
-print(type(coroutine.create(quadratic))) --> thread
+local co coroutine.create(quadratic)
+print(type(co)) --> thread
