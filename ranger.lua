@@ -1,6 +1,6 @@
--- ranger.lua
+-- range.lua
 
-local function ranger(start, stop, step)
+local function range(start, stop, step)
   if not stop then
     stop = start
     start = 1
@@ -13,19 +13,19 @@ local function ranger(start, stop, step)
   end
 end
 
-for value in ranger(3) do
+for value in range(3) do
   print(value) --> 1, 2, 3
 end
 
-for value in ranger(2, 5) do
+for value in range(2, 5) do
   print(value) --> 2, 3, 4, 5
 end
 
-for value in ranger(2, 6, 2) do
+for value in range(2, 6, 2) do
   print(value) --> 2, 4, 6
 end
 
-local x = ranger(3)
+local x = range(3)
 for n in x do
   print(n) --> 1, 2, 3
 end
