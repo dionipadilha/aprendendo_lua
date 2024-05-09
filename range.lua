@@ -1,4 +1,4 @@
--- range_reverse.lua
+-- range.lua
 
 ---------------------------------------------------------------
 local function range(start, stop, step)
