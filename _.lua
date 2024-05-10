@@ -7,21 +7,23 @@
 local function rangeInputValidator(start, stop, step)
   -- Check if the inputs are numbers or nil:
   local checks = {
-    stop ~= nil and type(start) == "number",
-    stop == nil or type(stop) == "number",
-    step == nil or type(step) == "number"
+    type(start) == "number" and start ~= nil,
+    type(stop) == "number" or stop == nil,
+    (type(step) == "number" and step ~= 0) or step == nil,
+    (step > 0 and start <= stop) or (step < 0 and start >= stop)
   }
   -- Create errorMsgs:
   local errorMsgs = {
     "Start value must be a number",
     "Stop value must be a number or nil",
-    "Step value must be a number or nil"
+    "Step value must be a number ~= 0 or nil",
+    "Invalid range parameters"
   }
-  
   -- Execute assertations:
   for n, check in ipairs(checks) do
     assert(check, errorMsgs[n])
   end
+  return true
 end
 
 local function rangeInputHandler(start, stop, step)
