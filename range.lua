@@ -17,26 +17,25 @@ end
 ------------------------------------------------------------
 -- Test cases:
 
-local function printCase(rangeGen)
+local function printRange(rangeGen)
   local t = {}
   for n in rangeGen do table.insert(t, n) end
-  return table.concat(t, ", ")
+  local result = table.concat(elements, ", ")
+  return result
 end
 
 local oddNumbers = range(1, 10, 2)
 
 local cases = {
-  printCase(range(3)) == "1, 2, 3",
-  printCase(range(2, 5)) == "2, 3, 4, 5",
-  printCase(range(2, 6, 2)) == "2, 4, 6",
-  printCase(range(-5, -1, 2)) == "-5, -3, -1",
-  printCase(range(5, 1, -2)) == "5, 3, 1",
-  printCase(oddNumbers) == "1, 3, 5, 7, 9"
+  printRange(range(3)) == "1, 2, 3",
+  printRange(range(2, 5)) == "2, 3, 4, 5",
+  printRange(range(2, 6, 2)) == "2, 4, 6",
+  printRange(range(-5, -1, 2)) == "-5, -3, -1",
+  printRange(range(5, 1, -2)) == "5, 3, 1",
+  printRange(oddNumbers) == "1, 3, 5, 7, 9"
 }
 
 for n, case in ipairs(cases) do
   assert(case, "Error case: " .. n)
 end
-
 ------------------------------------------------------------
-return range
