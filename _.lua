@@ -4,40 +4,39 @@
 ------------------------------------------------------------
 -- Function definition:
 
-local function rangeInputValidator(start, stop, step)
-  -- Check if the inputs are numbers or nil:
-  local checks = {
-    type(start) == "number" and start ~= nil,
-    type(stop) == "number" or stop == nil,
-    (type(step) == "number" and step ~= 0) or step == nil,
-    (step > 0 and start <= stop) or (step < 0 and start >= stop)
-  }
-  -- Create errorMsgs:
-  local errorMsgs = {
-    "Start value must be a number",
-    "Stop value must be a number or nil",
-    "Step value must be a number ~= 0 or nil",
-    "Invalid range parameters"
-  }
-  -- Execute assertations:
-  for n, check in ipairs(checks) do
-    assert(check, errorMsgs[n])
-  end
+local function inputValidation(start, stop, step)
+
+  -- If only one argument is provided then:
+  -- * it is considered as the 'stop' value;
+  local isOnlyOneArg = not stop and not step
+  if isOnlyOneArg then
+    local check = type(start) == "number" and start > 0
+    assert(check,"Stop value must be a positive number." )
   return true
 end
 
-local function rangeInputHandler(start, stop, step)
+local function InputHandling(start, stop, step)
   -- If only one argument is provided then:
   -- * it is considered as the 'stop' value
   -- * and 'start' is set to 1 by default.
-  if not stop then stop, start = start, 1 end
+  if not stop then
+    assert(
+      type(start) == "number" and start > 0,
+      "Stop value must be a positive number."
+    )
+    stop, start = start, 1
+    step = 1
+  end
 
-  -- Get default value 'step':
-  step = step or 1
+  -- If two arguments are provided then:
+  if not step then
+    assert(type(step) == "number" and stop > 0,)
+  end
+
   return start, stop, step
 end
 
-local function rangeNewIterator(start, stop, step)
+local function getIterator(start, stop, step)
   local i = start - step
   return function()
     i = i + step
@@ -51,9 +50,9 @@ local function rangeNewIterator(start, stop, step)
 end
 
 local function range(start, stop, step)
-  rangeInputValidator(start, stop, step)
-  local _start, _stop, _step = rangeInputHandler(start, stop, step)
-  return rangeNewIterator(_start, _stop, _step)
+  inputValidation(start, stop, step)
+  local _start, _stop, _step = InputHandling(start, stop, step)
+  return getIterator(_start, _stop, _step)
 end
 
 ------------------------------------------------------------
@@ -71,9 +70,14 @@ local function execute(rangeIterator)
 end
 
 local testes = {
-  range(3),         -- only one argument
-  range(2, 5),      -- two arguments
-  range(2, 6, 2),   -- all arguments
+  -- only one argument:
+  range(3),
+  --range("3"),
+  --range(-3),
+  -- two arguments
+  range(2, 5),
+  -- all arguments
+  range(2, 6, 2),   
   range(-5, -1, 2), -- negative start/stop
   range(5, 1, -2),  -- negative step
 }
@@ -96,8 +100,9 @@ local function runUnitTests()
     assert(expected[n] == obtained, errorMsg)
   end
 
-  -- Not number inputs
-  -- print(execute(range("3"))) -- not number
+  -- Edge Cases
+  --print(execute(range("3"))) -- not number
+  --print(execute(range(-3))) -- Negative stop
 end
 
 runUnitTests()
