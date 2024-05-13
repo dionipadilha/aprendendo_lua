@@ -1,43 +1,77 @@
 -- crew.lua
 
 --------------------------------------------------------------------------------
--- Step #1: Creating tools
--- Define any tools or utilities that agents will need.
-
-
+-- Step #0: Creating Classes
 --------------------------------------------------------------------------------
--- Step #2: Assemble Agents
--- Define the agents of our crew, giving them attributes and abilities.
+local Class = {}
 
-Agent = {
+function Class:new(object)
+  object = object or {}
+  setmetatable(object, self)
+  self.__index = self
+  return object
+end
+
+local Agent = Class:new {
   role = "",
   goal = "",
-  verbose = false,
-  memory = false,
   backstory = "",
   tools = {},
   allow_delegation = true
 }
 
-function Agent.new(self, agent)
-  agent = agent or {}
-  self.__index = self
-  setmetatable(agent, self)
-  return agent
-end
+local Task = Class:new {
+  description = "",
+  expected_output = "",
+  agent = nil,
+  allow_delegation = true
+}
 
 --------------------------------------------------------------------------------
--- Step 3: Define the Tasks
--- Define the tasks or objectives that the crew will need to accomplish.
+-- Step #1: Creating Tools
+--------------------------------------------------------------------------------
 
 
 --------------------------------------------------------------------------------
--- Step 4: Form the Crew
--- Assemble the crew by assigning agents to tasks.
-
---------------------------------------------------------------------------------
--- Step 5: Kick It Off
--- Execute the tasks and manage the crew.
-
+-- Step #2: Assemble Agents
 --------------------------------------------------------------------------------
 
+
+local luke = Agent:new {
+  role = "Piloto de ataque",
+  goal = "Destruir a Estrela da Morte",
+  backstory = "Jovem piloto, destinado a ser um Jedi."
+}
+
+print(luke.role)
+
+local han = Agent:new {
+  role = "Piloto de proteção",
+  goal = "Proteger pilotos em missão",
+  backstory = "Contrabandista ousado que se torna um herói."
+}
+
+local leia = Agent:new {
+  role = "Coordenadora",
+  goal = "Coordenar ataque a Estrela da Morte",
+  backstory = "Princesa lider da rebelião."
+}
+
+--------------------------------------------------------------------------------
+-- Step #3: Define the Tasks
+--------------------------------------------------------------------------------
+
+local coordenar_ataque = Task:new {
+
+}
+
+
+--------------------------------------------------------------------------------
+-- Step #4: Form the Crew
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+-- Step #5: Kick It Off
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
