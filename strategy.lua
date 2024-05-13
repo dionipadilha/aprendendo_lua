@@ -51,7 +51,7 @@ function PayPal:pay(amount, transaction)
   transaction = transaction or 0.10
   amount = amount or 0
   local total = amount + transaction
-  local result = string.format("PayPal paid $%.2f.", total)
+  local result = string.format("PayPal paid $%.2f", total)
   return result
 end
 
@@ -81,20 +81,27 @@ end
 -- return ShoppingCart
 
 --------------------------------------------------------------------------------
--- usage.lua
+-- strategy_test.lua
 
 -- local ShoppingCart = require "shoppingcart.lua"
 -- local CreditCard = require "creditcard.lua"
 -- local PayPal = require "paypal.lua"
 
--- Instantiates a ShoppingCart:
-local sc = ShoppingCart:new()
+local TestUnit = {}
 
--- Sets the payment strategy to CreditCard:
-sc:setPayment(CreditCard)
-print(sc:checkout(100)) --> CreditCard paid $100.00
+function TestUnit.kickoff()
+  -- Instantiates a ShoppingCart:
+  local sc = ShoppingCart:new()
 
--- Changes the payment strategy to PayPal:
-sc:setPayment(PayPal)
-print(sc:checkout(100)) -- Output: PayPal paid $$100.10.
+  -- Sets the payment strategy to CreditCard:
+  sc:setPayment(CreditCard)
+  assert(sc:checkout(100) == "CreditCard paid $100.00")
+
+  -- Changes the payment strategy to PayPal:
+  sc:setPayment(PayPal)
+  assert(sc:checkout(100) == "PayPal paid $100.10")
+end
+
+TestUnit.kickoff()
+
 --------------------------------------------------------------------------------
