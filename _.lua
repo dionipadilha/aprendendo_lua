@@ -142,21 +142,21 @@ local rebelAlliance = Crew:new {
 -- Step #6: Kick It Off
 
 function rebelAlliance:Kickoff()
-  -- Basic Task Execution
   for _, task in pairs(self.tasks) do
     print(task.agent.role .. ": " .. task.description)
 
-    -- Simulate task execution (replace with actual logic)
-    if task.agent.tools[1] then
-      print("  Using " .. task.agent.tools[1].description)
-    end
-
-    if task == self.tasks[3] then
-      local attackPower = task.agent.tools[1]:attack()
-      print("DeathStar receives an attack of:", attackPower)
-      print("Result:", task.expected_output)
+    -- Simulate task execution with outcomes
+    local success = math.random() < 0.8 -- 80% chance of success
+    if success then
+      print("Result: " .. task.expected_output)
+      if task == destroyDeathStar then
+        -- Death Star destroyed, game over
+        print("The Death Star has been destroyed! The Rebellion triumphs!")
+        return
+      end
     else
-      print("Result:", task.expected_output)
+      print("Result: Task failed!")
+      -- Potentially modify agent or tool state due to failure
     end
   end
 end
