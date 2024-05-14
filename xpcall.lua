@@ -1,15 +1,12 @@
-local function divideBy(a, b)
-  assert(b ~= 0, "myerror")
-  return a / b
-end
+local App = {
+  try = function(a, b)
+    assert(a + b == 7)
+  end,
 
-local function errorHandler(errorMsg)
-  -- except:
-  print(errorMsg)
-end
+  excpet = function(excption)
+    print(excption)
+  end
+}
 
--- try:
-local success, result = xpcall(divideBy, errorHandler, 6, 0)
-
--- finally
-print("after pcall")
+local result = xpcall(App.try, App.excpet, 6, 3)
+print("finaly ...")
