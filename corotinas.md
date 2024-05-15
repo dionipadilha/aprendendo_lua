@@ -173,9 +173,7 @@ while coroutine.status(co) ~= "dead" do
 end
 ```
 
-## Advanced Topics
-
-### Task Scheduling
+### Agendamento de Tarefas
 
 ```lua
 local function task(name, duration)
@@ -222,7 +220,7 @@ sched:add_task(task2)
 sched:run()
 ```
 
-### Coroutine-based State Machine
+### Máquinas de Estados Finitos
 
 ```lua
 local states = {}
