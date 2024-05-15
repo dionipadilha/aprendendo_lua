@@ -85,7 +85,7 @@ print(coroutine.status(co)) --> dead
 
 ## Multitarefa Cooperativa
 
-Um par `resume`-`yield` permite as rotinas o recurso de receberem e retornarem valores, similar a forma de entrada e retorno de valores em uma função:
+Um par `resume`-`yield` permite às co-rotinas o recurso de receberem e retornarem valores, similar à forma de entrada e retorno de valores em uma função:
 
 ```lua
 local co = coroutine.create(function(a, b)
@@ -113,10 +113,70 @@ local _, y = coroutine.resume(c1, 5)
 print(coroutine.resume(c2, y)) --> true 11
 ```
 
+## Exemplos Práticos de Uso
+
+### Simulação de Tarefas em um Jogo
+
+```lua
+local function player()
+  for i = 1, 3 do
+    print("Player is at position " .. i)
+    coroutine.yield()
+  end
+end
+
+local function enemy()
+  for i = 3, 1, -1 do
+    print("Enemy is at position " .. i)
+    coroutine.yield()
+  end
+end
+
+local playerCoroutine = coroutine.create(player)
+local enemyCoroutine = coroutine.create(enemy)
+
+while coroutine.status(playerCoroutine) ~= "dead" and coroutine.status(enemyCoroutine) ~= "dead" do
+  coroutine.resume(playerCoroutine)
+  coroutine.resume(enemyCoroutine)
+end
+```
+
+### Leitura de Dados em Blocos
+
+```lua
+local function readChunks(reader)
+  while true do
+    local chunk = reader()
+    if not chunk then break end
+    coroutine.yield(chunk)
+  end
+end
+
+local function simulateFileReader(data)
+  local index = 1
+  return function()
+    if index > #data then return nil end
+    local chunk = data[index]
+    index = index + 1
+    return chunk
+  end
+end
+
+local fileReader = simulateFileReader({"chunk1", "chunk2", "chunk3"})
+local co = coroutine.create(readChunks)
+
+while coroutine.status(co) ~= "dead" do
+  local success, chunk = coroutine.resume(co, fileReader)
+  if success and chunk then
+    print("Read: " .. chunk)
+  end
+end
+```
+
 ## Conclusão
 
-- As co-rotinas em são uma ferramenta poderosa para gerenciar a execução concorrente de forma eficiente;
-- As funções create, resume, e yield permitem criar fluxos de execução independentes que cooperam entre si;
+- As co-rotinas em são uma ferramenta poderosa para gerenciar a execução concorrente de forma eficiente.
+- As funções create, resume, e yield permitem criar fluxos de execução independentes que cooperam entre si.
 - As co-rotinas permitem a criação de programas mais organizados e fáceis de manter, sem a complexidade
 adicional das threads.
 
