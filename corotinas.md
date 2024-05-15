@@ -100,11 +100,11 @@ Este recurso permite a cooperação entre co-rotinas:
 local c1 = coroutine.create(function(n)
   coroutine.yield(n * 2)
 end)
-
+--
 local c2 = coroutine.create(function(n)
   coroutine.yield(n + 1)
 end)
-
+--
 local _, y = coroutine.resume(c1, 5)
 print(coroutine.resume(c2, y)) --> true 11
 ```
