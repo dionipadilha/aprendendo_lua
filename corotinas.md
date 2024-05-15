@@ -1,8 +1,5 @@
 # Noções básicas de Co-rotinas em Lua
 
-- Autor: Dioni Padilha - dionipdl@gmail.com
-- Data: 15/05/2024
-
 ## O Poder Oculto da Linguagem Lua
 
 O poder da linguagem Lua reside em sua simplicidade e elegância, mas essa
@@ -142,3 +139,8 @@ possível criar fluxos de execução independentes que cooperam entre si,
 oferecendo uma alternativa leve às threads tradicionais. As co-rotinas permitem
 a criação de programas mais organizados e fáceis de manter, sem a complexidade
 adicional das threads.
+
+---
+- Licença: Totalmente livre para usar e editar, mas o autor agradece a citação da fonte:
+- Autor: Dioni Padilha - dionipdl@gmail.com
+- Data: 15/05/2024
