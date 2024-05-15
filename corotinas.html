@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>new</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+  <style>body{text-align: justify;}</style>
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html">
+  <h1 id="noções-básicas-de-co-rotinas-em-lua">Noções básicas de Co-rotinas em Lua</h1>
+<h2 id="o-poder-oculto-da-linguagem-lua">O Poder Oculto da Linguagem Lua</h2>
+<p>O poder da linguagem Lua reside em sua simplicidade e elegância, mas essa
+simplicidade não significa falta de recursos. As co-rotinas em Lua oferecem um
+mecanismo poderoso para gerenciar a execução concorrente de forma leve e
+eficiente.</p>
+<p>Co-rotinas são um mecanismo de <em>multitarefa cooperativa</em>.
+Podemos dizer que elas são “linhas de execução independentes dentro de um
+programa, que possuem suas próprias variáveis locais e rastreiam seu estado de
+execução”.</p>
+<p>Desse modo, oferecem uma alternativa às <em>threads</em> para tarefas em que a
+<em>verdadeira concorrência</em> não é necessária.</p>
+<h2 id="explorando-o-ciclo-das-co-rotinas">Explorando o Ciclo das Co-rotinas</h2>
+<p>As Co-rotinas são objetos do tipo <code>thread</code>, atribuindo um identificador para
+cada nova instância.
+Para criar e executar uma co-rotina, usaremos as seguintes funções:</p>
+<ul>
+<li><code>create</code>: criar uma nova co-rotina.</li>
+<li><code>resume</code>: (re)inicia a execução de uma co-rotina.</li>
+</ul>
+<pre class=" language-lua"><code class="prism  language-lua"><span class="token keyword">local</span> co <span class="token operator">=</span> coroutine<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"Hi"</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span> <span class="token comment">--&gt; thread: id</span>
+coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span> <span class="token comment">--&gt; Hi</span>
+</code></pre>
+<p>As Co-rotinas podem estar em um de três estados:</p>
+<ul>
+<li>
+<p><code>suspended</code>: co-rotina aguardando iniciar ou continuar sua execução.</p>
+</li>
+<li>
+<p><code>running</code>: co-rotina está em execução.</p>
+</li>
+<li>
+<p><code>dead</code>: co-rotina totalmente finalizada.</p>
+</li>
+</ul>
+<pre class=" language-lua"><code class="prism  language-lua"><span class="token keyword">local</span> co <span class="token operator">=</span> coroutine<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"running"</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; suspended</span>
+coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span>        <span class="token comment">--&gt; running</span>
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; dead</span>
+</code></pre>
+<h2 id="tratando-erros-de-execução-em-co-rotinas">Tratando Erros de Execução em Co-rotinas</h2>
+<p>Co-rotinas são executadas em modo protegido. Portanto, se houver algum erro
+dentro de uma co-routina, Lua não mostrará a mensagem de erro, mas a retornará
+para a chamada de <code>resume</code>.</p>
+<pre class=" language-lua"><code class="prism  language-lua"><span class="token keyword">local</span> co <span class="token operator">=</span> coroutine<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token function">assert</span><span class="token punctuation">(</span><span class="token number">1</span> <span class="token operator">&gt;</span> <span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+
+<span class="token keyword">local</span> try<span class="token punctuation">,</span> exception <span class="token operator">=</span> coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span>
+<span class="token keyword">if</span> <span class="token keyword">not</span> try <span class="token keyword">then</span> <span class="token function">print</span><span class="token punctuation">(</span>exception<span class="token punctuation">)</span> <span class="token keyword">end</span> <span class="token comment">--&gt; assertion failed!</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span><span class="token string">"finally ..."</span><span class="token punctuation">)</span> <span class="token comment">--&gt; finally ...</span>
+</code></pre>
+<h2 id="retomando-a-execução-e-colhendo-valores">Retomando a Execução e “Colhendo” Valores</h2>
+<p>A função <code>yield</code> permite:</p>
+<ul>
+<li>
+<p>suspender uma co-rotina em execução para que possa ser retomada mais tarde.</p>
+</li>
+<li>
+<p>“<em>colher</em>” os valores obtidos durante a retomada na execução da co-rotina.</p>
+</li>
+</ul>
+<pre class=" language-lua"><code class="prism  language-lua"><span class="token keyword">local</span> co <span class="token operator">=</span> coroutine<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token keyword">for</span> i <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span> <span class="token keyword">do</span>
+    coroutine<span class="token punctuation">.</span><span class="token function">yield</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+  <span class="token keyword">end</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; true	1</span>
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; suspended</span>
+</code></pre>
+<p>Quando retomada pela função <code>resume</code>, a co-rotina será executada até o próximo
+<code>yield</code> ou até o seu final.</p>
+<pre class=" language-lua"><code class="prism  language-lua"><span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; true	2</span>
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; suspended</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; true	3</span>
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; dead</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; false	cannot resume dead coroutine</span>
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>co<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; dead</span>
+</code></pre>
+<h2 id="multitarefa-cooperativa">Multitarefa Cooperativa</h2>
+<p>Um recurso útil em Lua é que um par <code>resume</code>-<code>yield</code> pode trocar dados entre si.</p>
+<pre class=" language-lua"><code class="prism  language-lua"><span class="token keyword">local</span> co <span class="token operator">=</span> coroutine<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>a<span class="token punctuation">,</span> b<span class="token punctuation">)</span>
+  coroutine<span class="token punctuation">.</span><span class="token function">yield</span><span class="token punctuation">(</span>a <span class="token operator">+</span> b<span class="token punctuation">)</span>
+  coroutine<span class="token punctuation">.</span><span class="token function">yield</span><span class="token punctuation">(</span>a <span class="token operator">-</span> b<span class="token punctuation">)</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; true	5</span>
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; true	-1</span>
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; true</span>
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>co<span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; false	cannot resume dead coroutine</span>
+</code></pre>
+<p>Este recurso permite a cooperação entre co-rotinas:</p>
+<pre class=" language-lua"><code class="prism  language-lua"><span class="token keyword">local</span> c1 <span class="token operator">=</span> coroutine<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+  coroutine<span class="token punctuation">.</span><span class="token function">yield</span><span class="token punctuation">(</span>n <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+
+<span class="token keyword">local</span> c2 <span class="token operator">=</span> coroutine<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+  coroutine<span class="token punctuation">.</span><span class="token function">yield</span><span class="token punctuation">(</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">end</span><span class="token punctuation">)</span>
+
+<span class="token keyword">local</span> _<span class="token punctuation">,</span> y <span class="token operator">=</span> coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>c1<span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span>
+<span class="token function">print</span><span class="token punctuation">(</span>coroutine<span class="token punctuation">.</span><span class="token function">resume</span><span class="token punctuation">(</span>c2<span class="token punctuation">,</span> y<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment">--&gt; true 11</span>
+</code></pre>
+<h2 id="conclusão">Conclusão</h2>
+<p>As co-rotinas em Lua são uma ferramenta poderosa para gerenciar a execução
+concorrente de forma eficiente. Utilizando as funções create, resume, e yield,é
+possível criar fluxos de execução independentes que cooperam entre si,
+oferecendo uma alternativa leve às threads tradicionais. As co-rotinas permitem
+a criação de programas mais organizados e fáceis de manter, sem a complexidade
+adicional das threads.</p>
+<hr>
+<ul>
+<li>Licença: Totalmente livre para usar e editar, mas o autor agradece a citação da fonte.</li>
+<li>Autor: Dioni Padilha - <a href="mailto:dionipdl@gmail.com">dionipdl@gmail.com</a></li>
+<li>Data: 15/05/2024</li>
+</ul>
+</div>
+</body>
+
+</html>
