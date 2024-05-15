@@ -9,7 +9,7 @@ Co-rotinas são um mecanismo de _multitarefa cooperativa_. Podemos dizer que ela
 
 ## Explorando o Ciclo das Co-rotinas
 
-As Co-rotinas são objetos do tipo `thread`, atribuindo um identificador para cada nova instância. Para criar e executar uma co-rotina, usaremos as seguintes funções:
+Para criar e executar uma co-rotina, usaremos as seguintes funções:
 - `create`: criar uma nova co-rotina.
 - `resume`: (re)inicia a execução de uma co-rotina.
 
@@ -17,8 +17,14 @@ As Co-rotinas são objetos do tipo `thread`, atribuindo um identificador para ca
 local co = coroutine.create(function ()
   print("Hi")
 end)
-print(co)            --> thread: id
 coroutine.resume(co) --> Hi
+```
+
+As Co-rotinas são objetos do tipo `thread`, atribuindo um identificador para cada nova instância. 
+
+```lua
+local co = coroutine.create(function () end)
+print(co)            --> thread: id
 ```
 
 As Co-rotinas podem estar em um de três estados:
