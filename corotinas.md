@@ -1,10 +1,8 @@
 # Noções básicas de Co-rotinas em Lua
 
-## O Poder Oculto da Linguagem Lua
+## Co-rotinas da Linguagem Lua
 
-O poder da linguagem Lua reside em sua simplicidade e elegância, mas essa simplicidade não significa falta de recursos. As  co-rotinas em Lua oferecem um mecanismo poderoso para gerenciar a execução concorrente de forma leve e eficiente.
-
-Co-rotinas são um mecanismo de _multitarefa cooperativa_. Podemos dizer que elas são "linhas de execução independentes dentro de um programa, que possuem suas próprias variáveis locais e rastreiam seu estado de execução".  Desse modo, oferecem uma alternativa às _threads_ para tarefas em que a _verdadeira concorrência_ não é necessária.
+As co-rotinas em Lua oferecem um mecanismo poderoso para gerenciar a execução concorrente de forma leve e eficiente. Elas são um mecanismo de _multitarefa cooperativa_. Podemos dizer que elas são "linhas de execução independentes dentro de um programa, que possuem suas próprias variáveis locais e rastreiam seu estado de execução". Desse modo, oferecem uma alternativa às _threads_ para tarefas em que a _verdadeira concorrência_ não é necessária.
 
 
 ## Explorando o Ciclo das Co-rotinas
