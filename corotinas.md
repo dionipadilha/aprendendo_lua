@@ -173,6 +173,98 @@ while coroutine.status(co) ~= "dead" do
 end
 ```
 
+## Advanced Topics
+
+### Task Scheduling
+
+```lua
+local function task(name, duration)
+  for i = 1, duration do
+    print(name .. " step " .. i)
+    coroutine.yield()
+  end
+end
+
+local scheduler = {}
+scheduler.__index = scheduler
+
+function scheduler.new()
+  local self = setmetatable({}, scheduler)
+  self.tasks = {}
+  return self
+end
+
+function scheduler:add_task(co)
+  table.insert(self.tasks, co)
+end
+
+function scheduler:run()
+  while #self.tasks > 0 do
+    for i = #self.tasks, 1, -1 do
+      local status, res = coroutine.resume(self.tasks[i])
+      if not status or coroutine.status(self.tasks[i]) == "dead" then
+        table.remove(self.tasks, i)
+      end
+    end
+  end
+end
+
+-- Create tasks
+local task1 = coroutine.create(function() task("Task 1", 3) end)
+local task2 = coroutine.create(function() task("Task 2", 5) end)
+
+-- Schedule tasks
+local sched = scheduler.new()
+sched:add_task(task1)
+sched:add_task(task2)
+
+-- Run scheduler
+sched:run()
+```
+
+### Coroutine-based State Machine
+
+```lua
+local states = {}
+
+function states.idle()
+  print("Entering idle state")
+  while true do
+    local event = coroutine.yield()
+    if event == "start" then
+      return states.running
+    end
+  end
+end
+
+function states.running()
+  print("Entering running state")
+  while true do
+    local event = coroutine.yield()
+    if event == "stop" then
+      return states.idle
+    end
+  end
+end
+
+local function state_machine()
+  local state = states.idle
+  while true do
+    state = state()
+  end
+end
+
+local sm = coroutine.create(state_machine)
+
+coroutine.resume(sm)
+coroutine.resume(sm, "start")
+coroutine.resume(sm)
+coroutine.resume(sm, "stop")
+coroutine.resume(sm)
+```
+
+Coroutine-based State Machine
+
 ## Conclusão
 
 - As co-rotinas em são uma ferramenta poderosa para gerenciar a execução concorrente de forma eficiente.
