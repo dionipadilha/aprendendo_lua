@@ -28,7 +28,7 @@ BasicUnitTest.log = {
   fields = "[Fields] case, expected, got, assertion",
   test = "[-->] %s, %s, %s, %s",
   fail = "[Exception] expected: %s, got: %s",
-  finally = "[Done] exited in %.3f seconds"
+  finally = "[Done] exited in %f seconds"
 }
 
 -- define test execution flow:
@@ -61,11 +61,31 @@ end
 -- test_suit.lua
 -- local BasicUnitTest = require "basic_unit_test"
 
+--------------------------------------------------------------------------------
+local function delay(n)
+  assert(n > 0)
+  local start_time = os.clock()
+  while os.clock() - start_time < n do
+    -- nothing
+  end
+end
+
+local function doThis(n)
+  delay(math.random(5))
+  return n + 1
+end
+
+local function doThat(w)
+  delay(math.random(5))
+  return w .. "s"
+end
+
+--------------------------------------------------------------------------------
 local TestSuite = {}
 
 TestSuite.tests_1 = BasicUnitTest:new {
   id = "tests #1",
-  test = function(x) return x + 1 end,
+  test = doThis,
   cases = {
     { put = 1, expected = 2 },
     { put = 3, expected = 4 },
@@ -75,7 +95,7 @@ TestSuite.tests_1 = BasicUnitTest:new {
 
 TestSuite.tests_2 = BasicUnitTest:new {
   id = "tests #2",
-  test = function(w) return w .. "s" end,
+  test = doThat,
   cases = {
     { put = "bird", expected = "birds" },
     { put = "cat",  expected = "catsx" },
@@ -90,6 +110,7 @@ end
 
 TestSuite:run()
 
+--------------------------------------------------------------------------------
 --[[ show console log:
 
 Running] Unit Test: tests #1
@@ -97,7 +118,7 @@ Running] Unit Test: tests #1
 [-->] 1, 2, 2, true
 [-->] 3, 4, 4, true
 [-->] 5, 6, 6, true
-[Done] exited in 0.000 seconds
+[Done] exited in 8.019000 seconds
 
 [Running] Unit Test: tests #2
 [Fields] case, expected, got, assertion
@@ -105,7 +126,7 @@ Running] Unit Test: tests #1
 [-->] cat, catsx, cats, false
 [Exception] expected: catsx, got: cats
 [-->] dog, dogs, dogs, true
-[Done] exited in 0.000 seconds
+[Done] exited in 6.014000 seconds
 
 ]]
 --------------------------------------------------------------------------------
