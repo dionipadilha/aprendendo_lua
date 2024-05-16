@@ -4,8 +4,9 @@
 local BasicUnitTest = {
   id = "",
   test = function(case) return nil end,
-  cases = {},
-  expecteds = {}
+  cases = {
+    { put = nil, expected = nil },
+  }
 }
 
 -- define constructor
@@ -32,26 +33,27 @@ BasicUnitTest.log = {
 
 -- define test execution flow:
 function BasicUnitTest:try()
+  --
   -- log information about current setup:
   print(self.log.run:format(self.id))
   print(self.log.fields)
 
   -- test execution flow:
   local stopwatchStart = os.clock()
-  for n, case in pairs(self.cases) do
+  for _, case in pairs(self.cases) do
     -- get test objects:
-    local got = self.test(case)
-    local expected = self.expecteds[n]
-    local assertion = (got == expected)
-    print(self.log.test:format(case, expected, got, assertion))
+    local expected = case.expected
+    local got = self.test(case.put)
+    local assertion = (expected == got)
+    print(self.log.test:format(case.put, expected, got, assertion))
+
     -- get possible exceptions:
     xpcall(assert, self.msgh, assertion, self.log.fail:format(expected, got))
   end
   local stopwatchStop = os.clock()
 
   -- finally log the end of the tests:
-  local elapsedTime = stopwatchStop - stopwatchStart
-  print(self.log.finally:format(elapsedTime))
+  print(self.log.finally:format(stopwatchStop - stopwatchStart))
 end
 
 -- return BasicUnitTest
@@ -65,8 +67,11 @@ end
 local tests = BasicUnitTest:new {
   id = "tests #1",
   test = function(x) return x + 1 end,
-  cases = { 1, 3, 5 },
-  expecteds = { 2, 4, 6 },
+  cases = {
+    { put = 1, expected = 2 },
+    { put = 3, expected = 4 },
+    { put = 5, expected = 6 }
+  }
 }
 tests:try()
 
@@ -82,18 +87,21 @@ tests:try()
 local otherTests = BasicUnitTest:new {
   id = "tests #2",
   test = function(w) return w .. "s" end,
-  cases = { "cat", "dog", "pig" },
-  expecteds = { "cats", "dogsx", "pigs" },
+  cases = {
+    { put = "bird", expected = "birds" },
+    { put = "cat",  expected = "catsx" },
+    { put = "dog",  expected = "dogs" }
+  }
 }
 otherTests:try()
 
 --[[
   [Running] Unit Test: tests #2
   [Fields] case, expected, got, assertion
-  [-->] cat, cats, cats, true
-  [-->] dog, dogsx, dogs, false
-  [Exception] expected: dogsx, got: dogs
-  [-->] pig, pigs, pigs, true
+  [-->] bird, birds, birds, true
+  [-->] cat, cats, cats, false
+  [Exception] expected: catsx, got: cats
+  [-->] dog, dogs, dogs, true
   [Done] exited in 0.000 seconds
 ]]
 
