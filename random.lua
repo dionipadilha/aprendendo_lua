@@ -17,22 +17,19 @@ math.randomseed(1715878000)
 math.randomseed(1715878877, 15471192)
 
 --------------------------------------------------------------------------------
--- enhanced math.randomseed:
+-- enhanced math.randomseed for better randomness:
 
 -- avoid using math.randomseed without arguments
 -- using the same seed will always produce the same sequence of random numbers.
 
--- for better randomness try:
-print(math.randomseed(os.time())) --> 1715880897	0
+-- common trick:
+print(math.randomseed(os.time())) --> 1715886920	0
 
--- using multiple entropy sources
+-- using multiple entropy sources:
+local seed_x = os.time()
+local seed_y = tonumber(tostring(os.time()):reverse())
+print(math.randomseed(seed_x, seed_y)) --> 1715887226	6227885171
 
-local sources = {
-  tostring(os.time()):reverse():sub(1, 6),
-  tostring(os.clock()):reverse():sub(1, 6)
-}
-local seed = tonumber(table.concat(sources))
-print(math.randomseed(seed)) --> 485588220	0
 --------------------------------------------------------------------------------
 -- math.random:
 
@@ -96,7 +93,6 @@ local min = now - day
 local max = now + day
 
 math.randomseed(now)
-
 print(randomTimeGenerator(min, max)) --> 16/05/2024 19:17:51
 print(randomTimeGenerator(min, max)) --> 16/05/2024 05:04:51
 
