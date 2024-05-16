@@ -8,28 +8,34 @@
 local function plural(word)
   assert(word and type(word) == "string", "Invalid word")
 
+  -- words ending in "y" after a consonant
   if word:sub(-1) == "y" and
       not word:sub(-2, -2):match("[aeiou]") then
     return word:sub(1, -2) .. "ies"
-    --
-  elseif word:sub(-1) == "x" or
+  end
+
+  -- words ending in "x", "ss", "ch", or "sh"
+  if word:sub(-1) == "x" or
       word:sub(-2) == "ss" or
       word:sub(-2) == "ch" or
       word:sub(-2) == "sh" then
     return word .. "es"
-    --
-  else
-    return word .. "s"
   end
+
+  -- regular plurals
+  return word .. "s"
 end
 
 --------------------------------------------------------------------------------
 -- #2: Basic unit test:
 
 local try = function(test, inputs, expected)
+  print("[Running] basic unit test ...")
+  -- Measure execution time
   local startTime = os.clock()
   --
-  local log = "assertion failed!\n input='%s', expected='%s', got='%s'"
+  local log = [[assertion failed!
+  input='%s', expected='%s', got='%s']]
   for i, case in ipairs(inputs) do
     local got = test(case)
     local check = expected[i]
