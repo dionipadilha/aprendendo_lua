@@ -24,7 +24,7 @@ end
 
 -- define logging:
 BasicUnitTest.log = {
-  run = "[Running] Unit Test: %s",
+  run = "\n[Running] Unit Test: %s",
   fields = "[Fields] case, expected, got, assertion",
   test = "[-->] %s, %s, %s, %s",
   fail = "[Exception] expected: %s, got: %s",
@@ -46,7 +46,6 @@ function BasicUnitTest:try()
     local got = self.test(case.put)
     local assertion = (expected == got)
     print(self.log.test:format(case.put, expected, got, assertion))
-
     -- get possible exceptions:
     xpcall(assert, self.msgh, assertion, self.log.fail:format(expected, got))
   end
@@ -59,12 +58,12 @@ end
 -- return BasicUnitTest
 
 --------------------------------------------------------------------------------
--- Usage:
---------------------------------------------------------------------------------
--- exemple.lua
+-- test_suit.lua
 -- local BasicUnitTest = require "basic_unit_test"
 
-local tests = BasicUnitTest:new {
+local TestSuite = {}
+
+TestSuite.tests_1 = BasicUnitTest:new {
   id = "tests #1",
   test = function(x) return x + 1 end,
   cases = {
@@ -73,18 +72,8 @@ local tests = BasicUnitTest:new {
     { put = 5, expected = 6 }
   }
 }
-tests:try()
 
---[[
-  [Running] Unit Test: tests #1
-  [Fields] case, expected, got, assertion
-  [-->] 1, 2, 2, true
-  [-->] 3, 4, 4, true
-  [-->] 5, 6, 6, true
-  [Done] exited in 0.000 seconds
-]]
-
-local otherTests = BasicUnitTest:new {
+TestSuite.tests_2 = BasicUnitTest:new {
   id = "tests #2",
   test = function(w) return w .. "s" end,
   cases = {
@@ -93,16 +82,30 @@ local otherTests = BasicUnitTest:new {
     { put = "dog",  expected = "dogs" }
   }
 }
-otherTests:try()
 
---[[
-  [Running] Unit Test: tests #2
-  [Fields] case, expected, got, assertion
-  [-->] bird, birds, birds, true
-  [-->] cat, cats, cats, false
-  [Exception] expected: catsx, got: cats
-  [-->] dog, dogs, dogs, true
-  [Done] exited in 0.000 seconds
+function TestSuite:run()
+  self.tests_1:try()
+  self.tests_2:try()
+end
+
+TestSuite:run()
+
+--[[ show console log:
+
+Running] Unit Test: tests #1
+[Fields] case, expected, got, assertion
+[-->] 1, 2, 2, true
+[-->] 3, 4, 4, true
+[-->] 5, 6, 6, true
+[Done] exited in 0.000 seconds
+
+[Running] Unit Test: tests #2
+[Fields] case, expected, got, assertion
+[-->] bird, birds, birds, true
+[-->] cat, catsx, cats, false
+[Exception] expected: catsx, got: cats
+[-->] dog, dogs, dogs, true
+[Done] exited in 0.000 seconds
+
 ]]
-
 --------------------------------------------------------------------------------
