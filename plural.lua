@@ -3,41 +3,57 @@
 -- plural of english words based on their endings.
 
 --------------------------------------------------------------------------------
-local function endswith(word, case)
-  --
-  assert(word and type(word) == "string", "Invalid word")
-  assert(case and type(case) == "string", "Invalid case")
-  --
-  return word:sub(- #case) == case
-end
+-- #1. Takes a word and pluralizes it based on its ending:
 
---------------------------------------------------------------------------------
-local function getSuffix(word, specialCases)
-  local defaultCases = { "ss", "x", "ch", "sh" }
-  specialCases = specialCases or defaultCases
-  --
+local function plural(word)
   assert(word and type(word) == "string", "Invalid word")
-  assert(specialCases)
-  assert(specialCases and type(specialCases) == "table", "Invalid special cases")
-  --
-  for _, case in ipairs(specialCases) do
-    if endswith(word, case) then return "es" end
+
+  if word:sub(-1) == "y" and
+      not word:sub(-2, -2):match("[aeiou]") then
+    return word:sub(1, -2) .. "ies"
+    --
+  elseif word:sub(-1) == "x" or
+      word:sub(-2) == "ss" or
+      word:sub(-2) == "ch" or
+      word:sub(-2) == "sh" then
+    return word .. "es"
+    --
+  else
+    return word .. "s"
   end
-  return "s"
 end
 
 --------------------------------------------------------------------------------
-local function regularPlural(word)
-  return word .. getSuffix(word)
+-- #2: Basic unit test:
+
+local try = function(test, inputs, expected)
+  local startTime = os.clock()
+  --
+  local log = "assertion failed!\n input='%s', expected='%s', got='%s'"
+  for i, case in ipairs(inputs) do
+    local got = test(case)
+    local check = expected[i]
+    assert(got == check, log:format(case, check, got))
+  end
+  --
+  local endTime = os.clock()
+  print(string.format("[Done] exited in %.3f seconds", endTime - startTime))
+end
+
+local except = function(exception)
+  local log = "[Exception] %s"
+  print(log:format(exception))
 end
 
 --------------------------------------------------------------------------------
--- unit test
+-- #3: Perform the tests:
 
-local words = { "dog", "dish" }
-
-for _, word in ipairs(words) do
-  print(regularPlural(word))
-end
+xpcall(
+  try,
+  except,
+  plural,                                           -- test
+  { "dog", "dish", "city", "box", "kiss" },         -- inputs
+  { "dogs", "dishes", "cities", "boxes", "kisses" } -- expected
+)
 
 --------------------------------------------------------------------------------
