@@ -1,5 +1,6 @@
 -- factory.lua
 
+-- this file has basic error handling, as the focus is on
 -- building complex objects with interchangeable parts.
 
 --------------------------------------------------------------------------------
@@ -126,10 +127,11 @@ local car_1 = AbstractCar:new {
 
 function car_1:check()
   assert(self.chassis and self.engine and self.transmission and self.wheel)
-  assert(self.chassis:hold(), "Chassis_1 ok")
-  assert(self.engine:start(), "Engine_1 is roaring")
-  assert(self.transmission:shift(), "Transmission_1 is shifting")
-  assert(self.wheel:spin(), "Wheel_1 is spinning")
+  assert(self.chassis:hold() == "Chassis_1 ok")
+  assert(self.engine:start() == "Engine_1 is roaring")
+  assert(self.transmission:shift() == "Transmission_1 is shifting")
+  assert(self.wheel:spin() == "Wheel_1 is spinning")
+  return "All components are functional"
 end
 
 --------------------------------------------------------------------------------
@@ -144,17 +146,18 @@ local car_2 = AbstractCar:new {
 
 function car_2:check()
   assert(self.chassis and self.engine and self.transmission and self.wheel)
-  assert(self.chassis:hold(), "Chassis_2 ok")
-  assert(self.engine:start(), "Engine_2 is roaring")
-  assert(self.transmission:shift(), "Transmission_2 is shifting")
-  assert(self.wheel:spin(), "Wheel_2 is spinning")
+  assert(self.chassis:hold() == "Chassis_2 ok")
+  assert(self.engine:start() == "Engine_2 is roaring")
+  assert(self.transmission:shift() == "Transmission_2 is shifting")
+  assert(self.wheel:spin() == "Wheel_2 is spinning")
+  return "All components are functional"
 end
 
 --------------------------------------------------------------------------------
 -- #7. Users:
 
-car_1:start()      --> self.check: 	true
+car_1:start()      --> self.check: 	true	All components are functional
 car_1:drive("ana") --> Car is driving: ana
 
-car_2:start()      --> self.check: 	true
+car_2:start()      --> self.check: 	true	All components are functional
 car_2:drive("bob") --> Car is driving: bob
