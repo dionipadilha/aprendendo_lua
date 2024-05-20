@@ -1,6 +1,5 @@
 -- factory.lua
 
--- this file has basic error handling, as the focus is on
 -- building complex objects with interchangeable parts.
 
 --------------------------------------------------------------------------------
