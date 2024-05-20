@@ -153,7 +153,7 @@ function car_2:check()
 end
 
 --------------------------------------------------------------------------------
--- #7. Users:
+-- #7. Testing the Cars:
 
 car_1:start()      --> self.check: 	true	All components are functional
 car_1:drive("ana") --> Car is driving: ana
