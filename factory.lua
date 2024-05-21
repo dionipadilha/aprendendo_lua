@@ -116,7 +116,7 @@ function FactoryCar:drive(pilot)
 end
 
 --------------------------------------------------------------------------------
--- Car Type: #1
+-- Car Type #1
 
 local carType_1 = FactoryCar:new {
   chassis = chassisType_1:new {},
@@ -135,7 +135,7 @@ function carType_1:check()
 end
 
 --------------------------------------------------------------------------------
--- Car Type: #2
+-- Car Type #2
 
 local carType_2 = FactoryCar:new {
   chassis = chassisType_2:new {},
