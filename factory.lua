@@ -6,157 +6,158 @@
 -- #1.Factory:
 
 local Factory = {}
-function Factory:new(factory)
-  factory = factory or {}
+function Factory:new(object)
+  object = object or {}
   self.__index = self
-  return setmetatable(factory, self)
+  return setmetatable(object, self)
 end
 
 --------------------------------------------------------------------------------
 -- #2. Chassis:
 
 -- Chassis Factory:
-local AbstractChassis = Factory:new {}
-function AbstractChassis:hold()
+local FactoryChassis = Factory:new {}
+function FactoryChassis:hold()
   error("This method should be overridden")
 end
 
--- Chassis Object #1:
-local chassis_1 = AbstractChassis:new {}
-function chassis_1:hold()
-  return "Chassis_1 ok"
+-- Chassis Type #1:
+local chassisType_1 = FactoryChassis:new {}
+function chassisType_1:hold()
+  return "ChassisType_1 ok"
 end
 
--- Chassis Object #2:
-local chassis_2 = AbstractChassis:new {}
-function chassis_2:hold()
-  return "Chassis_2 ok"
+-- Chassis Type #2:
+local chassisType_2 = FactoryChassis:new {}
+function chassisType_2:hold()
+  return "ChassisType_2 ok"
 end
 
 --------------------------------------------------------------------------------
 -- #3. Engine:
 
 -- Engine Factory:
-local AbstractEngine = Factory:new {}
-function AbstractEngine:start()
+local FactoryEngine = Factory:new {}
+function FactoryEngine:start()
   error("This method should be overridden")
 end
 
--- Engine Object #1:
-local engine_1 = AbstractEngine:new {}
-function engine_1:start()
-  return "Engine_1 is roaring"
+-- Engine Type #1:
+local engineType_1 = FactoryEngine:new {}
+function engineType_1:start()
+  return "EngineType_1 is roaring"
 end
 
--- Engine Object #2:
-local engine_2 = AbstractEngine:new {}
-function engine_2:start()
-  return "Engine_2 is roaring"
+-- Engine Type #2:
+local engineType_2 = FactoryEngine:new {}
+function engineType_2:start()
+  return "EngineType_2 is roaring"
 end
 
 --------------------------------------------------------------------------------
 -- #4. Transmission:
 
 -- Transmission Factory:
-local AbstractTransmission = Factory:new {}
-function AbstractTransmission:shift()
+local FactoryTransmission = Factory:new {}
+function FactoryTransmission:shift()
   error("This method should be overridden")
 end
 
--- Transmission Object #1:
-local transmission_1 = AbstractTransmission:new {}
-function transmission_1:shift()
-  return "Transmission_1 is shifting"
+-- Transmission Type #1:
+local transmissionType_1 = FactoryTransmission:new {}
+function transmissionType_1:shift()
+  return "TransmissionType_1 is shifting"
 end
 
--- Transmission Object #2:
-local transmission_2 = AbstractTransmission:new {}
-function transmission_2:shift()
-  return "Transmission_2 is shifting"
+-- Transmission Type #2:
+local transmissionType_2 = FactoryTransmission:new {}
+function transmissionType_2:shift()
+  return "TransmissionType_2 is shifting"
 end
 
 --------------------------------------------------------------------------------
 -- #5. Wheel:
 
 -- Wheel Factory:
-local AbstractWheel = Factory:new {}
-function AbstractWheel:spin()
+local FactoryWheel = Factory:new {}
+function FactoryWheel:spin()
   error("This method should be overridden")
 end
 
--- Wheel Object #1:
-local wheel_1 = AbstractWheel:new {}
-function wheel_1:spin()
-  return "Wheel_1 is spinning"
+-- Wheel Type #1:
+local wheelType_1 = FactoryWheel:new {}
+function wheelType_1:spin()
+  return "WheelType_1 is spinning"
 end
 
--- Wheel Object #2:
-local wheel_2 = AbstractWheel:new {}
-function wheel_2:spin()
-  return "Wheel_2 is spinning"
+-- Wheel Type #2:
+local wheelType_2 = FactoryWheel:new {}
+function wheelType_2:spin()
+  return "WheelType_2 is spinning"
 end
 
 --------------------------------------------------------------------------------
 -- #6. Car Assembly:
 
 -- Car Factory:
-local AbstractCar = Factory:new {}
+local FactoryCar = Factory:new {}
 
-function AbstractCar:check()
+function FactoryCar:check()
   error("This method should be overridden")
 end
 
-function AbstractCar:start()
-  print("self.check: ", pcall(self.check, self))
+function FactoryCar:start()
+  local status, result = pcall(self.check, self)
+  print("self.check: ", status, result)
 end
 
-function AbstractCar:drive(pilot)
-  print("Car is driving: " .. pilot)
+function FactoryCar:drive(pilot)
+  print("Car is driving by: " .. pilot)
 end
 
 --------------------------------------------------------------------------------
--- Car Object: #1
+-- Car Type: #1
 
-local car_1 = AbstractCar:new {
-  chassis = chassis_1:new {},
-  engine = engine_1:new {},
-  transmission = transmission_1:new {},
-  wheel = wheel_1:new {}
+local carType_1 = FactoryCar:new {
+  chassis = chassisType_1:new {},
+  engine = engineType_1:new {},
+  transmission = transmissionType_1:new {},
+  wheel = wheelType_1:new {}
 }
 
-function car_1:check()
+function carType_1:check()
   assert(self.chassis and self.engine and self.transmission and self.wheel)
-  assert(self.chassis:hold() == "Chassis_1 ok")
-  assert(self.engine:start() == "Engine_1 is roaring")
-  assert(self.transmission:shift() == "Transmission_1 is shifting")
-  assert(self.wheel:spin() == "Wheel_1 is spinning")
+  assert(self.chassis:hold() == "ChassisType_1 ok")
+  assert(self.engine:start() == "EngineType_1 is roaring")
+  assert(self.transmission:shift() == "TransmissionType_1 is shifting")
+  assert(self.wheel:spin() == "WheelType_1 is spinning")
   return "All components are functional"
 end
 
 --------------------------------------------------------------------------------
--- Car Object: #2
+-- Car Type: #2
 
-local car_2 = AbstractCar:new {
-  chassis = chassis_2:new {},
-  engine = engine_2:new {},
-  transmission = transmission_2:new {},
-  wheel = wheel_2:new {}
+local carType_2 = FactoryCar:new {
+  chassis = chassisType_2:new {},
+  engine = engineType_2:new {},
+  transmission = transmissionType_2:new {},
+  wheel = wheelType_2:new {}
 }
 
-function car_2:check()
+function carType_2:check()
   assert(self.chassis and self.engine and self.transmission and self.wheel)
-  assert(self.chassis:hold() == "Chassis_2 ok")
-  assert(self.engine:start() == "Engine_2 is roaring")
-  assert(self.transmission:shift() == "Transmission_2 is shifting")
-  assert(self.wheel:spin() == "Wheel_2 is spinning")
+  assert(self.chassis:hold() == "ChassisType_2 ok")
+  assert(self.engine:start() == "EngineType_2 is roaring")
+  assert(self.transmission:shift() == "TransmissionType_2 is shifting")
+  assert(self.wheel:spin() == "WheelType_2 is spinning")
   return "All components are functional"
 end
 
 --------------------------------------------------------------------------------
 -- #7. Testing the Cars:
 
-car_1:start()      --> self.check: 	true	All components are functional
-car_1:drive("ana") --> Car is driving: ana
+carType_1:start()      --> self.check: 	true	All components are functional
+carType_1:drive("ana") --> Car is driving: ana
 
-car_2:start()      --> self.check: 	true	All components are functional
-car_2:drive("bob") --> Car is driving: bob
+carType_2:start()      --> self.check: 	true	All components are functional
+carType_2:drive("bob") --> Car is driving: bob
