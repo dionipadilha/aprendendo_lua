@@ -30,8 +30,7 @@ end
 
 -- choose the tools based on the current task:
 function Agent:chooseTool(task)
-  local randomToolIndex = math.random(1, #self.tools)
-  return self.tools[randomToolIndex]
+  return self.taskToolMap[task]
 end
 
 -- use the selected tool:
@@ -42,8 +41,15 @@ end
 
 --------------------------------------------------------------------------------
 -- Create an agent with a set of tools
+
 local agent = Agent:new {
-  tools = tools
+  tools = tools,
+  taskToolMap = {
+    ["clean window"] = "squeegee",
+    ["dust floor"] = "vacuum",
+    ["write report"] = "computer",
+    ["research data"] = "internet"
+  }
 }
 
 -- Execute tasks
