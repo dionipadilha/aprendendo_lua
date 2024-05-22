@@ -64,15 +64,14 @@ end
 --------------------------------------------------------------------------------
 -- #3.  Demonstrate the Observer Pattern:
 
-local subject = Subject:new()
-local observer1 = Observer:new({ subject = subject })
-local observer2 = Observer:new({ subject = subject })
+local weatherStation = Subject:new {}
+local display1 = Observer:new({ subject = weatherStation })
+local display2 = Observer:new({ subject = weatherStation })
 
-subject:setState("State 1")
-subject:setState("State 2")
-
-subject:detach(observer1)
-
-subject:setState("State 3")
+local log = "temperature: %.2f, humidity: %.2f"
+weatherStation:setState(log:format(23.9, 53))
+weatherStation:setState(log:format(25, 55.3))
+weatherStation:detach(display1)
+weatherStation:setState(log:format(24, 45))
 
 --------------------------------------------------------------------------------
