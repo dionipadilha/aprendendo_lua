@@ -1,5 +1,7 @@
 -- observer.lua
 
+-- observer: a subject can notify multiple observers
+
 --------------------------------------------------------------------------------
 local Class = {
   new = function(self, object)
