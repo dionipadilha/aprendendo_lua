@@ -1,77 +1,67 @@
 -- observer.lua
 
 --------------------------------------------------------------------------------
--- #1.  Define the Subject Class
+local Class = {
+  new = function(self, object)
+    object = object or {}
+    self.__index = self
+    return setmetatable(object, self)
+  end
+}
 
-Subject = {
+--------------------------------------------------------------------------------
+local Subject = Class:new {
   observers = {}
 }
 
-function Subject:new(instance)
-  instance = instance or {}
-  self.__index = self
-  return setmetatable(instance, self)
-end
-
-function Subject:attach(observer)
-  table.insert(self.observers, observer)
-end
-
-function Subject:detach(observer)
-  for i, obs in ipairs(self.observers) do
-    if obs.id == observer.id then
-      table.remove(self.observers, i)
-      break
-    end
+function Subject:attach(newObservers)
+  for _, newObserver in ipairs(newObservers) do
+    table.insert(self.observers, newObserver)
   end
 end
 
-function Subject:notify()
+function Subject:notify(...)
   for _, observer in ipairs(self.observers) do
-    observer:update(self.state)
+    observer:update(...)
   end
-end
-
-function Subject:setState(state)
-  self.state = state
-  self:notify()
-end
-
-function Subject:getState()
-  return self.state
 end
 
 --------------------------------------------------------------------------------
--- #2.  Define the Observer Class
+local Observer = Class:new {}
 
-Observer = {
-  id = 0
+function Observer:update(...)
+  print(..., self.id)
+end
+
+--------------------------------------------------------------------------------
+-- Example:
+
+-- create observers:
+local display1 = Observer:new { id = "display #1" }
+local display2 = Observer:new { id = "display #2" }
+local display3 = Observer:new { id = "display #3" }
+
+-- create subject:
+local weatherStation1 = Subject:new {
+  observers = {
+    display1,
+    display2
+  }
 }
 
-function Observer:new(instance)
-  instance = instance or {}
-  self.__index = self
-  instance.subject:attach(instance)
-  instance.id = self.id
-  self.id = self.id + 1
-  return setmetatable(instance, self)
-end
+-- create other subject:
+local weatherStation2 = Subject:new {
+  observers = {
+    display2,
+    display3
+  }
+}
 
-function Observer:update(state)
-  print("Observer " .. self.id .. " updated with state: " .. state)
-end
+weatherStation1:notify("weatherStation #1 calling")
+--> weatherStation #1 calling	display #1
+--> weatherStation #1 calling	display #2
 
---------------------------------------------------------------------------------
--- #3.  Demonstrate the Observer Pattern:
-
-local weatherStation = Subject:new {}
-local display1 = Observer:new({ subject = weatherStation })
-local display2 = Observer:new({ subject = weatherStation })
-
-local log = "temperature: %.2f, humidity: %.2f"
-weatherStation:setState(log:format(23.9, 53))
-weatherStation:setState(log:format(25, 55.3))
-weatherStation:detach(display1)
-weatherStation:setState(log:format(24, 45))
-
+weatherStation2:notify("weatherStation #2 calling")
+--> weatherStation #2 calling	display #2
+--> weatherStation #2 calling	display #3
 --------------------------------------------------------------------------------
