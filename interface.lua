@@ -17,7 +17,7 @@ local IPayment = {
 return IPayment
 
 --------------------------------------------------------------------------------
--- interface.lua
+-- class.lua
 
 local IPayment = require "ipayment"
 
