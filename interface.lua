@@ -19,7 +19,7 @@ return IPayment
 --------------------------------------------------------------------------------
 -- class.lua
 
-local IPayment = require "ipayment"
+local IPayment = require "interface"
 
 -- Define the CreditCard class with default properties
 local CreditCard = {
