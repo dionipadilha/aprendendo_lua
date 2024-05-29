@@ -1,38 +1,42 @@
 -- multiple_inheritance.lua
 
--- #1. Define multiple classes:
+-- #1. abstracat class:
+local Class = {}
 
-local ClassA = {
-  fA = function(self)
-    return "A"
-  end
-}
+function Class:new(instace)
+  self.__index = self
+  instace = instace or {}
+  return setmetatable(instace, self)
+end
 
-local ClassB = {
-  fB = function(self)
-    return "B"
-  end
-}
-
--- #2. Utility function: mixin all methods from the multiple classes:
-local function mixin(target, ...)
+function Class:mixin(...)
   local classes = { ... }
   for _, class in ipairs(classes) do
-    for k, v in pairs(class) do target[k] = v end
+    for k, v in pairs(class) do
+      if not self[k] then self[k] = v end
+    end
   end
 end
 
--- #3. Create a class that inherits from multiple classes:
-local MyClass = {}
+-- #2. Define multiple classes:
+local ClassA = Class:new {
+  pa = "va",
+  fa = function(self) return "ra" end
+}
 
-function MyClass:new(instance)
-  self.__index = self
-  mixin(self, ClassA, ClassB)
-  instance = instance or {}
-  return setmetatable(instance, self)
-end
+local ClassB = Class:new {
+  pb = "vb",
+  fb = function(self) return "rb" end
+}
 
--- Testing: Call methods from multiple classes:
-local instance = MyClass:new()
-assert(instance:fA() == "A")
-assert(instance:fB() == "B")
+-- #3. Multiple inheritance
+local ClassAB = Class:new {
+  pb = "x",
+}
+ClassAB:mixin(ClassA, ClassB)
+
+-- #4. Testing
+assert(ClassAB.pa == "va")
+assert(ClassAB.fa() == "ra")
+assert(ClassAB.fb() == "rb")
+assert(ClassAB.pb == "x")
