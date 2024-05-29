@@ -26,7 +26,6 @@ local ClassA = Class:new {
 
 -- #3. Define ClassB that inherits from ClassA and overrides greet method
 local ClassB = ClassA:new {}
---ClassB:mixin(ClassA)
 
 function ClassB:greet()
   return self:super(ClassA, "greet") .. " and welcome from ClassB"
