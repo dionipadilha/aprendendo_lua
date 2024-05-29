@@ -14,6 +14,9 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 - **Cobertura:** Os guias abrangem a instalação da linguagem, tópicos básicos e tópicos mais avançados.
 - **Códigos  revisados:** Todos os códigos presentes no repositório foram revisados e testados.
 
+## Links:
+- https://gist.github.com/oatmealine/655c9e64599d0f0dd47687c1186de99f
+
 ## Utilização:
 
 Os códigos disponibilizados neste repositório são livres para uso, sem a necessidade de licenças.
