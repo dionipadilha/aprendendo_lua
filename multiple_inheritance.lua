@@ -36,7 +36,15 @@ local ClassAB = Class:new {
 ClassAB:mixin(ClassA, ClassB)
 
 -- #4. Testing
+assert(Class == getmetatable(ClassAB))
 assert(ClassAB.pa == "va")
 assert(ClassAB.fa() == "ra")
 assert(ClassAB.fb() == "rb")
 assert(ClassAB.pb == "x")
+
+local instance = ClassAB:new {}
+assert(ClassAB == getmetatable(instance))
+assert(instance.pa == "va")
+assert(instance.fa() == "ra")
+assert(instance.fb() == "rb")
+assert(instance.pb == "x")
