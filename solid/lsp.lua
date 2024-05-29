@@ -1,52 +1,47 @@
 -- lsp.lua
 
 -- Liskov Substitution Principle:
--- Objects of a derived class should be substitutable for objects of the base
+-- Objects of a derived class should be substitutable for objects of the base.
 
--- #1. Base class
+local Shape = {}
 
-Rectangle = {
-  width = 1,
-  height = 1
-}
-
-function Rectangle:new(rect)
+function Shape:new(shape)
+  shape = shape or {}
+  setmetatable(shape, self)
   self.__index = self
-  rect = rect or {}
-  setmetatable(rect, self)
-  return rect
+  return shape
+end
+
+function Shape:area()
+  error("This method should be overridden")
+end
+
+local Rectangle = Shape:new()
+
+function Rectangle:new(length, width)
+  local rectangle = Shape.new(self)
+  rectangle.length = length or 1
+  rectangle.width = width or 1
+  return rectangle
 end
 
 function Rectangle:area()
-  return self.width * self.height
+  return self.length * self.width
 end
 
--- #2. Derived class Square
-Square = Rectangle:new {
-  side = 1
+local Square = Rectangle:new()
+
+function Square:new(side)
+  local square = Rectangle.new(self, side, side)
+  return square
+end
+
+-- Test
+local shapes = {
+  Rectangle:new(3, 4), --> 12
+  Square:new(5)        --> 25
 }
 
-function Square:new(sq)
-  self.__index = self
-  self.width = sq.side or 1
-  self.height = sq.side or 1
-  sq = sq or {}
-  setmetatable(sq, self)
-  return sq
+for _, shape in ipairs(shapes) do
+  print(shape:area())
 end
-
--- #3. Testing the Liskov Substitution Principle
-
-local function area(shape)
-  return shape:area()
-end
-
--- Testing base class Rectangle
-assert(area(Rectangle:new {}) == 1)
-assert(area(Rectangle:new { width = 4, height = 5 }) == 20)
-
--- Testing derived class Square
-assert(area(Square:new {}) == 1)
-assert(area(Square:new { side = 4 }) == 16)
-
-print("All tests passed!")
