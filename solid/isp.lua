@@ -41,15 +41,10 @@ local Human = Worker:new {
 Human:mixin(Eatable)
 
 -- Testing:
+local human = Human:new { name = "John", age = 30 }
+assert(human:work() == "working", "Human should be working")
+assert(human:eat() == "eating", "Human should be eating")
 
-local workers = {
-  human = Human:new(),
-  robot = Robot:new()
-}
-
-for n, worker in pairs(workers) do
-  print(n .. " " .. worker:work())  --> human working, robot working
-  if worker.eat then
-    print(n .. " " .. worker:eat()) --> robot eating
-  end
-end
+local robot = Robot:new { id = "1234", model = "T-800" }
+assert(robot:work() == "working", "Robot should be working")
+assert(robot.eat == nil, "Robot should not have eat method")
