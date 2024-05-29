@@ -1,6 +1,6 @@
 -- multiple_inheritance.lua
 
--- Define Mixins:
+-- #1. Define multiple classes:
 
 local ClassA = {
   fA = function(self)
@@ -14,7 +14,7 @@ local ClassB = {
   end
 }
 
--- copy all methods from the provided mixins into the target instance:
+-- #2. Utility function: mixin all methods from the multiple classes:
 local function mixin(target, ...)
   local classes = { ... }
   for _, class in ipairs(classes) do
@@ -22,7 +22,7 @@ local function mixin(target, ...)
   end
 end
 
--- Create a Class that Inherits from Mixins:
+-- #3. Create a class that inherits from multiple classes:
 local MyClass = {}
 
 function MyClass:new(instance)
@@ -32,7 +32,7 @@ function MyClass:new(instance)
   return setmetatable(instance, self)
 end
 
--- Call methods from mixins
+-- Testing: Call methods from multiple classes:
 local instance = MyClass:new()
 assert(instance:fA() == "A")
 assert(instance:fB() == "B")
