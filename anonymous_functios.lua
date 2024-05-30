@@ -10,9 +10,9 @@ assert(doubler(3) == 6)
 assert(doubler(5) == 10)
 
 -- Anonymous function with multiple arguments:
-local plus = function(a, b) return a + b end
-assert(plus(2, 3) == 5)
-assert(plus(5, 7) == 12)
+local add = function(a, b) return a + b end
+assert(add(2, 3) == 5)
+assert(add(5, 7) == 12)
 
 -- Anonymous function and First-class functions:
 local function multiplyBy(x)
