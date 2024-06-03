@@ -10,7 +10,7 @@ function Class:new(object)
   return object
 end
 
--- Model: Manages data and business logic.
+-- Model: Manages data business logic.
 local Model = Class:new {
   data = nil
 }
@@ -34,7 +34,7 @@ function View:render(data)
   print("Data rendering: " .. data)
 end
 
--- Controller: Updating the model and triggering view updates.
+-- Controller: Manages the interaction between the Model and the View.
 local Controller = Class:new {
   model = {},
   view = {}
