@@ -57,11 +57,15 @@ end
 -- Example usage: Integrate the MVC components
 
 -- Create instances of the model, view, and controller:
-local model = Model:new { data = "Initial data" }
-local view = View:new {}
-local controller = Controller:new { model = model, view = view }
+local controller = Controller:new {
+  model = Model:new {},
+  view = View:new {}
+}
+
+-- Set up the model with initial data:
+controller:setData("Initial data") --> Data rendering: Initial data
+assert(controller:getData() == "Initial data")
 
 -- Update the model with new data:
-print("Model data: " .. controller:getData())
-controller:setData("Changed data")
-print("Model data: " .. controller:getData())
+controller:setData("Changed data") --> Data rendering: Changed data
+assert(controller:getData() == "Changed data")
