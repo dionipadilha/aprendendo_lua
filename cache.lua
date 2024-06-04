@@ -58,9 +58,13 @@ manager:addSession(user2, "data for user #2")
 
 print("Sessions after adding users:")
 manager:displaySessions()
+--> Ana	data for user #1
+--> Bob	data for user #2
 
 user1 = nil
 collectgarbage()
 print("Sessions after garbage collection:")
 manager:displaySessions()
+--> Bob	data for user #2
+
 --------------------------------------------------------------------------------
