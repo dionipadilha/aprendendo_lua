@@ -1,3 +1,7 @@
+-- garbage_collection.lua
+
+-- automatically clean up unused objects
+
 --------------------------------------------------------------------------------
 -- Model
 
@@ -12,15 +16,15 @@ local Class = {
 
 -- Define the Concrete classes:
 local User = Class:new { id = 0, name = "" }
-local Session = Class:new {}
+local Session = Class:new { data = "" }
 local Cache = Class:new { __mode = "k" }
 
 --------------------------------------------------------------------------------
 -- View
 
-local SessionView = Class:new {}
+local View = Class:new {}
 
-function SessionView:printSessions(sessionCache)
+function View:printSessions(sessionCache)
   for k, v in pairs(sessionCache) do
     print(k.name, v.data)
   end
@@ -47,7 +51,7 @@ end
 
 local manager = SessionManager:new {
   cache = Cache:new(),
-  view = SessionView:new()
+  view = View:new()
 }
 
 local user1 = User:new { id = 1, name = "Ana" }
