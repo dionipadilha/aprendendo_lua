@@ -12,20 +12,23 @@ end
 
 -- Function to filter a list based on a given criterion
 local function filter(list, criterion)
-  if type(list) ~= "table" then
-    error("Expected a table as the first argument.", 2)
-  end
+  --
+  local expected = {
+    type(list) == "table",
+    type(criterion) == "function",
+  }
+  assert(expected[1], "Expected a table as the first argument.")
+  assert(expected[2], "Expected a function as the second argument.")
 
-  if type(criterion) ~= "function" then
-    error("Expected a function as the second argument.", 2)
-  end
-
+  --
   local filteredList = {}
   for _, element in ipairs(list) do
     if criterion(element) then
       table.insert(filteredList, element)
     end
   end
+
+  --
   return filteredList
 end
 
