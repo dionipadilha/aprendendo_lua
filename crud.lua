@@ -1,59 +1,60 @@
 -- Define the database class
-local Database = {}
-Database.__index = Database
+local Database = {
+  records = {}
+}
 
 -- Constructor for database
-function Database:new()
-    local instance = setmetatable({}, Database)
-    instance.records = {}
-    return instance
+function Database:new(object)
+  object = object or {}
+  self.__index = self
+  return setmetatable(object, self)
 end
 
 -- Method to create a new record
 function Database:create(id, data)
-    if self.records[id] ~= nil then
-        return false, "Record with given ID already exists."
-    end
-    self.records[id] = data
-    return true, "Record created successfully."
+  assert(self.records[id] == nil, "Record with given ID already exists.")
+  assert(data ~= nil and data ~= "", "Invalid record data.")
+  self.records[id] = data
+  return true
 end
 
 -- Method to read a record by ID
 function Database:read(id)
-    if self.records[id] == nil then
-        return false, "Record not found."
-    end
-    return true, self.records[id]
+  assert(self.records[id] ~= nil, "Record not found.")
+  return self.records[id]
 end
 
 -- Method to update an existing record
 function Database:update(id, newData)
-    if self.records[id] == nil then
-        return false, "Record to update not found."
-    end
-    self.records[id] = newData
-    return true, "Record updated successfully."
+  assert(self.records[id] ~= nil, "Record not found.")
+  assert(newData ~= nil and newData ~= "", "Invalid record data.")
+  self.records[id] = newData
+  return self.records[id]
 end
 
 -- Method to delete a record
 function Database:delete(id)
-    if self.records[id] == nil then
-        return false, "Record to delete not found."
-    end
-    self.records[id] = nil
-    return true, "Record deleted successfully."
+  assert(self.records[id] ~= nil, "Record not found.")
+  self.records[id] = nil
+  return true
 end
 
 -- Example usage
-local db = Database:new()
-local success, message = db:create(1, {name = "John Doe", age = 30})
-print(success and message or "Error") --> Record created successfully.
+local function main()
+  local db = Database:new {}
 
-success, message = db:read(1)
-print(success and message.name or message) --> John Doe
+  db:create(1, { name = "John Doe", age = 42 })
 
-success, message = db:update(1, {name = "Jane Doe", age = 31})
-print(success and message or "Error") --> Record updated successfully.
+  local record = db:read(1)
+  print(record.name, record.age) --> John Doe 42
 
-success, message = db:delete(1)
-print(success and message or "Error") --> Record deleted successfully.
+  db:update(1, { name = "Jane Doe", age = 31 })
+  record = db:read(1)
+  print(record.name, record.age) --> Jane Doe 31
+
+  print(db:delete(1))            --> true
+  local status, err = pcall(function() return db:read(1) end)
+  print(status, err) --> false   Record not found.
+end
+
+main()
