@@ -1,50 +1,28 @@
--- tostring.lua
+-- Person Class Definition:
 
------------------------------------------------------------------------------
--- __tostring:
---  customize string representations of tables
-
--- #1. Default table representation:
-local defaultTable = {}
-print(defaultTable) --> table id(memory address of the table)
-
--- #2. Custom table representation:
-local customTable = setmetatable({}, {
-  __tostring = function() return 'custom tostring behavior!' end
-})
-print(customTable) --> custom tostring behavior!
-
--- #3.Print elements in a table:
-local names = setmetatable(
-  { "ana", "bob", "charlie" },
-  { __tostring = function(self) return table.concat(self, ", ") end }
-)
-print(names) --> ana, bob, charlie
-
------------------------------------------------------------------------------
--- Applying the concept:
-
-local Product = {
-  name = "",
-  price = 0,
-  __tostring = function(self)
-    return string.format("| %s | $%.2f", self.name, self.price)
-  end
+local Person = {
+  firstName = "",
+  lastName = "",
+  age = 0
 }
 
-function Product:new(object)
-  self.__index = self
+function Person:new(object)
   object = object or {}
-  return setmetatable(object, self)
+  setmetatable(object, self)
+  self.__index = self
+  return object
 end
 
-local Products = {
-  Product:new { name = "T-Shirt", price = 19.99 },
-  Product:new { name = "Coffee Mug", price = 8.50 }
-}
+function Person:__tostring()
+  return table.concat({
+    "First Name: " .. self.firstName,
+    "Last Name: " .. self.lastName,
+    "Age: " .. self.age
+  }, ", ")
+end
 
-print("Products:")
-for n, product in ipairs(Products) do print(n, product) end
---> 1	| T-Shirt| $19.99
---> 2	| Coffee Mug| $8.50
------------------------------------------------------------------------------
+local person1 = Person:new { firstName = "John", lastName = "Doe", age = 30 }
+local person2 = Person:new { firstName = "Jane", lastName = "Smith", age = 25 }
+
+print(person1) --> First Name: John, Last Name: Doe, Age: 30
+print(person2) --> First Name: Jane, Last Name: Smith, Age: 25
