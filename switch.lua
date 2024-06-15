@@ -1,5 +1,9 @@
+-- switch.lua
+-- executes a case based on the provided value
+
 --------------------------------------------------------------------------------
--- switch Function
+-- Defines switch function
+
 
 local function switch(cases, value)
   assert(type(cases) == "table", "Invalid table cases")
@@ -8,37 +12,39 @@ local function switch(cases, value)
     type(value) == "string" or type(value) == "number",
     "value must be a string or number"
   )
+
   local action = cases[value] or cases["default"]
   assert(type(action) == "function", "action must be a function")
   return action()
 end
 
 --------------------------------------------------------------------------------
--- Example Usage #1
+-- Test basic case selection
 
 local students = {
-  ana = function() print("This is case 1") end,
-  bob = function() print("This is case 2") end,
-  charlie = function() print("This is case 3") end,
-  -- Add more cases as needed
-  default = function() print("This is the default case") end
+  default = function() print("This is the default case") end,
+  -- Add cases
+  ana = function() print("This is Ana's case") end,
+  bob = function() print("This is Bob's case") end,
+  charlie = function() print("This is Charlie's case") end,
 }
 
-switch(students, "ana")  --> This is case 1
-switch(students, "bob")  --> This is case 2
+switch(students, "ana")  --> This is Ana's case
+switch(students, "bob")  --> This is Bob's case
 switch(students, "duda") --> This is the default case
 
 --------------------------------------------------------------------------------
--- Example Usage #2
+-- Test method style
 
 local friends = {
-  jhon = function() print("This is case 1") end,
-  jane = function() print("This is case 2") end,
-  jack = function() print("This is case 3") end,
-  -- Add more cases as needed
-  default = function() print("This is the default case") end
+  switch = switch,
+  default = function() print("This is the default case") end,
+  -- Add cases
+  john = function() print("This is John's case") end,
+  jane = function() print("This is Jane's case") end,
+  jack = function() print("This is Jack's case") end,
 }
 
-switch(friends, "jack") --> This is case 3
-switch(friends, "bob")  --> This is the default case
+friends:switch("jack") --> This is Jack's case
+friends:switch("bob")  --> This is the default case
 --------------------------------------------------------------------------------
