@@ -1,6 +1,6 @@
 local ShoppingCart = {
   items = {},
-  paymentStrategy = nil
+  payment = nil
 }
 
 function ShoppingCart:new(object)
@@ -15,7 +15,7 @@ function ShoppingCart:addItem(item)
 end
 
 function ShoppingCart:setPayment(strategy)
-  self.paymentStrategy = strategy
+  self.payment = strategy
 end
 
 function ShoppingCart:checkout()
@@ -23,7 +23,7 @@ function ShoppingCart:checkout()
   for _, item in ipairs(self.items) do
     totalAmount = totalAmount + item.price
   end
-  return self.paymentStrategy:pay(totalAmount)
+  return self.payment:pay(totalAmount)
 end
 
 return ShoppingCart
