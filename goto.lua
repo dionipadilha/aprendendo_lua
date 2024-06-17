@@ -1,18 +1,18 @@
--- A simple example using goto
+-- goto.lua
 
--- Function to demonstrate goto
-local function exampleGoto()
-  local count = 1
+local a = 0
 
-  ::start:: -- Label named 'start'
-  print("Count: " .. count)
-  count = count + 1
-
-  if count <= 5 then
-    goto start -- Jump back to the 'start' label
-  end
-
-  print("Finished looping.")
+::start::
+a = a + 1
+if a < 10 then
+  goto start
+else
+  goto stop
 end
 
-exampleGoto()
+::jump::
+print("Jumped code")
+
+
+::stop::
+print("Stop code")
