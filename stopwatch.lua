@@ -1,5 +1,5 @@
 -- Stopwatch class definition
-local Stopwatch = {}
+local Stopwatch = { initial = nil, final = nil }
 
 function Stopwatch:new(object)
   object = object or {}
@@ -14,17 +14,22 @@ function Stopwatch:start()
 end
 
 function Stopwatch:stop()
+  assert(self.initial ~= 0, "Stopwatch has not been started.")
   self.final = os.clock()
   return self.final
 end
 
 function Stopwatch:_diff()
+  assert(
+    self.initial and self.final,
+    "Stopwatch has not been properly started or stopped."
+  )
   return self.final - self.initial
 end
 
 function Stopwatch:log()
   local elapsedTime = self:_diff()
-  return string.format("elapsed time: %.5f seconds.", elapsedTime)
+  return string.format("elapsed time: %.6f seconds.", elapsedTime)
 end
 
 function Stopwatch:reset()
@@ -46,10 +51,7 @@ local function main()
   end
 
   -- Create an instance of the stopwatch:
-  local myStopwatch = Stopwatch:new {
-    initial = 0,
-    final = 0
-  }
+  local myStopwatch = Stopwatch:new { initial = 0, final = 0 }
 
   -- Use the stopwatch to time the delay function
   local start = myStopwatch:start()
@@ -63,7 +65,7 @@ local function main()
 
   -- Reset the stopwatch
   myStopwatch:reset()
-  assert(myStopwatch:log() == "elapsed time: 0.00000 seconds.")
+  assert(myStopwatch:log() == "elapsed time: 0.000000 seconds.")
 end
 
 main()
