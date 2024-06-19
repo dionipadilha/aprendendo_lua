@@ -155,10 +155,12 @@ function Tesla:check()
 end
 
 --------------------------------------------------------------------------------
--- Testing the Cars:
+-- Using the Factories
 
 Ford:start()       --> self.check: 	true	All components are functional
 Ford:drive("ana")  --> Car is driving: ana
 
 Tesla:start()      --> self.check: 	true	All components are functional
 Tesla:drive("bob") --> Car is driving: bob
+
+--------------------------------------------------------------------------------
