@@ -46,3 +46,17 @@ local text = "Hello Lua user!"
 local pattern = "(%a+)%s+(%a+)%s+(%a+)!"
 local word1, word2, word3 = string.match(text, pattern)
 print(word1, word2, word3) --> Hello	Lua	user
+
+-- Centering Text:
+local function center(str, width)
+  local len = #str
+  if len >= width then return str end
+  local padding = (width - len) / 2
+  local left_padding = math.floor(padding)
+  local right_padding = math.ceil(padding)
+  return string.rep(" ", left_padding) .. str .. string.rep(" ", right_padding)
+end
+
+print("|" .. center("centro", 10) .. "|") --> |  centro  |
+print("|" .. center("centro", 11) .. "|") --> |  centro   |
+print("|" .. center("centro", 12) .. "|") --> |   centro   |
