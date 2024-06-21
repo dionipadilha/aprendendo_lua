@@ -152,10 +152,3 @@ In this example, the `person` table describes a person's details, including a ne
 
 #### Conclusion
 Understanding different programming paradigms is essential for selecting the appropriate approach to problem-solving in software development. Each paradigm offers unique strengths and is suited to different types of tasks and applications. By mastering multiple paradigms, programmers can become more versatile and effective in their coding practices. Lua, with its simplicity and flexibility, is a great language to explore and apply these paradigms.
-
-### Review of the Text
-1. **Focus of Each Paragraph**: Each paragraph focuses on a single programming paradigm, providing a clear and detailed explanation of its principles and applications, along with Lua examples.
-2. **Organization**: The text is organized from a general overview of programming paradigms to specific details about each paradigm, using Lua examples for illustration.
-3. **Complete Information**: Each paragraph provides complete information about the respective programming paradigm, including definitions, characteristics, and Lua code examples.
-4. **Avoiding Overload**: The paragraphs are not overloaded with too many ideas or details, maintaining clarity and focus.
-5. **Extensible Structure**: The text is structured in a way that allows for future expansion. Additional paradigms or more details about the existing ones can be added without modifying the existing content.
