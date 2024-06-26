@@ -20,8 +20,12 @@ local function factorial(n)
 end
 
 -- Example usage
-print(factorial(5)) --> 120
-print(factorial(6)) --> 720
-print(factorial(7)) --> 5040
-print(factorial(5)) --> 120	retrieved from cache
-print(factorial(6)) --> 720	retrieved from cache
+local function memoizationTest()
+  print(factorial(5)) --> 120
+  print(factorial(6)) --> 720
+  print(factorial(7)) --> 5040
+  print(factorial(5)) --> 120	retrieved from cache
+  print(factorial(6)) --> 720	retrieved from cache
+end
+
+memoizationTest()
