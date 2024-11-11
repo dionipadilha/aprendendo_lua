@@ -1,4 +1,4 @@
--- Anonymous Functions
+-- anonymous_functios.lua
 
 -- Anonymous function execution:
 local y = (function(x) return 2 * x end)(3)
