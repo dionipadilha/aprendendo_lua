@@ -10,7 +10,7 @@ print("Hello, World!") --> side comment
 --]]
 
 -- Data Types:
-local number = 10
+local number = 10 -- real numbers: double-precision floating-point
 local string = "Lua"
 local boolean = true
 local list = {"item1", "item2", "..."} -- list, array
@@ -50,28 +50,26 @@ while i <= 5 do
   i = i + 1
 end
 
--- Functions definition:
+-- Basic Function definition:
 local function greet(name)
-  print("Hello, " .. name)
+  print("Hello " .. name)
 end
+greet("Alice") --> Hello Alice
 
--- Functions invocation:
-greet("Alice")
-
--- list, arrays
+-- Table like arrays, list
 local list = {"item1", "item2", "item3"}
-print(list[1]) --> item1
+print(list[1]) --> item1 (Lua uses 1-based indexing.)
 
--- map, dictionaries
+-- Table like map, dictionary
 local table = {key1 = "value1", key2 = "value2"}
 print(table["key1"]) --> value1
 
--- objects
+-- Table like objects
 local person = {name = "bob", age = 30}
 print(person.name)  --> bob
 print(person.age)  --> 30
 
--- Error handling with pcall function
+-- Basic error handling:
 local function_that_might_fail = function() error("Error") end
 if pcall(function_that_might_fail) then print("Success")
 else print("Failure")
