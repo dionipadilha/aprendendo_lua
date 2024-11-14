@@ -1,4 +1,4 @@
--- basics.lua
+-- lua_fast_intro.lua
 
 -- This is a single line comment
 print("Hello, World!") --> side comment
