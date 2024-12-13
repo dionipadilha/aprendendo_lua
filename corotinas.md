@@ -2,15 +2,15 @@
 
 ## Co-rotinas da Linguagem Lua
 
-As co-rotinas em Lua oferecem um mecanismo poderoso para gerenciar a execução concorrente de forma leve e eficiente. Elas são um mecanismo de _multitarefa cooperativa_. Podemos dizer que elas são "linhas de execução independentes dentro de um programa, que possuem suas próprias variáveis locais e rastreiam seu estado de execução". Desse modo, oferecem uma alternativa às _threads_ para tarefas em que a _verdadeira concorrência_ não é necessária.
-
+As co-rotinas em Lua oferecem um mecanismo poderoso para gerenciar a execução concorrente de forma leve e eficiente, sem a complexidade das **threads** ou a necessidade de gerenciamento de múltiplos fluxos de controle. Elas utilizam um modelo de **multitarefa cooperativa**, em que as tarefas cedem explicitamente o controle para outras, garantindo uma execução mais controlada e previsível. Podemos entender as co-rotinas como "linhas de execução independentes dentro de um programa, que possuem suas próprias variáveis locais e rastreiam seu estado de execução". Elas são uma excelente alternativa quando a **verdadeira concorrência** não é necessária.
 
 ## Explorando o Ciclo das Co-rotinas
 
-Para criar e executar uma co-rotina, usaremos as seguintes funções:
-- `create`: criar uma nova co-rotina.
+Para criar e executar uma co-rotina, usamos as seguintes funções:
+- `create`: cria uma nova co-rotina.
 - `resume`: (re)inicia a execução de uma co-rotina.
 
+### Exemplo Básico:
 ```lua
 local co = coroutine.create(function ()
   print("Hi")
@@ -18,18 +18,18 @@ end)
 coroutine.resume(co) --> Hi
 ```
 
-As Co-rotinas são objetos do tipo `thread`, atribuindo um identificador para cada nova instância. 
-
+As co-rotinas são objetos do tipo `thread`, e cada nova instância recebe um identificador exclusivo. 
 ```lua
 local co = coroutine.create(function () end)
 print(co)            --> thread: id
 ```
 
-As Co-rotinas podem estar em um de três estados:
-- `suspended`: co-rotina aguardando iniciar ou continuar sua execução.
-- `running`: co-rotina está em execução.
-- `dead`: co-rotina totalmente finalizada.
+As co-rotinas podem estar em um de três estados:
+- **`suspended`**: co-rotina aguardando iniciar ou continuar sua execução.
+- **`running`**: co-rotina está em execução.
+- **`dead`**: co-rotina totalmente finalizada.
 
+### Exemplo de Status:
 ```lua
 local co = coroutine.create(function ()
   print("running")
@@ -41,8 +41,9 @@ print(coroutine.status(co)) --> dead
 
 ## Tratando Erros de Execução em Co-rotinas
 
-Co-rotinas são executadas em modo protegido. Portanto, se houver algum erro dentro de uma co-routina, Lua não mostrará a mensagem de erro, mas a retornará para a chamada de `resume`.
+As co-rotinas em Lua são executadas em modo protegido. Portanto, se ocorrer um erro dentro de uma co-rotina, Lua não exibirá a mensagem de erro diretamente, mas retornará a mensagem para a função `resume`.
 
+### Exemplo de Erro:
 ```lua
 local co = coroutine.create(function()
   assert(1 > 2)
@@ -52,12 +53,22 @@ if not try then print(exception) end --> assertion failed!
 print("finally ...")                 --> finally ...
 ```
 
+### Alternativa: Usando `pcall` para Tratamento de Erros
+Você também pode usar `pcall` para capturar erros de forma mais segura:
+```lua
+local try, exception = pcall(function() assert(1 > 2) end)
+if not try then
+  print(exception) -- Exibe o erro sem interromper o programa
+end
+```
+
 ## Retomando a Execução e "Colhendo" Valores
 
 A função `yield` permite:
-- suspender uma co-rotina em execução para que possa ser retomada mais tarde.
-- "_colher_" os valores obtidos durante a retomada na execução da co-rotina.
+- Suspender uma co-rotina em execução para que ela possa ser retomada mais tarde.
+- "_Colher_" os valores obtidos durante a retomada da execução da co-rotina.
 
+### Exemplo de Yield e Resumo:
 ```lua
 local co = coroutine.create(function ()
   for i = 1, 3 do
@@ -68,25 +79,28 @@ print(coroutine.resume(co)) --> true	1
 print(coroutine.status(co)) --> suspended
 ```
 
-Quando retomada pela função `resume`, a co-rotina será executada até o próximo
-`yield` ou até o seu final.
+Quando retomada pela função `resume`, a co-rotina será executada até o próximo `yield` ou até o seu final.
 
+### Exemplo de Execução Contínua:
 ```lua
---
+-- Primeira retomada
 print(coroutine.resume(co)) --> true	2
 print(coroutine.status(co)) --> suspended
---
+
+-- Segunda retomada
 print(coroutine.resume(co)) --> true	3
 print(coroutine.status(co)) --> dead
---
+
+-- Tentativa de retomada após término
 print(coroutine.resume(co)) --> false	cannot resume dead coroutine
 print(coroutine.status(co)) --> dead
 ```
 
 ## Multitarefa Cooperativa
 
-Um par `resume`-`yield` permite às co-rotinas o recurso de receberem e retornarem valores, similar à forma de entrada e retorno de valores em uma função:
+A comunicação entre co-rotinas pode ser feita com o uso combinado de `resume` e `yield`, permitindo o envio e recebimento de valores. Esse comportamento é semelhante ao uso de funções geradoras ou multitarefa cooperativa em outras linguagens de programação.
 
+### Exemplo de Multitarefa:
 ```lua
 local co = coroutine.create(function(a, b)
   coroutine.yield(a + b)
@@ -98,17 +112,18 @@ print(coroutine.resume(co, 4, 5)) --> true
 print(coroutine.resume(co, 6, 7)) --> false	cannot resume dead coroutine
 ```
 
-Este recurso permite a cooperação entre co-rotinas:
+Esse mecanismo permite que as co-rotinas se comuniquem e cooperem, como no exemplo a seguir:
 
+### Exemplo de Cooperação entre Co-rotinas:
 ```lua
 local c1 = coroutine.create(function(n)
   coroutine.yield(n * 2)
 end)
---
+
 local c2 = coroutine.create(function(n)
   coroutine.yield(n + 1)
 end)
---
+
 local _, y = coroutine.resume(c1, 5)
 print(coroutine.resume(c2, y)) --> true 11
 ```
@@ -116,6 +131,7 @@ print(coroutine.resume(c2, y)) --> true 11
 ## Exemplos Práticos de Uso
 
 ### Simulação de Tarefas em um Jogo
+Em um cenário de jogo, podemos usar co-rotinas para simular a movimentação de diferentes personagens:
 
 ```lua
 local function player()
@@ -142,6 +158,8 @@ end
 ```
 
 ### Leitura de Dados em Blocos
+
+Podemos usar co-rotinas para ler dados em blocos de forma eficiente, sem bloquear a execução do programa:
 
 ```lua
 local function readChunks(reader)
@@ -174,6 +192,8 @@ end
 ```
 
 ### Agendamento de Tarefas
+
+Usando co-rotinas, podemos criar um simples agendador de tarefas cooperativas:
 
 ```lua
 local function task(name, duration)
@@ -222,6 +242,8 @@ sched:run()
 
 ### Máquinas de Estados Finitos
 
+Co-rotinas podem ser usadas para implementar uma máquina de estados de forma simples:
+
 ```lua
 local states = {}
 
@@ -261,15 +283,8 @@ coroutine.resume(sm, "stop")
 coroutine.resume(sm)
 ```
 
-Coroutine-based State Machine
-
 ## Conclusão
 
-- As co-rotinas em são uma ferramenta poderosa para gerenciar a execução concorrente de forma eficiente.
-- As funções create, resume, e yield permitem criar fluxos de execução independentes que cooperam entre si.
-- As co-rotinas permitem a criação de programas mais organizados e fáceis de manter, sem a complexidade
-adicional das threads.
-
----
-- Autor: Dioni Padilha - dionipdl@gmail.com
-- Data: 15/05/2024
+- As co-rotinas são uma ferramenta poderosa para gerenciar a execução concorrente de forma eficiente, sem a complexidade das **threads**.
+- As funções `create`, `resume`, e `yield` permitem criar fluxos de execução independentes que colaboram entre si.
+- As co-rotinas permitem a criação de programas mais organizados e fáceis de manter, sem a complexidade adicional das threads.
