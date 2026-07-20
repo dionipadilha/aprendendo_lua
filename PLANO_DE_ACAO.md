@@ -17,6 +17,7 @@ Plano baseado em uma auditoria executada em 2026-07-20: todos os arquivos `.lua`
   - `_.lua` removido — placeholder vazio.
   - `coroutines.md` e `coroutines_expanded.md` mantidos lado a lado em `coroutines/`: são complementares (guia introdutório + aprofundamento em formato perguntas e respostas).
   - Verificação pós-reorganização: `Total: 120 | Falhas: 0`.
+- ✅ **Extra (pós-plano): migração completa para pt-BR** — a pedido do autor, todo o repositório foi traduzido: nomes de pastas e arquivos, identificadores (sem acentos, limitação do Lua), comentários, strings e documentação (incluindo o guia de estudos, que estava em inglês). Permanecem em inglês apenas elementos da linguagem (palavras-chave, biblioteca padrão, metamétodos, valores retornados pela VM) e termos consagrados (CRUD, MVC, SOLID, JSON, fizzbuzz; `pcall.lua`, `next.lua`, `tostring.lua` etc. nomeiam funções/metamétodos da linguagem). O script de verificação virou `executar_testes.sh` e o CI foi atualizado.
 
 ---
 

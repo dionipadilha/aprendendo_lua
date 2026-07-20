@@ -3,7 +3,7 @@
 # Cada arquivo roda a partir do seu próprio diretório (para que os
 # requires relativos funcionem) e deve terminar com código de saída 0.
 #
-# Uso: ./smoke_test.sh
+# Uso: ./executar_testes.sh
 set -u
 
 LUA="${LUA:-lua5.4}"
