@@ -1,0 +1,55 @@
+name: Pages
+
+# Gera e publica o site estático (site/gerar.lua) no GitHub Pages.
+# Só publica a partir do main; em PRs, a GERAÇÃO já é validada pelo
+# ci.yml (a suíte executa site/gerar.lua como qualquer outro .lua).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Lua 5.4
+        run: sudo apt-get update && sudo apt-get install -y lua5.4
+
+      - name: Gerar o site
+        run: cd site && lua5.4 gerar.lua
+
+      # enablement: true tenta ativar o Pages do repositório na
+      # primeira execução; se falhar por permissão, ative uma única vez
+      # em Settings -> Pages -> Source: GitHub Actions.
+      - name: Configurar o GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Empacotar o site como artefato
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/_saida
+
+  publicar:
+    needs: gerar
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.publicacao.outputs.page_url }}
+    steps:
+      - name: Publicar no GitHub Pages
+        id: publicacao
+        uses: actions/deploy-pages@v4
