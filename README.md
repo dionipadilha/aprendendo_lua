@@ -21,9 +21,9 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | Pasta | Tema |
 |-------|------|
 | `basico/` | Primeiros passos, tipos, cadeias de texto, operadores e formatação |
-| `controle_de_fluxo/` | Condicionais, switch e goto |
-| `funcoes/` | Funções, clausuras, varargs e memoização |
-| `tabelas/` | Tabelas, vetores, pilhas, listas e iteradores |
+| `controle_de_fluxo/` | Condicionais, laços, break, switch e goto |
+| `funcoes/` | Funções, clausuras, varargs, múltiplos retornos e memoização |
+| `tabelas/` | Tabelas, vetores, pilhas, listas, iteradores, buracos/`#` e cópias |
 | `poo/` | Classes, herança, polimorfismo e interfaces |
 | `metatabelas/` | Metatabelas, metamétodos, proxies e tabelas somente leitura |
 | `gc/` | Coleta de lixo e tabelas fracas |
@@ -33,7 +33,7 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | `io/` | Leitura e escrita de arquivos |
 | `sistema/` | Data e hora, relógio, esperas e números aleatórios |
 | `banco_de_dados/` | Integração com SQLite via CLI |
-| `padroes/` | Padrões de projeto: fábrica, fábrica abstrata, construtor, protótipo, singleton, adaptador, comando, decorador, estratégia, fachada, observador, MVC, máquina de estados |
+| `padroes/` | Padrões de projeto: fábrica, fábrica abstrata, construtor, protótipo, singleton, adaptador, comando, memento, decorador, composto, estratégia, fachada, observador, método modelo, MVC, máquina de estados |
 | `solid/` | Princípios SOLID, um arquivo por princípio |
 | `testes/` | Framework de teste unitário e exemplos de testes |
 | `projetos/` | Projetos completos: `pluralizador/`, `json/`, `equipe/` |

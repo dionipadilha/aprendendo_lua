@@ -19,6 +19,31 @@ function Classe:mixin(...)
   end
 end
 
+--------------------------------------------------------------------------------
+-- A VIOLAÇÃO: uma interface "gorda" com tudo junto. Quem não come é
+-- forçado a implementar comer() de alguma forma — em geral, um erro em
+-- tempo de execução à espera de acontecer.
+
+local TrabalhadorCompleto = Classe:novo {
+  trabalhar = function(self) return "trabalhando" end,
+  comer = function(self) return "comendo" end
+}
+
+local RoboForcado = TrabalhadorCompleto:novo {
+  -- a interface obriga; o robô só pode "implementar" falhando:
+  comer = function(self) error("robôs não comem") end
+}
+
+local roboForcado = RoboForcado:novo {}
+assert(roboForcado:trabalhar() == "trabalhando")
+-- o método existe (a interface gorda obrigou), mas é uma armadilha:
+local okComer = pcall(function() return roboForcado:comer() end)
+assert(not okComer, "comer() no robô é um erro à espera de acontecer")
+
+--------------------------------------------------------------------------------
+-- O REDESENHO em conformidade: interfaces pequenas e segregadas, que
+-- cada cliente combina por mixin conforme o que realmente usa.
+
 -- Interfaces:
 local Trabalhador = Classe:novo {
   trabalhar = function(self) return "trabalhando" end
