@@ -232,7 +232,7 @@ end
 
 ### Leitura de Dados em Blocos
 
-Podemos usar corrotinas para ler dados em blocos de forma eficiente, sem bloquear a execução do programa:
+Corrotinas encapsulam o **estado** de uma leitura em blocos e invertem o controle: o **consumidor decide quando pedir o próximo bloco** (leitura sob demanda, no ritmo de quem consome), sem carregar o dado inteiro para a memória de uma vez. Atenção ao que corrotinas **não** fazem: nada aqui é assíncrono — o laço abaixo consome todos os blocos de forma síncrona, e um `io.read` real dentro da corrotina bloquearia o programa normalmente. A corrotina fornece apenas o mecanismo de suspensão; I/O não-bloqueante de verdade exigiria um agendador e I/O assíncrono fornecidos pelo hospedeiro.
 
 ```lua
 local function lerBlocos(leitor)
@@ -256,13 +256,19 @@ end
 local leitorDeArquivo = simularLeitorDeArquivo({"bloco1", "bloco2", "bloco3"})
 local co = coroutine.create(lerBlocos)
 
-while coroutine.status(co) ~= "dead" do
-  local sucesso, bloco = coroutine.resume(co, leitorDeArquivo)
-  if sucesso and bloco then
-    print("Lido: " .. bloco)
-  end
+-- Só o PRIMEIRO resume entrega o leitor: ele vira o parâmetro de
+-- lerBlocos (ver a nota "Atenção" da seção de multitarefa cooperativa):
+local sucesso, bloco = coroutine.resume(co, leitorDeArquivo)
+while sucesso and bloco do
+  print("Lido: " .. bloco)
+  -- Nos resumes seguintes não passamos argumentos: um argumento extra
+  -- NÃO seria um novo leitor — viraria valor de retorno do yield
+  -- pendente dentro da corrotina (e seria descartado por ela):
+  sucesso, bloco = coroutine.resume(co)
 end
 ```
+
+A saída — `Lido: bloco1`, `Lido: bloco2`, `Lido: bloco3` — é produzida de uma vez porque o laço pede bloco atrás de bloco até esgotar; a vantagem é que quem chama poderia parar após qualquer bloco (ou intercalar outro trabalho entre um `resume` e o próximo), mantendo a posição da leitura guardada na corrotina.
 
 ### Agendamento de Tarefas
 

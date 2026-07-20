@@ -42,6 +42,10 @@ local x = nil -- representa a ausência de valor
   - **Aritméticos:** `+`, `-`, `*`, `/`, `//`, `%`, `^`
   - **Relacionais:** `==`, `~=`, `>`, `<`, `>=`, `<=`
   - **Lógicos:** `and`, `or`, `not`
+  - **Concatenação e comprimento:** `..`, `#`
+  - **Bit a bit:** `&`, `|`, `~`, `<<`, `>>`
+
+  (todos com exemplos executáveis em `operadores.lua`)
 
 - Condicional:
 
@@ -79,7 +83,9 @@ until n > 5
 -- Lua suporta funções de primeira classe e closures.
 
 -- Definição de funções
-function saudar(nome)
+-- (o `local` importa: sem ele, a função viraria uma variável GLOBAL,
+--  visível — e sobrescrevível — pelo programa inteiro)
+local function saudar(nome)
   print("Olá, " .. nome)
 end
 
@@ -211,7 +217,7 @@ Exemplo #2:
 ]]
 
 ----------------------------------------------------------------
-function avaliar(operacao, a, b)
+local function avaliar(operacao, a, b)
   local operacoes = {
     somar = function(a, b) return a + b end,
     subtrair = function(a, b) return a - b end,

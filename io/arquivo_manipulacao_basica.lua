@@ -32,12 +32,15 @@ assert(conteudo == "Olá, Lua!")
 
 -- cria um arquivo se ele não existir:
 local arquivo = assert(io.open("arquivo_demo.txt", "w"))
-arquivo:write("torrada!")
+-- o \n final importa: arquivo_acrescentar.lua ACRESCENTA linhas a este
+-- mesmo arquivo, e sem a quebra de linha a primeira linha acrescentada
+-- grudaria em "torrada!" (arquivos-texto devem terminar em \n).
+arquivo:write("torrada!\n")
 assert(arquivo:close())
 
 -- abre um arquivo para leitura:
 arquivo = assert(io.open("arquivo_demo.txt"))
-local primeiraLinha = arquivo:read()
+local primeiraLinha = arquivo:read() -- read() devolve a linha SEM o \n
 print(primeiraLinha) --> torrada!
 assert(primeiraLinha == "torrada!")
 assert(arquivo:close())

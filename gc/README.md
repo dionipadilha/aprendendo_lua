@@ -7,7 +7,7 @@ enfraquecem referências, permitindo caches que não seguram os objetos.
 
 | Arquivo | Tema |
 |---------|------|
-| `coleta_de_lixo.lua` | Alcançabilidade, `collectgarbage` e um cache com chaves fracas |
+| `coleta_de_lixo.lua` | Alcançabilidade: um cache comum (forte) segura os objetos; `__mode = "v"` como observatório da coleta |
 | `chaves_fracas.lua` | `__mode = "k"`: sessões que expiram junto com o usuário |
 | `memoizacao_fraca.lua` | Memoização com chaves fracas e ephemerons |
 | `modos_do_coletor.lua` | Modos incremental/geracional, `count`, `collect` e `__mode = "v"`/`"kv"` |

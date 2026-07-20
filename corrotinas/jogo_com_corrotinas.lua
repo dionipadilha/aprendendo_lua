@@ -60,7 +60,13 @@ end
 
 --------------------------------------------------------------------------------
 -- Passo #3: Define a corrotina dos inimigos (um passo em direção ao
--- jogador por turno):
+-- jogador por turno).
+--
+-- Repare na ASSIMETRIA proposital entre as duas corrotinas: em
+-- moverJogador o yield ABRE o laço (ceder antes de agir — a corrotina
+-- só pode agir depois de receber um comando, que chega como retorno do
+-- yield); aqui o yield FECHA o laço (agir antes de ceder — os inimigos
+-- não dependem de entrada, então cada resume completa um passo):
 
 local function moverInimigos(inimigos, jogador)
   while true do
@@ -93,7 +99,14 @@ local grade = criarGrade(tamanhoDaGrade)
 local corrotinaDoJogador = coroutine.create(moverJogador)
 local corrotinaDosInimigos = coroutine.create(moverInimigos)
 
--- primeiro resume: entrega os personagens e roda até o primeiro yield
+-- primeiro resume: entrega os personagens e roda até o primeiro yield.
+-- É aqui que a posição dos yields aparece: o jogador para IMEDIATAMENTE
+-- (nada acontece antes do primeiro comando), mas os inimigos já
+-- executam um passo ANTES de ceder — um "turno grátis" de
+-- inicialização: a primeira grade impressa os mostra em (4,4) e (4,1),
+-- e não nas posições declaradas (5,5) e (5,1). Isso ordena os turnos:
+-- daqui em diante, cada resume do jogador APLICA o comando recebido e
+-- cada resume dos inimigos dá UM passo atrás do jogador já movido.
 coroutine.resume(corrotinaDoJogador, jogador)
 coroutine.resume(corrotinaDosInimigos, inimigos, jogador)
 

@@ -23,13 +23,19 @@ function Retangulo:novo(cantoInferiorEsquerdo, cantoSuperiorDireito)
   setmetatable(ret, self)
   self.__index = self
 
-  -- Extrair as coordenadas dos cantos:
-  ret.x1, ret.y1 = cantoInferiorEsquerdo[1], cantoInferiorEsquerdo[2]
-  ret.x2, ret.y2 = cantoSuperiorDireito[1], cantoSuperiorDireito[2]
+  -- Extrair as coordenadas, NORMALIZANDO os cantos com min/max:
+  -- contem() e intersecta() assumem x1 <= x2 e y1 <= y2, então cantos
+  -- invertidos precisam ser reordenados aqui. (Um math.abs só nas
+  -- dimensões mascararia a inversão: largura/altura sairiam "certas",
+  -- mas os invariantes ficariam corrompidos em silêncio.)
+  local x1, y1 = cantoInferiorEsquerdo[1], cantoInferiorEsquerdo[2]
+  local x2, y2 = cantoSuperiorDireito[1], cantoSuperiorDireito[2]
+  ret.x1, ret.x2 = math.min(x1, x2), math.max(x1, x2)
+  ret.y1, ret.y2 = math.min(y1, y2), math.max(y1, y2)
 
-  -- Calcular as dimensões:
-  ret.largura = math.abs(ret.x2 - ret.x1)
-  ret.altura = math.abs(ret.y2 - ret.y1)
+  -- Calcular as dimensões (após a normalização, x2 >= x1 e y2 >= y1):
+  ret.largura = ret.x2 - ret.x1
+  ret.altura = ret.y2 - ret.y1
 
   return ret
 end
@@ -83,14 +89,18 @@ function Retangulo:escalar(fator)
   local meiaAltura = (self.altura * fator) / 2
   local cantoInferiorEsquerdo = { cx - meiaLargura, cy - meiaAltura }
   local cantoSuperiorDireito = { cx + meiaLargura, cy + meiaAltura }
-  return Retangulo:novo(cantoInferiorEsquerdo, cantoSuperiorDireito)
+  -- getmetatable(self) é a CLASSE da instância: numa subclasse de
+  -- Retangulo, as fábricas internas devolvem instâncias da subclasse
+  -- ("Retangulo:novo" fixo aqui quebraria esse polimorfismo):
+  return getmetatable(self):novo(cantoInferiorEsquerdo, cantoSuperiorDireito)
 end
 
 -- Mover o retângulo por um dado deslocamento:
 function Retangulo:mover(dx, dy)
   local cantoInferiorEsquerdo = { self.x1 + dx, self.y1 + dy }
   local cantoSuperiorDireito = { self.x2 + dx, self.y2 + dy }
-  return Retangulo:novo(cantoInferiorEsquerdo, cantoSuperiorDireito)
+  -- getmetatable(self): preserva a classe da instância (ver escalar)
+  return getmetatable(self):novo(cantoInferiorEsquerdo, cantoSuperiorDireito)
 end
 
 -- Redimensionar o retângulo para novas dimensões:
@@ -98,7 +108,8 @@ function Retangulo:redimensionar(novaLargura, novaAltura)
   assert(novaLargura > 0 and novaAltura > 0, "Dimensões inválidas")
   local cantoInferiorEsquerdo = { self.x1, self.y1 }
   local cantoSuperiorDireito = { self.x1 + novaLargura, self.y1 + novaAltura }
-  return Retangulo:novo(cantoInferiorEsquerdo, cantoSuperiorDireito)
+  -- getmetatable(self): preserva a classe da instância (ver escalar)
+  return getmetatable(self):novo(cantoInferiorEsquerdo, cantoSuperiorDireito)
 end
 
 --------------------------------------------------------------------------------
@@ -145,6 +156,12 @@ assert(tostring(retMovido) == "Retangulo({1.000000, 1.000000}, {2.000000, 4.0000
 local retRedimensionado = ret1:redimensionar(2, 4)
 print(retRedimensionado) --> Retangulo({0.000000, 0.000000}, {2.000000, 4.000000})
 assert(tostring(retRedimensionado) == "Retangulo({0.000000, 0.000000}, {2.000000, 4.000000})")
+
+-- cantos invertidos são aceitos: o construtor normaliza e produz o
+-- MESMO retângulo de ret1 — e os invariantes de contem() se mantêm:
+local retInvertido = Retangulo:novo({ 1, 3 }, { 0, 0 })
+assert(tostring(retInvertido) == tostring(ret1))
+assert(retInvertido:contem(retInvertido:centroideDaRegiao()))
 
 --------------------------------------------------------------------------------
 -- Retornar a classe Retangulo:

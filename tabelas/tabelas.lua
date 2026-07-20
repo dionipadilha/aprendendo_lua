@@ -36,9 +36,11 @@ for _ in pairs(tabela) do contador = contador + 1 end
 print(contador) --> 2
 assert(contador == 2)
 
--- Iterando com a função next (mesma observação: ordem não garantida):
+-- Iterando com a função next (mesma observação: ordem não garantida).
+-- A parada compara com nil: false é chave válida de tabela e um
+-- `while chave do` terminaria cedo — veja next.lua:
 local chave, valor = next(tabela, nil)
-while chave do
+while chave ~= nil do
   print(chave, valor) --> imprime os pares chave1/valor1 e chave2/valor2 (em ordem não garantida)
   chave, valor = next(tabela, chave)
 end

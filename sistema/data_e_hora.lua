@@ -20,6 +20,9 @@ print(umDia) --> 86400.0 (24*60*60 = 86400 segundos)
 assert(umDia == 86400)
 
 -- Formata um timestamp em uma string de data e hora:
+-- %X é "a hora no formato do LOCALE do processo". O interpretador lua
+-- inicia sempre no locale C, onde %X é hh:mm:ss — por isso os asserts
+-- abaixo podem fixar o formato (em en_US, por exemplo, %X teria AM/PM).
 local formatoDataEHora = "%d/%m/%Y %X"
 print(os.date(formatoDataEHora, agora))         --> 20/07/2026 12:08:51 (varia)
 print(os.date(formatoDataEHora, agora + umDia)) --> 21/07/2026 12:08:51 (varia)
@@ -29,9 +32,14 @@ assert(os.date(formatoDataEHora, hoje) == "07/05/2024 00:00:00")
 assert(os.date(formatoDataEHora, amanha) == "08/05/2024 00:00:00")
 
 -- Formata um timestamp em uma string de data personalizada:
+-- %A (dia da semana) e %B (mês) também dependem do LOCALE — no locale C
+-- os nomes saem em INGLÊS, e é isso que as saídas anotadas mostram.
+-- os.setlocale("pt_BR.UTF-8", "time") traduziria os nomes, mas exigiria
+-- esse locale instalado na máquina; o repositório não depende dele para
+-- que os exemplos rodem iguais em qualquer ambiente (portabilidade/CI).
 local dataPersonalizada = "%A, %d de %B de %Y"
-print(os.date(dataPersonalizada, hoje))   --> Tuesday, 07 de May de 2024
-print(os.date(dataPersonalizada, amanha)) --> Wednesday, 08 de May de 2024
+print(os.date(dataPersonalizada, hoje))   --> Tuesday, 07 de May de 2024 (nomes em inglês: locale C)
+print(os.date(dataPersonalizada, amanha)) --> Wednesday, 08 de May de 2024 (nomes em inglês: locale C)
 
 -- Extraindo os componentes de data e hora:
 local componentes = os.date("*t", agora)

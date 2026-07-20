@@ -6,6 +6,11 @@
 -- para benchmarks — veja cpu_vs_parede.lua para a diferença na prática.
 -- Atenção: os.time tem resolução de 1 segundo.
 
+-- O require fica AQUI, fora da seção cronometrada do teste: dormir.lua
+-- roda um autoteste ao ser carregado (dorme ~1 s), e essa carga não pode
+-- contaminar a medição feita lá embaixo.
+local dormir = require "dormir"
+
 --------------------------------------------------------------------------------
 -- Interface do Cronômetro:
 
@@ -70,18 +75,22 @@ local function teste(cronometro)
 
   -- Espera OCIOSA (a CPU fica livre): um cronômetro de parede conta mesmo assim.
   -- Com os.clock aqui, o tempo medido seria ~0 — essa é a diferença.
-  local dormir = require "dormir"
   dormir(1)
 
-  print(cronometro:registrar()) --> Cronômetro em execução. Tempo decorrido: 1 segundos.
+  print(cronometro:registrar()) --> Cronômetro em execução. Tempo decorrido: 1 segundos. (às vezes 2: resolução de 1 s)
   assert(cronometro.executando)
 
   cronometro:parar()
   local decorrido = cronometro:decorrido()
-  -- Propriedade: dormiu 1 s; com resolução de 1 s, o valor fica entre 1 e 2.
-  assert(decorrido >= 1 and decorrido <= 2,
+  -- Propriedade didática: o cronômetro ENXERGA a espera — dormiu 1 s, logo
+  -- decorrido >= 1. O teto (30 s) é generoso de propósito: sob carga, o
+  -- sistema pode atrasar o processo além do sono pedido, e uma janela
+  -- estreita tornaria o teste intermitente sem ensinar nada sobre o
+  -- cronômetro (o que se verifica é "ele mede o tempo", não "a máquina
+  -- está sem carga").
+  assert(decorrido >= 1 and decorrido <= 30,
     "tempo decorrido fora da faixa esperada: " .. decorrido)
-  print(cronometro:registrar()) --> Cronômetro parado. Tempo decorrido: 1 segundos.
+  print(cronometro:registrar()) --> Cronômetro parado. Tempo decorrido: 1 segundos. (às vezes 2: resolução de 1 s)
 
   -- Zera o cronômetro e confere o estado limpo:
   cronometro:zerar()

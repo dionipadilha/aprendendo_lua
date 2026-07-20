@@ -9,28 +9,38 @@
 
 -- define a semente do gerador de números pseudoaleatórios.
 
--- sem argumentos: gera uma semente com uma tentativa fraca de aleatoriedade.
-print("semente fraca: ", math.randomseed()) --> dois inteiros (variam)
+-- Em Lua 5.4 normalmente NÃO é preciso semear: o interpretador já
+-- inicializa o gerador com uma semente de boa entropia a cada execução.
 
--- um argumento: define a semente.
-math.randomseed(1715878000)
+-- sem argumentos: re-semeia com entropia fresca (combina a hora com o
+-- endereço de um objeto interno) e devolve os dois componentes usados.
+print("semente nova: ", math.randomseed()) --> dois inteiros (variam)
+
+-- um argumento: define a semente exata. O uso legítimo é a
+-- REPRODUTIBILIDADE: a mesma semente produz sempre a mesma sequência
+-- (útil para depurar e para testes determinísticos).
+math.randomseed(42)
+local a1, a2, a3 = math.random(1000), math.random(1000), math.random(1000)
+math.randomseed(42) -- mesma semente: a sequência REINICIA do começo
+local b1, b2, b3 = math.random(1000), math.random(1000), math.random(1000)
+assert(a1 == b1 and a2 == b2 and a3 == b3,
+  "a mesma semente deve reproduzir a mesma sequência")
 
 -- dois argumentos: combina os argumentos em uma única semente de 128 bits.
 math.randomseed(1715878877, 15471192)
 
---------------------------------------------------------------------------------
--- math.randomseed aprimorado para melhor aleatoriedade:
+-- CUIDADO com o idioma legado math.randomseed(os.time()): era necessário
+-- em Lua 5.1/5.2, que não semeavam sozinhas, mas em 5.4 é uma semente
+-- PIOR que a automática — os.time() tem resolução de 1 segundo, então
+-- dois processos iniciados no mesmo segundo produzem a MESMA sequência.
+-- Pelo mesmo motivo, nunca re-semeie "antes de cada uso": re-semear
+-- REINICIA a sequência em vez de melhorá-la. Semeie no máximo uma vez,
+-- no início do programa — ou não semeie e confie na semente automática.
 
--- evite usar math.randomseed sem argumentos
--- usar a mesma semente sempre produzirá a mesma sequência de números aleatórios.
-
--- truque comum:
-print(math.randomseed(os.time())) --> os componentes da semente (variam)
-
--- usando múltiplas fontes de entropia:
-local sementeX = os.time()
-local sementeY = tonumber(tostring(os.time()):reverse())
-print(math.randomseed(sementeX, sementeY)) --> os componentes da semente (variam)
+-- Os exemplos abaixo usam a semente automática: re-semeamos uma única
+-- vez, sem argumentos, só para desfazer as sementes fixas didáticas
+-- acima (senão a saída seria idêntica em toda execução).
+math.randomseed()
 
 --------------------------------------------------------------------------------
 -- math.random:
@@ -62,7 +72,6 @@ end
 
 local cores = { "vermelho", "verde", "azul" }
 
-math.randomseed(os.time())
 local corEscolhida = escolhaAleatoria(cores)
 print(corEscolhida) --> azul (varia)
 
@@ -85,7 +94,6 @@ local function senhaAleatoria(conjuntoDeCaracteres, n)
   return table.concat(resultado)
 end
 
-math.randomseed(os.time())
 local conjuntoDeCaracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 local senha8 = senhaAleatoria(conjuntoDeCaracteres, 8)
 local senha10 = senhaAleatoria(conjuntoDeCaracteres, 10)
@@ -100,7 +108,9 @@ assert(#senha10 == 10 and senha10:match("^%w+$"))
 -- exemplo #3: gerador de horários aleatórios com intervalo personalizável
 
 local function geradorDeHorarioAleatorio(minimo, maximo)
-  local formatoDataEHora = "%d/%m/%Y %X" -- dd/mm/aaaa hh:mm:ss
+  -- %X é a hora no formato do LOCALE; o interpretador roda no locale C,
+  -- onde vira hh:mm:ss — veja a discussão em data_e_hora.lua.
+  local formatoDataEHora = "%d/%m/%Y %X" -- dd/mm/aaaa hh:mm:ss (locale C)
   local aleatorio = math.random(minimo, maximo)
   return (os.date(formatoDataEHora, aleatorio))
 end
@@ -110,7 +120,6 @@ local dia = 86400 -- 24 * 60 * 60s = 86400s
 local minimo = agora - dia
 local maximo = agora + dia
 
-math.randomseed(agora)
 local horario1 = geradorDeHorarioAleatorio(minimo, maximo)
 local horario2 = geradorDeHorarioAleatorio(minimo, maximo)
 print(horario1) --> 21/07/2026 00:40:30 (varia)

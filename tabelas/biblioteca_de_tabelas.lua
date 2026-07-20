@@ -1,5 +1,10 @@
 -- biblioteca_de_tabelas.lua
 
+-- PAPEL deste arquivo: tour da biblioteca padrão `table` — pack/unpack,
+-- insert, remove, move, sort e concat, cada função em ação uma vez.
+-- Para as operações básicas de array (acesso, percurso, matrizes), veja
+-- vetores.lua; para a lista como TAD com operações nomeadas, lista.lua.
+
 -- Criando listas:
 local meusAmigos = { "ana", "bob", "charlie" }
 print(meusAmigos) --> table: endereco_de_memoria
@@ -60,32 +65,29 @@ for i, numero in ipairs(quadradosBasicos) do
   print(numero + i) --> 2.0, 6.0, 12.0
 end
 
--- Selecionando elementos com base em certos critérios:
-local function comecaComC(texto)
-  return texto:sub(1, 1) == "c"
-end
-
-local function selecionarPor(lista, criterio)
-  local selecionados = {}
-  for _, item in ipairs(lista) do
-    if criterio(item) then table.insert(selecionados, item) end
-  end
-  return selecionados
-end
-
-local meusMelhoresAmigos = selecionarPor(meusAmigos, comecaComC)
-print(table.unpack(meusMelhoresAmigos)) --> clark	charlie
-assert(#meusMelhoresAmigos == 2)
-assert(meusMelhoresAmigos[1]:sub(1, 1) == "c" and meusMelhoresAmigos[2]:sub(1, 1) == "c")
+-- Selecionar elementos por critério NÃO faz parte da API table —
+-- para um filtro genérico com validação e testes, veja selecionar_onde.lua.
 
 -- Concatena todos os elementos em uma string:
-print(table.concat(meusMelhoresAmigos, "&")) --> clark&charlie
+print(table.concat(meusAmigos, "&")) --> lois&clark&robert&eduard&charlie
+assert(table.concat(meusAmigos, "&") == "lois&clark&robert&eduard&charlie")
 
--- Exclui todos os elementos de uma tabela:
-meusMelhoresAmigos = {}
-print(#meusMelhoresAmigos) --> 0
-assert(#meusMelhoresAmigos == 0)
+-- CUIDADO: `t = {}` NÃO "exclui os elementos" — cria uma tabela NOVA e
+-- faz a variável apontar para ela; a antiga continua viva para quem
+-- guardar outra referência (atribuição cria apelido, não cópia — veja
+-- referencias_e_copias.lua):
+local apelido = meusAmigos
+meusAmigos = {}
+assert(#meusAmigos == 0) -- a variável enxerga a tabela nova, vazia...
+assert(#apelido == 5)    -- ...mas a antiga segue intacta pelo apelido
 
--- Exclui uma tabela:
-meusMelhoresAmigos = nil
-collectgarbage()
+-- Para ESVAZIAR a tabela preservando a identidade, remova cada chave:
+for k in pairs(apelido) do apelido[k] = nil end
+assert(next(apelido) == nil)
+
+-- `t = nil` tampouco "exclui a tabela": apenas remove UMA referência.
+-- Quando não restar nenhuma, o coletor de lixo a recolhe sozinho —
+-- chamar collectgarbage() manualmente é desnecessário em código normal
+-- (veja o diretório gc/):
+meusAmigos = nil
+apelido = nil

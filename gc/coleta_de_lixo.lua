@@ -1,6 +1,10 @@
 -- coleta_de_lixo.lua
 
--- limpa automaticamente os objetos não utilizados
+-- A coleta de lixo é por ALCANÇABILIDADE: o coletor só recolhe objetos
+-- que o programa não alcança mais por caminho nenhum. Zerar uma
+-- variável não "apaga" o objeto — apenas remove UMA referência.
+-- (o cache com CHAVES FRACAS, que expira junto com o usuário, está em
+-- chaves_fracas.lua; os modos do coletor, em modos_do_coletor.lua)
 
 --------------------------------------------------------------------------------
 -- Modelo
@@ -32,16 +36,22 @@ end
 --------------------------------------------------------------------------------
 -- Controlador
 
--- cache e visao são criados aqui, na ÚNICA instância do gerenciador —
--- se fossem defaults na tabela de uma classe reutilizada, seriam
--- compartilhados entre instâncias (ver ../padroes/observador.lua):
-local GerenciadorDeSessoes = Classe:novo {
-  cache = {},
-  visao = {}
-}
+-- A classe NÃO define cache/visao como defaults: um default na tabela
+-- da classe seria alcançado via __index por TODAS as instâncias —
+-- estado compartilhado disfarçado (ver ../padroes/observador.lua).
+-- Cada instância recebe seu cache e sua visão na construção:
+local GerenciadorDeSessoes = Classe:novo {}
 
 function GerenciadorDeSessoes:adicionarSessao(usuario, dadosDaSessao)
   self.cache[usuario] = Sessao:novo { dados = dadosDaSessao }
+end
+
+function GerenciadorDeSessoes:encerrarSessoesDe(nome)
+  for usuario in pairs(self.cache) do
+    -- apagar uma chave EXISTENTE durante o pairs é permitido
+    -- (criar chaves novas é que não seria):
+    if usuario.nome == nome then self.cache[usuario] = nil end
+  end
 end
 
 function GerenciadorDeSessoes:exibirSessoes()
@@ -51,13 +61,11 @@ end
 --------------------------------------------------------------------------------
 -- Principal
 
--- O cache usa CHAVES FRACAS: a metatabela com __mode = "k" fica explícita
--- aqui, e não escondida num campo de classe. Quando um usuário (chave) não
--- tiver mais nenhuma referência forte, sua entrada poderá ser coletada.
-local cache = setmetatable({}, { __mode = "k" })
-
+-- O cache aqui é uma tabela COMUM: suas referências (fortes) seguram os
+-- usuários enquanto a sessão existir. Compare com chaves_fracas.lua,
+-- onde o cache com __mode = "k" NÃO segura os usuários:
 local gerenciador = GerenciadorDeSessoes:novo {
-  cache = cache,
+  cache = {},
   visao = Visao:novo()
 }
 
@@ -77,16 +85,32 @@ print("Sessões após adicionar os usuários:")
 gerenciador:exibirSessoes()
 --> Ana	dados do usuário #1
 --> Bob	dados do usuário #2
-assert(contarSessoes(cache) == 2)
+assert(contarSessoes(gerenciador.cache) == 2)
 
--- Remove a última referência forte a usuario1; a coleta de lixo
--- elimina a entrada correspondente do cache de chaves fracas:
+-- Observatório com VALORES fracos (__mode = "v"): a entrada some
+-- quando o objeto é coletado — serve só para OBSERVAR a coleta, sem
+-- criar referência forte (a semântica de __mode = "v" é demonstrada
+-- em modos_do_coletor.lua):
+local observatorio = setmetatable({}, { __mode = "v" })
+observatorio.ana = usuario1
+
+-- Zerar a variável NÃO apaga o objeto: o cache do gerenciador ainda
+-- alcança Ana, então o coletor não pode recolhê-la:
 usuario1 = nil
 collectgarbage()
-print("Sessões após a coleta de lixo:")
+assert(contarSessoes(gerenciador.cache) == 2) -- nenhuma sessão sumiu
+assert(observatorio.ana ~= nil)               -- Ana sobreviveu à coleta
+
+-- Removida a última referência forte (a entrada do cache), o objeto
+-- fica inalcançável e a próxima coleta o recolhe:
+gerenciador:encerrarSessoesDe("Ana")
+collectgarbage()
+print("Sessões após encerrar as sessões de Ana:")
 gerenciador:exibirSessoes()
 --> Bob	dados do usuário #2
-assert(contarSessoes(cache) == 1)
-for usuario in pairs(cache) do assert(usuario.nome == "Bob") end
+assert(contarSessoes(gerenciador.cache) == 1)
+assert(observatorio.ana == nil) -- agora sim: Ana foi coletada
+for usuario in pairs(gerenciador.cache) do assert(usuario.nome == "Bob") end
+assert(usuario2.nome == "Bob")
 
 --------------------------------------------------------------------------------

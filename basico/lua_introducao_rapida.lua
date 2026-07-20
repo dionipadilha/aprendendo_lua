@@ -49,8 +49,12 @@ if n > 5 then print("O número é maior que 5")
 end
 
 -- Expressão estilo ternário:
-print(n > 5 and n.." é maior que 5" or n.." é menor que 5") --> 10 é maior que 5
-assert((n > 5 and "maior" or "menor") == "maior")
+print(n > 5 and n.." é maior que 5" or n.." não é maior que 5") --> 10 é maior que 5
+assert((n > 5 and "maior" or "não maior") == "maior")
+-- ATENÇÃO: `cond and a or b` devolve b sempre que `a` for false ou nil,
+-- mesmo com a condição verdadeira — evite o idioma quando o ramo
+-- verdadeiro puder ter um desses valores:
+assert((true and false or "b") == "b") -- "a" era false: veio o ramo errado
 
 -- Laço com intervalo:
 for i = 1, 5 do print(i) end
