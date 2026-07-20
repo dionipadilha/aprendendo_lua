@@ -9,7 +9,7 @@ jobs:
   teste-de-fumaca:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Instalar Lua 5.4 e luacheck
         run: sudo apt-get update && sudo apt-get install -y lua5.4 lua-check
@@ -50,7 +50,7 @@ jobs:
   teste-de-fumaca-windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # gh-actions-lua compila o Lua com o MSVC; este passo põe o cl.exe no PATH.
       - name: Preparar o toolchain MSVC
