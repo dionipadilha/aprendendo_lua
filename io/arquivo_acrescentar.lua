@@ -22,4 +22,12 @@ do
 
   -- imprime as linhas processadas:
   for _, linha in ipairs(linhas) do print(linha) end
+
+  -- propriedade: as 3 linhas recém-acrescentadas estão no arquivo
+  -- (o arquivo persiste entre execuções, então pode haver mais linhas):
+  local acrescentadas = 0
+  for _, linha in ipairs(linhas) do
+    if linha:match("mais conteúdo: %d") then acrescentadas = acrescentadas + 1 end
+  end
+  assert(acrescentadas >= 3)
 end

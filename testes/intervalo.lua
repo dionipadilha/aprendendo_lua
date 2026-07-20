@@ -1,8 +1,13 @@
 -- intervalo.lua
 
--- Gera uma sequência de números.
+-- Gera uma sequência de números, semelhante ao range do Python.
 
 local function tratadorDeEntrada(inicio, fim, passo)
+  -- Valida os tipos das entradas:
+  assert(type(inicio) == "number", "O valor de início deve ser um número")
+  assert(type(fim) == "number" or fim == nil, "O valor de fim deve ser um número ou nil")
+  assert(type(passo) == "number" or passo == nil, "O valor do passo deve ser um número ou nil")
+
   -- Se apenas um argumento for fornecido, ele define o fim:
   if not fim then
     fim, inicio = inicio, 1

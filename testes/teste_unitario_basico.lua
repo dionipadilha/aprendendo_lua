@@ -1,5 +1,11 @@
 -- teste_unitario_basico.lua
 
+-- Mini-framework de teste unitário:
+--   * protege a chamada ao código sob teste com pcall (uma exceção no
+--     código testado conta como reprovação, sem derrubar a suíte);
+--   * conta aprovados e reprovados e RETORNA os totais, para que quem
+--     chama possa fazer assert sobre eles (e reprovar o build de verdade).
+
 local TesteUnitarioBasico = {
   id = "",
   teste = function(caso) return nil end,
@@ -16,21 +22,17 @@ function TesteUnitarioBasico:novo(objeto)
   return objeto
 end
 
--- define o msgh usado por xpcall:
-function TesteUnitarioBasico.msgh(excecao)
-  print(excecao)
-end
-
 -- define os logs:
 TesteUnitarioBasico.log = {
   execucao = "\n[Executando] Teste Unitário: %s",
   campos = "[Campos] caso, esperado, obtido, asserção",
   teste = "[-->] %s, %s, %s, %s",
-  excecao = "[Exceção] esperado: %s, obtido: %s",
-  finalizacao = "[Concluído] finalizado em %f segundos"
+  excecao = "[Falha] esperado: %s, obtido: %s",
+  finalizacao = "[Concluído] %d aprovado(s), %d reprovado(s), em %f segundos"
 }
 
 -- define o fluxo de execução dos testes:
+-- retorna: total de aprovados, total de reprovados
 function TesteUnitarioBasico:tentar()
   --
   -- registra informações sobre a configuração atual:
@@ -38,25 +40,31 @@ function TesteUnitarioBasico:tentar()
   print(self.log.campos)
 
   -- fluxo de execução dos testes:
+  local aprovados, reprovados = 0, 0
   local inicioDoCronometro = os.clock()
-  for _, caso in pairs(self.casos) do
-    -- obtém os objetos do teste:
+  for _, caso in ipairs(self.casos) do
+    -- obtém os objetos do teste, protegendo o código sob teste com pcall
+    -- (se self.teste lançar um erro, 'obtido' recebe a mensagem do erro):
     local esperado = caso.esperado
-    local obtido = self.teste(caso.entrada)
-    local assercao = (esperado == obtido)
+    local ok, obtido = pcall(self.teste, caso.entrada)
+    local assercao = ok and (esperado == obtido)
+
+    -- contabiliza e registra o resultado:
+    if assercao then
+      aprovados = aprovados + 1
+    else
+      reprovados = reprovados + 1
+    end
     print(self.log.teste:format(caso.entrada, esperado, obtido, assercao))
-    -- obtém as possíveis exceções:
-    xpcall(
-      assert,
-      self.msgh,
-      assercao,
-      self.log.excecao:format(esperado, obtido)
-    )
+    if not assercao then
+      print(self.log.excecao:format(esperado, obtido))
+    end
   end
   local fimDoCronometro = os.clock()
 
-  -- por fim, registra o término dos testes:
-  print(self.log.finalizacao:format(fimDoCronometro - inicioDoCronometro))
+  -- por fim, registra o término dos testes e retorna os totais:
+  print(self.log.finalizacao:format(aprovados, reprovados, fimDoCronometro - inicioDoCronometro))
+  return aprovados, reprovados
 end
 
 --[[----------------------------------------------------------------------------
@@ -72,7 +80,8 @@ local meusTestes = TesteUnitarioBasico:novo {
   }
 }
 
-meusTestes:tentar()
+local aprovados, reprovados = meusTestes:tentar()
+assert(aprovados == 3 and reprovados == 0)
 ------------------------------------------------------------------------------]]
 
 return TesteUnitarioBasico

@@ -5,21 +5,24 @@
 
 -- Executa código Lua de um arquivo Lua externo:
 -- arquivo.lua = return "Oi Bob!"
-local arquivo_lua_externo = dofile("arquivo.lua")
-print(arquivo_lua_externo) --> Oi Bob!
-
+local arquivoLuaExterno = dofile("arquivo.lua")
+print(arquivoLuaExterno) --> Oi Bob!
+assert(arquivoLuaExterno == "Oi Bob!")
 
 ----------------------------------------------------------------------
 -- loadfile:
 
 -- Carrega código Lua em string de um arquivo txt externo.
 -- arquivo.txt = return "Oi Bob!"
-local trecho_lua = loadfile("arquivo.txt")
-print(trecho_lua) --> id da função
+local trechoLua = loadfile("arquivo.txt")
+print(trechoLua) --> function: 0x... (o endereço varia)
+assert(type(trechoLua) == "function")
 
--- Executa o código Lua armazenado em trecho_lua:
-if trecho_lua then    -- need-check-nil
-  print(trecho_lua()) --> Oi Bob!
+-- Executa o código Lua armazenado em trechoLua:
+if trechoLua then     -- need-check-nil
+  local retorno = trechoLua()
+  print(retorno) --> Oi Bob!
+  assert(retorno == "Oi Bob!")
 end
 
 ----------------------------------------------------------------------
@@ -28,7 +31,8 @@ end
 -- Carrega código Lua a partir de uma string de código.
 local trecho = "local nome='Bob' print('Olá ' .. nome)"
 local trechoCompilado = load(trecho)
-print(trechoCompilado) --> id da função
+print(trechoCompilado) --> function: 0x... (o endereço varia)
+assert(type(trechoCompilado) == "function")
 
 -- Executa o código Lua armazenado em trechoCompilado:
 if trechoCompilado then -- need-check-nil

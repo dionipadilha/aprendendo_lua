@@ -26,6 +26,7 @@ if conteudo then
 else
     print("Nenhum conteúdo lido do arquivo.")
 end
+assert(conteudo == "Olá, Lua!")
 
 -- Abordagem #2:
 
@@ -36,5 +37,7 @@ assert(arquivo:close())
 
 -- abre um arquivo para leitura:
 arquivo = assert(io.open("arquivo_demo.txt"))
-print(arquivo:read()) --> torrada!
+local primeiraLinha = arquivo:read()
+print(primeiraLinha) --> torrada!
+assert(primeiraLinha == "torrada!")
 assert(arquivo:close())
