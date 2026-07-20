@@ -38,7 +38,7 @@ for i = 1, 5 do
 end
 ```
 
-Exemplos práticos: pasta [`controle_de_fluxo/`](../controle_de_fluxo/).
+Exemplos práticos: pasta [`controle_de_fluxo/`](../controle_de_fluxo/) — `lacos.lua` traz os quatro laços e o `break` em versão executável.
 
 **4. Funções**
 Em Lua, funções são valores de primeira classe, o que permite que sejam atribuídas a variáveis, passadas como argumentos e retornadas como resultados. Funções também podem ser anônimas (sem nome), e qualquer função — anônima ou não — pode capturar variáveis do escopo em que foi criada, formando uma clausura (veja `funcoes/clausuras.lua`). Compreender funções é essencial para escrever programas Lua reutilizáveis e modulares.
@@ -57,7 +57,7 @@ print("Resultado da soma:", somar(3, 5))
 print("Resultado da multiplicação:", multiplicar(2, 4))
 ```
 
-Exemplos práticos: pasta [`funcoes/`](../funcoes/).
+Exemplos práticos: pasta [`funcoes/`](../funcoes/) — as regras de ajuste de múltiplos retornos, a maior pegadinha de funções em Lua, estão em `multiplos_retornos.lua`.
 
 **5. Tabelas e Estruturas de Dados**
 Tabelas são a principal estrutura de dados de Lua, combinando capacidades de array e de dicionário. Elas podem armazenar valores de tipos mistos, tornando-as versáteis para representar arrays, conjuntos, registros e até objetos. O domínio das tabelas é essencial para a manipulação eficaz de dados e a estruturação de dados complexos em Lua.
@@ -75,7 +75,7 @@ print("Idade:", pessoa.idade)
 print("Contatos:", table.concat(pessoa.contatos, ", "))
 ```
 
-Exemplos práticos: pasta [`tabelas/`](../tabelas/).
+Exemplos práticos: pasta [`tabelas/`](../tabelas/) — não deixe de ver as armadilhas de `#` com buracos (`buracos_e_comprimento.lua`) e a diferença entre referência e cópia (`referencias_e_copias.lua`).
 
 **6. Programação Orientada a Objetos**
 Lua oferece suporte à programação orientada a objetos (POO) por meio de mecanismos como metatables e metamétodos, permitindo que os desenvolvedores implementem classes, herança e polimorfismo. Embora os recursos de POO de Lua sejam diferentes dos das linguagens mais populares, eles fornecem ferramentas poderosas para estruturar aplicações maiores.
@@ -122,7 +122,7 @@ local meumodulo = require("meumodulo")
 meumodulo.dizerOla()  -- Saída: Olá do meu módulo!
 ```
 
-Exemplos práticos: pasta [`modulos/`](../modulos/).
+Exemplos práticos: pasta [`modulos/`](../modulos/) — o par `modulo.lua`/`usando_require.lua` demonstra também o cache do `require` em `package.loaded`.
 
 **8. Metaprogramação**
 A metaprogramação em Lua envolve técnicas como metatables e reflexão, permitindo a modificação dinâmica de comportamento em tempo de execução. Essa capacidade é particularmente útil para criar linguagens de domínio específico (DSLs), implementar estruturas de dados avançadas e aumentar a expressividade e a flexibilidade do código.
@@ -148,7 +148,7 @@ local resultado = vetor + vetor2
 print("Resultado:", resultado)  -- Saída: Resultado: (15, 35)
 ```
 
-Exemplos práticos: pasta [`metatabelas/`](../metatabelas/).
+Exemplos práticos: pasta [`metatabelas/`](../metatabelas/) — o `README.md` de lá indexa todos os metamétodos cobertos, arquivo por arquivo.
 
 **9. Desempenho e Otimização**
 Lua foi projetada para ter bom desempenho, com baixo consumo de memória e um modelo de execução eficiente. Técnicas como tornar variáveis locais, otimizar laços e compreender o mecanismo de coleta de lixo (garbage collection) de Lua podem melhorar significativamente o desempenho de programas em ambientes com recursos limitados.
@@ -166,7 +166,7 @@ end
 print("Soma dos 100 primeiros números:", calcularSoma(100))
 ```
 
-Exemplos práticos: pastas [`gc/`](../gc/) e [`sistema/`](../sistema/).
+Exemplos práticos: pastas [`gc/`](../gc/) (com visão geral no `README.md` de lá) e [`sistema/`](../sistema/).
 
 **10. Tópicos Avançados**
 Os tópicos avançados de programação em Lua incluem concorrência baseada em corrotinas (coroutines) para tarefas assíncronas, a incorporação de Lua em aplicações maiores (como motores de jogos) e a integração de Lua com C/C++ para operações críticas em desempenho. Esses tópicos atendem a desenvolvedores que buscam explorar todo o potencial de Lua em diversos domínios de aplicação.
@@ -185,4 +185,4 @@ coroutine.resume(co)  -- Saída: Contagem da corrotina: 2
 coroutine.resume(co)  -- Saída: Contagem da corrotina: 3
 ```
 
-Exemplos práticos: pasta [`corrotinas/`](../corrotinas/).
+Exemplos práticos: pasta [`corrotinas/`](../corrotinas/) — o uso clássico como gerador (`coroutine.wrap` em `for ... in`) está em `gerador_com_wrap.lua`.
