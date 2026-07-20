@@ -7,13 +7,15 @@ function CarrinhoDeCompras:novo()
   return carrinho
 end
 
-function CarrinhoDeCompras:definirPagamento(classePagamento)
-  self.classe = classePagamento
+function CarrinhoDeCompras:definirPagamento(metodoDePagamento)
+  self.pagamento = metodoDePagamento
   return self
 end
 
 function CarrinhoDeCompras:finalizarCompra(valor)
-  return self.classe:pagar(valor)
+  assert(self.pagamento,
+    "defina um método de pagamento antes de finalizar a compra")
+  return self.pagamento:pagar(valor)
 end
 
 return CarrinhoDeCompras

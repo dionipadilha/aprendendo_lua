@@ -30,6 +30,10 @@ maquinaDeEstados.gatilhos = {
 ------------------------------------------------------------------------
 -- Laço da Máquina de Estados
 
+-- Contrato de retorno: sem transição possível, devolve o PRÓPRIO
+-- estadoAtual (o laço continua girando no mesmo estado). A versão base,
+-- maquina_de_estados.lua, devolve nil nesse caso — lá o chamador é quem
+-- decide parar.
 function maquinaDeEstados:atualizar(estadoAtual, parametros)
   local transicoesPossiveis = self.transicoes[estadoAtual]
   if transicoesPossiveis then
@@ -87,9 +91,6 @@ function maquinaDeEstados:aoSairDoEstado(estado)
   -- Adicione as ações de saída aqui
 end
 
--- Estados Hierárquicos
--- Implemente conforme necessário
-
 -- Histórico de Estados
 function maquinaDeEstados:atualizarHistoricoDeEstados(estadoAtual, historico)
   table.insert(historico, estadoAtual)
@@ -105,21 +106,6 @@ function maquinaDeEstados:executarComHistorico()
   end
   return historico
 end
-
--- Transições Assíncronas
--- Implemente conforme necessário
-
--- Configuração Externa
--- Implemente o carregamento da configuração da máquina de estados de uma fonte externa
-
--- Visualização
--- Crie uma representação visual da máquina de estados
-
--- Testes Unitários
--- Escreva testes unitários para a funcionalidade da máquina de estados
-
--- Documentação
--- Documente funções, parâmetros e uso
 
 ------------------------------------------------------------------------
 

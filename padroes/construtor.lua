@@ -40,12 +40,15 @@ end
 -- independente do construtor).
 function ConstrutorDePizza:montar()
   assert(#self.coberturas > 0, "uma pizza precisa de ao menos uma cobertura")
+  -- copia a lista de coberturas: entregar self.coberturas por referência
+  -- deixaria o produto mudar se o construtor fosse reutilizado depois.
+  local coberturas = { table.unpack(self.coberturas) }
   return {
     tamanho = self.tamanho,
     borda = self.borda,
-    coberturas = self.coberturas,
+    coberturas = coberturas,
     descricao = ("pizza %s, borda %s, com %s")
-        :format(self.tamanho, self.borda, table.concat(self.coberturas, " e "))
+        :format(self.tamanho, self.borda, table.concat(coberturas, " e "))
   }
 end
 
@@ -66,5 +69,12 @@ assert(pizza.descricao == "pizza grande, borda recheada, com mussarela e manjeri
 -- a validação do passo final protege contra produtos incompletos:
 local ok = pcall(function() return ConstrutorDePizza.novo():montar() end)
 assert(not ok, "montar sem coberturas deveria falhar")
+
+-- o produto entregue é independente: reutilizar o construtor não o altera.
+local construtor = ConstrutorDePizza.novo():adicionarCobertura("calabresa")
+local primeiraPizza = construtor:montar()
+construtor:adicionarCobertura("cebola")
+assert(#primeiraPizza.coberturas == 1,
+  "a pizza já entregue não pode mudar quando o construtor é reutilizado")
 
 print("Builder: " .. pizza.descricao)

@@ -22,6 +22,8 @@ function CarrinhoDeCompras:definirPagamento(estrategia)
 end
 
 function CarrinhoDeCompras:finalizarCompra()
+  assert(self.pagamento,
+    "defina uma estratégia de pagamento antes de finalizar a compra")
   local valorTotal = 0
   for _, item in ipairs(self.itens) do
     valorTotal = valorTotal + item.preco

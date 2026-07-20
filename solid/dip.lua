@@ -37,6 +37,10 @@ end
 local Aplicacao = {}
 
 function Aplicacao:novo(instancia)
+  -- valida em duas etapas para que a ausência do registrador falhe com a
+  -- mensagem do assert, e não com "attempt to index a nil value":
+  assert(type(instancia) == "table" and type(instancia.registrador) == "table",
+    "obrigatório: um registrador")
   assert(instancia.registrador.registrar, "obrigatório: registrador.registrar")
   self.__index = self
   return setmetatable(instancia, self)
