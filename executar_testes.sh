@@ -36,7 +36,8 @@ while IFS= read -r file; do
     echo "FAIL: $file"
     echo "$output" | head -3 | sed 's/^/      /'
   fi
-done < <(find . -name '*.lua' -not -path './.git/*' | sort)
+# -type f evita casar diretórios (a CI do Windows instala o Lua em ./.lua/).
+done < <(find . -type f -name '*.lua' -not -path './.git/*' -not -path './.lua/*' | sort)
 
 echo "----------------------------------------"
 echo "Total: $total | Falhas: $failures"

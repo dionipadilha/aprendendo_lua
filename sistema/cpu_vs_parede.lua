@@ -5,6 +5,10 @@
 --   * os.time  → tempo de PAREDE (o relógio real; resolução de 1 segundo).
 -- Confundir as duas é um erro clássico: um "cronômetro" feito com os.clock
 -- só parece funcionar quando o programa ocupa a CPU o tempo todo.
+--
+-- Portabilidade: o C não fixa a semântica de clock(). No POSIX
+-- (Linux/macOS), os.clock mede tempo de CPU; no Windows, mede tempo de
+-- PAREDE desde o início do processo. O teste nº 1 cobre os dois casos.
 
 --------------------------------------------------------------------------------
 -- #1: durante uma espera OCIOSA (sleep), a CPU quase não trabalha:
@@ -18,10 +22,17 @@ local cpuDecorrido = os.clock() - cpuInicio
 local paredeDecorrida = os.difftime(os.time(), paredeInicio)
 
 print(("espera ociosa  | CPU: %.3f s | parede: %d s"):format(cpuDecorrido, paredeDecorrida))
---> espera ociosa  | CPU: 0.000 s | parede: 1 s
+--> espera ociosa  | CPU: 0.000 s | parede: 1 s (no POSIX)
 
-assert(cpuDecorrido < 0.5, "uma espera ociosa não deveria consumir CPU")
 assert(paredeDecorrida >= 1, "o relógio de parede deve avançar durante o sleep")
+
+local ehWindows = package.config:sub(1, 1) == "\\"
+if ehWindows then
+  -- no Windows, os.clock avança como relógio de parede mesmo ocioso:
+  assert(cpuDecorrido >= 1, "no Windows, os.clock deveria acompanhar a parede")
+else
+  assert(cpuDecorrido < 0.5, "uma espera ociosa não deveria consumir CPU")
+end
 
 --------------------------------------------------------------------------------
 -- #2: durante um busy-wait (laço que ocupa a CPU), os.clock avança:
