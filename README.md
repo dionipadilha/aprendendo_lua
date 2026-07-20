@@ -4,6 +4,11 @@
 [![Lua 5.4](https://img.shields.io/badge/Lua-5.4-blue)](https://www.lua.org/manual/5.4/)
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
 [![pt-BR](https://img.shields.io/badge/idioma-pt--BR-yellow)](#convenções-de-idioma)
+[![Site](https://img.shields.io/badge/site-github.io-8A2BE2)](https://dionipadilha.github.io/aprendendo_lua/)
+
+**Versão navegável:** todo o material também está publicado como site em
+[dionipadilha.github.io/aprendendo_lua](https://dionipadilha.github.io/aprendendo_lua/) —
+gerado por [um script Lua deste próprio repositório](site/).
 
 Este repositório oferece guias para a linguagem de programação Lua, abrangendo diversos conceitos.
 O material aqui apresentado é fruto de meu estudo e desenvolvimento, e visa auxiliar programadores em diferentes níveis de experiência.
@@ -45,6 +50,7 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | `testes/` | Framework de teste unitário e exemplos de testes |
 | `projetos/` | Projetos completos (`pluralizador/`, `json/`, `equipe/`) e soluções dos exercícios (`exercicios/`) |
 | `documentacao/` | Guia de estudos, roteiro, paradigmas, convenções, instalação no Windows e guia de enunciados de projetos |
+| `site/` | Gerador do site estático (conversor de Markdown e realce em Lua puro) |
 
 A trilha completa de estudo está em `documentacao/roteiro_de_estudos.yml` e `documentacao/guia_de_estudos.md`.
 

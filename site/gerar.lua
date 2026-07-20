@@ -56,6 +56,7 @@ local PASTAS = {
   { nome = "testes", tema = "Framework de teste unitário e exemplos de testes" },
   { nome = "projetos", tema = "Projetos completos e soluções dos exercícios" },
   { nome = "documentacao", tema = "Guia de estudos, roteiro, paradigmas e convenções" },
+  { nome = "site", tema = "O gerador deste site, em Lua puro (autopublicado)" },
 }
 
 -- Extensões publicadas como página de código (além dos .md):
@@ -82,7 +83,8 @@ end
 
 local function listarArquivos(pasta)
   local lista = {}
-  local comando = ("find '%s/%s' -type f | sort"):format(RAIZ, pasta)
+  local comando = ("find '%s/%s' -type f -not -path '*/%s/*' | sort")
+    :format(RAIZ, pasta, SAIDA)
   local processo = assert(io.popen(comando))
   for caminho in processo:lines() do
     -- caminho relativo à raiz do repositório (sem o prefixo "../"):
