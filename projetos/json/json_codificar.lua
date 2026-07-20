@@ -1,4 +1,24 @@
-local function json_codificar(valor)
+-- Sequências de escape exigidas pelo JSON: barra invertida, aspas duplas
+-- e caracteres de controle têm formas próprias; os demais controles
+-- (ex.: \v) viram a forma genérica \u00XX.
+local escapes = {
+  ['"'] = '\\"',
+  ["\\"] = "\\\\",
+  ["\b"] = "\\b",
+  ["\f"] = "\\f",
+  ["\n"] = "\\n",
+  ["\r"] = "\\r",
+  ["\t"] = "\\t"
+}
+
+local function escaparString(texto)
+  -- %c casa qualquer caractere de controle; " e \ também precisam de escape.
+  return (texto:gsub('[%c"\\]', function(caractere)
+    return escapes[caractere] or string.format("\\u%04x", caractere:byte())
+  end))
+end
+
+local function jsonCodificar(valor)
   local function codificarValor(v)
     if type(v) == "table" then
       local ehVetor = true
@@ -20,12 +40,12 @@ local function json_codificar(valor)
       else
         local itens = {}
         for k, item in pairs(v) do
-          table.insert(itens, '"' .. k .. '":' .. codificarValor(item))
+          table.insert(itens, '"' .. escaparString(tostring(k)) .. '":' .. codificarValor(item))
         end
         return "{" .. table.concat(itens, ",") .. "}"
       end
     elseif type(v) == "string" then
-      return '"' .. v:gsub('"', '\\"') .. '"'
+      return '"' .. escaparString(v) .. '"'
     elseif type(v) == "number" or type(v) == "boolean" then
       return tostring(v)
     elseif v == nil then
@@ -38,4 +58,4 @@ local function json_codificar(valor)
   return codificarValor(valor)
 end
 
-return json_codificar
+return jsonCodificar

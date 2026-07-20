@@ -20,6 +20,8 @@ local function executar(funcaoDeTeste, caso, esperado)
 end
 
 -- Função executora dos testes:
+-- Devolve true somente se todos os casos passarem, para que o assert
+-- de topo (abaixo) derrube a execução em caso de regressão.
 local function rodar(funcaoDeTeste, casosDeTeste)
   --
   assert(funcaoDeTeste, "A função de teste deve ser fornecida")
@@ -29,13 +31,15 @@ local function rodar(funcaoDeTeste, casosDeTeste)
     local ok, excecao = pcall(executar, funcaoDeTeste, caso, esperado)
     if not ok then
       print(excecao)
-      return
+      return false
     end
   end
   print("Todos os testes passaram!")
+  return true
 end
 
 --------------------------------------------------------------------------------
 -- Rode os testes
-rodar(minhaFuncao, meusCasosDeTeste) --> Todos os testes passaram!
+assert(rodar(minhaFuncao, meusCasosDeTeste),
+  "Há casos de teste reprovando no pluralizador") --> Todos os testes passaram!
 --------------------------------------------------------------------------------

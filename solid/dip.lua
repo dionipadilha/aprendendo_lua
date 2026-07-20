@@ -23,15 +23,18 @@ function RegistradorDeArquivo:registrar(mensagem)
   assert(arquivo, erro)
   arquivo:write(mensagem .. "\n")
   arquivo:close()
+  return mensagem
 end
 
 local RegistradorDeConsole = Registrador:novo {}
 function RegistradorDeConsole:registrar(mensagem)
   print(mensagem)
+  return mensagem
 end
 
 -- Módulo de Alto Nível:
-Aplicacao = {}
+-- (`local` evita vazar a classe como variável global)
+local Aplicacao = {}
 
 function Aplicacao:novo(instancia)
   assert(instancia.registrador.registrar, "obrigatório: registrador.registrar")
@@ -40,7 +43,7 @@ function Aplicacao:novo(instancia)
 end
 
 function Aplicacao:trabalhar()
-  self.registrador:registrar("trabalhando ...")
+  return self.registrador:registrar("trabalhando ...")
 end
 
 -- Exemplo de Uso:
@@ -50,5 +53,11 @@ local registradorDeConsole = RegistradorDeConsole:novo {}
 local aplicacao1 = Aplicacao:novo { registrador = registradorDeArquivo }
 local aplicacao2 = Aplicacao:novo { registrador = registradorDeConsole }
 
-aplicacao1:trabalhar() -- Registra em um arquivo
-aplicacao2:trabalhar() -- Registra no console
+-- A Aplicacao depende só da abstração `registrador.registrar`; qualquer
+-- implementação concreta serve, e o resultado observável é o mesmo:
+assert(aplicacao1:trabalhar() == "trabalhando ...") -- Registra em um arquivo
+assert(aplicacao2:trabalhar() == "trabalhando ...") -- Registra no console
+
+-- Construir a Aplicacao sem um registrador válido deve falhar:
+local ok = pcall(function() return Aplicacao:novo { registrador = {} } end)
+assert(not ok, "Aplicacao sem registrador.registrar deveria ser rejeitada")

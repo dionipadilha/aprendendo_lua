@@ -1,4 +1,17 @@
-local function json_decodificar(valor)
+-- Escapes básicos do JSON e o caractere que cada um representa.
+-- Limitação documentada no README.md: \uXXXX não é suportado.
+local escapes = {
+  ['"'] = '"',
+  ["\\"] = "\\",
+  ["/"] = "/",
+  ["n"] = "\n",
+  ["t"] = "\t",
+  ["r"] = "\r",
+  ["b"] = "\b",
+  ["f"] = "\f"
+}
+
+local function jsonDecodificar(valor)
   local posicao = 1
 
   local function decodificarValor()
@@ -9,18 +22,26 @@ local function json_decodificar(valor)
     end
 
     local function decodificarString()
-      local inicio = posicao + 1
-      posicao = inicio
+      posicao = posicao + 1 -- pula a aspa de abertura
+      local partes = {}
       while posicao <= #valor do
         local caractere = valor:sub(posicao, posicao)
         if caractere == '"' then
-          local texto = valor:sub(inicio, posicao - 1)
           posicao = posicao + 1
-          return texto
+          return table.concat(partes)
         elseif caractere == "\\" then
+          -- interpreta a sequência de escape (\" \\ \/ \n \t \r \b \f)
+          local marcador = valor:sub(posicao + 1, posicao + 1)
+          local traduzido = escapes[marcador]
+          if not traduzido then
+            error("Sequência de escape não suportada: \\" .. marcador)
+          end
+          table.insert(partes, traduzido)
+          posicao = posicao + 2
+        else
+          table.insert(partes, caractere)
           posicao = posicao + 1
         end
-        posicao = posicao + 1
       end
       error("String não terminada")
     end
@@ -109,4 +130,4 @@ local function json_decodificar(valor)
   return decodificarValor()
 end
 
-return json_decodificar
+return jsonDecodificar

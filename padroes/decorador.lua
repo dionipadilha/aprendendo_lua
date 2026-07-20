@@ -1,19 +1,33 @@
+-- decorador.lua
+
+-- Padrão Decorator: envolver uma função para acrescentar comportamento
+-- antes e depois dela, sem modificá-la.
+
+-- registra a ordem dos acontecimentos para podermos verificá-la
+local acontecimentos = {}
+
 -- Define a função decoradora
-local function meu_decorador(funcao)
+local function meuDecorador(funcao)
   return function()
+    table.insert(acontecimentos, "antes")
     print("Algo acontece antes de a função ser chamada.")
     funcao()
+    table.insert(acontecimentos, "depois")
     print("Algo acontece depois de a função ser chamada.")
   end
 end
 
 -- Define a função a ser decorada
-local function dizer_ola()
+local function dizerOla()
+  table.insert(acontecimentos, "olá")
   print("Olá!")
 end
 
 -- Aplica o decorador
-dizer_ola = meu_decorador(dizer_ola)
+dizerOla = meuDecorador(dizerOla)
 
 -- Chama a função decorada
-dizer_ola()
+dizerOla()
+
+-- o decorador envolveu a função original na ordem correta:
+assert(table.concat(acontecimentos, " -> ") == "antes -> olá -> depois")

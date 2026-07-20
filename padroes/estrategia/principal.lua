@@ -26,4 +26,27 @@ local function principal()
   assert(carrinho:finalizarCompra() == "PayPal pagou $100.10")
 end
 
+-- Duas instâncias devem ser independentes. Quando `itens = {}` morava na
+-- tabela da CLASSE, os itens de um carrinho vazavam para o outro e cada
+-- carrinho abaixo somava $30.10 (15 + 15 + taxa) em vez de $15.10.
+local function doisCarrinhosIndependentes()
+  local paypal = PayPal:novo { email = "ana@exemplo.com", senha = "qwer5678" }
+
+  local carrinho1 = CarrinhoDeCompras:novo()
+  local carrinho2 = CarrinhoDeCompras:novo()
+
+  carrinho1:adicionarItem({ nome = "Item1", preco = 15 })
+  carrinho2:adicionarItem({ nome = "Item2", preco = 15 })
+
+  carrinho1:definirPagamento(paypal)
+  carrinho2:definirPagamento(paypal)
+
+  assert(#carrinho1.itens == 1 and #carrinho2.itens == 1,
+    "os carrinhos não podem compartilhar a tabela de itens")
+  assert(carrinho1:finalizarCompra() == "PayPal pagou $15.10")
+  assert(carrinho2:finalizarCompra() == "PayPal pagou $15.10") -- e não $30.10
+end
+
 principal()
+doisCarrinhosIndependentes()
+print("Estratégias de pagamento e independência dos carrinhos: ok")

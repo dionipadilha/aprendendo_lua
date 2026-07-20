@@ -1,10 +1,13 @@
 local CarrinhoDeCompras = {
-  itens = {},
   pagamento = nil
 }
 
 function CarrinhoDeCompras:novo(objeto)
   objeto = objeto or {}
+  -- Campos mutáveis são inicializados POR INSTÂNCIA. Se `itens = {}`
+  -- ficasse na tabela da classe, todos os carrinhos compartilhariam a
+  -- MESMA tabela de itens (estado de classe vazando entre instâncias).
+  objeto.itens = objeto.itens or {}
   setmetatable(objeto, self)
   self.__index = self
   return objeto

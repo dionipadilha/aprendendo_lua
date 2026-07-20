@@ -8,10 +8,10 @@ local Ferramenta = require "ferramenta"
 local somador = Ferramenta:novo {
   nome = "somador",
   descricao = "soma dois números",
-  executar = function(self, primeiro_numero, segundo_numero)
-    assert(type(primeiro_numero) == "number", "As entradas devem ser números.")
-    assert(type(segundo_numero) == "number", "As entradas devem ser números.")
-    return primeiro_numero + segundo_numero
+  executar = function(self, primeiroNumero, segundoNumero)
+    assert(type(primeiroNumero) == "number", "As entradas devem ser números.")
+    assert(type(segundoNumero) == "number", "As entradas devem ser números.")
+    return primeiroNumero + segundoNumero
   end
 }
 assert(somador:executar(2, 3) == 5)
@@ -19,10 +19,10 @@ assert(somador:executar(2, 3) == 5)
 local subtrator = Ferramenta:novo {
   nome = "subtrator",
   descricao = "Subtrai o segundo número do primeiro número",
-  executar = function(self, primeiro_numero, segundo_numero)
-    assert(type(primeiro_numero) == "number", "As entradas devem ser números.")
-    assert(type(segundo_numero) == "number", "As entradas devem ser números.")
-    return primeiro_numero - segundo_numero
+  executar = function(self, primeiroNumero, segundoNumero)
+    assert(type(primeiroNumero) == "number", "As entradas devem ser números.")
+    assert(type(segundoNumero) == "number", "As entradas devem ser números.")
+    return primeiroNumero - segundoNumero
   end
 }
 assert(subtrator:executar(2, 3) == -1)
@@ -30,10 +30,10 @@ assert(subtrator:executar(2, 3) == -1)
 local multiplicador = Ferramenta:novo {
   nome = "multiplicador",
   descricao = "multiplica dois números",
-  executar = function(self, primeiro_numero, segundo_numero)
-    assert(type(primeiro_numero) == "number", "As entradas devem ser números.")
-    assert(type(segundo_numero) == "number", "As entradas devem ser números.")
-    return primeiro_numero * segundo_numero
+  executar = function(self, primeiroNumero, segundoNumero)
+    assert(type(primeiroNumero) == "number", "As entradas devem ser números.")
+    assert(type(segundoNumero) == "number", "As entradas devem ser números.")
+    return primeiroNumero * segundoNumero
   end
 }
 assert(multiplicador:executar(2, 3) == 6)
@@ -78,6 +78,13 @@ local Aplicativo = {
 
 local finalmente = xpcall(Aplicativo.tentar, Aplicativo.capturar)
 print(finalmente and "Todas as ações foram executadas com sucesso!")
+
+-- assert de topo: o xpcall acima não afeta o código de saída, então
+-- garantimos aqui que nenhuma ação falhou.
+assert(finalmente, "alguma ação dos agentes falhou")
+
+-- um agente não pode usar uma ferramenta que não possui:
+assert(Bob:usar(somador, 2, 3) == nil)
 
 --------------------------------------------------------------------------------
 -- nº 4: alguma sugestão?

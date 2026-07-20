@@ -25,36 +25,36 @@ local Agente = Classe:novo {
   --- compatíveis com o ambiente de execução do agente.
   ferramentas = {},
 
-  -- propriedade: max_iteracoes
+  -- propriedade: maxIteracoes
   --- Número máximo de iterações que o agente pode executar antes de ser
   --- forçado a dar sua melhor resposta.
-  max_iteracoes = 25,
+  maxIteracoes = 25,
 
-  -- propriedade: max_rpm
+  -- propriedade: maxRpm
   --- O número máximo de requisições por minuto que o agente pode fazer para
   --- evitar limites de taxa.
-  max_rpm = nil,
+  maxRpm = nil,
 
-  -- propriedade: max_tempo_execucao
+  -- propriedade: maxTempoExecucao
   --- Tempo máximo de execução para um agente executar uma tarefa.
   --- Com um valor padrão de nil, significando sem tempo máximo de execução.
-  max_tempo_execucao = nil,
+  maxTempoExecucao = nil,
 
   -- propriedade: verboso
   --- Fornece registros detalhados de execução, auxiliando na depuração e no
   --- monitoramento dos registros.
   verboso = true,
 
-  -- propriedade: permitir_delegacao
+  -- propriedade: permitirDelegacao
   --- Delegar tarefas ou perguntas uns aos outros,
   --- garantindo que cada tarefa seja tratada pelo agente mais adequado.
-  permitir_delegacao = true,
+  permitirDelegacao = true,
 
-  -- propriedade: callback_de_passo
+  -- propriedade: callbackDePasso
   --- Uma função que é chamada após cada passo do agente.
   --- Pode ser usada para registrar as ações do agente ou executar outras
-  --- operações. Ela sobrescreve o callback_de_passo da equipe.
-  callback_de_passo = nil,
+  --- operações. Ela sobrescreve o callbackDePasso da equipe.
+  callbackDePasso = nil,
 
   -- propriedade: cache
   --- Indica se o agente deve usar um cache para o uso de ferramentas.
@@ -65,16 +65,16 @@ local Agente = Classe:novo {
   --- Representa o modelo de linguagem que executará o agente.
   llm = nil,
 
-  -- propriedade: llm_chamada_de_funcoes
+  -- propriedade: llmChamadaDeFuncoes
   --- Modelo de linguagem que tratará a chamada de ferramentas para este
   --- agente, sobrescrevendo o LLM de chamada de funções da equipe, se passado.
-  llm_chamada_de_funcoes = nil
+  llmChamadaDeFuncoes = nil
 }
 
 function Agente:usar(ferramenta, ...)
   -- Verifica se a ferramenta existe na tabela de ferramentas
-  for _, _ferramenta in ipairs(self.ferramentas) do
-    if _ferramenta == ferramenta then
+  for _, ferramentaDisponivel in ipairs(self.ferramentas) do
+    if ferramentaDisponivel == ferramenta then
       -- Chama a função da ferramenta com os argumentos
       return ferramenta:executar(...)
     end

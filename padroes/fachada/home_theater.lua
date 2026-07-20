@@ -1,5 +1,8 @@
--- Classe HomeTheater
-HomeTheater = {}
+-- Classe HomeTheater: a FACHADA que esconde a orquestração dos
+-- subsistemas (luzes, projetor, amplificador, leitor de DVD) atrás de
+-- duas operações simples.
+-- `local` evita vazar a classe como variável global ao ser requerida.
+local HomeTheater = {}
 
 function HomeTheater:novo(objeto)
   self.__index = self
@@ -13,8 +16,8 @@ function HomeTheater:assistirFilme(filme)
   self.projetor:ligar()
   self.amplificador:ligar()
   self.amplificador:definirVolume(5)
-  self.leitor_dvd:ligar()
-  self.leitor_dvd:reproduzir(filme)
+  self.leitorDvd:ligar()
+  self.leitorDvd:reproduzir(filme)
 end
 
 function HomeTheater:encerrarFilme()
@@ -22,7 +25,7 @@ function HomeTheater:encerrarFilme()
   self.luzes:desligar()
   self.projetor:desligar()
   self.amplificador:desligar()
-  self.leitor_dvd:desligar()
+  self.leitorDvd:desligar()
 end
 
 return HomeTheater

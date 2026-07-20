@@ -3,25 +3,25 @@
 ------------------------------------------------------------------------
 -- Contexto da Máquina de Estados
 
-local maquina_de_estados = {}
+local maquinaDeEstados = {}
 
 ------------------------------------------------------------------------
 -- Configuração da Máquina de Estados
 
-maquina_de_estados.estados = { "amarelo", "vermelho", "verde" }
+maquinaDeEstados.estados = { "amarelo", "vermelho", "verde" }
 
-maquina_de_estados.transicoes = {
-  amarelo  = { vermelho = "tempo_esgotado" },
-  vermelho = { verde = "carro_passou" },
-  verde    = { amarelo = "tempo_esgotado" }
+maquinaDeEstados.transicoes = {
+  amarelo  = { vermelho = "tempoEsgotado" },
+  vermelho = { verde = "carroPassou" },
+  verde    = { amarelo = "tempoEsgotado" }
 }
 
-maquina_de_estados.gatilhos = {
-  tempo_esgotado = function(parametros)
+maquinaDeEstados.gatilhos = {
+  tempoEsgotado = function(parametros)
     print("Tempo esgotado...")
     return true
   end,
-  carro_passou = function(parametros)
+  carroPassou = function(parametros)
     print("Carro passou...")
     return true
   end
@@ -30,55 +30,56 @@ maquina_de_estados.gatilhos = {
 ------------------------------------------------------------------------
 -- Laço da Máquina de Estados
 
-function maquina_de_estados:atualizar(estado_atual, parametros)
-  local transicoes_possiveis = self.transicoes[estado_atual]
-  if transicoes_possiveis then
-    for proximo_estado, gatilho in pairs(transicoes_possiveis) do
-      print("Transição de", estado_atual, "para", proximo_estado)
+function maquinaDeEstados:atualizar(estadoAtual, parametros)
+  local transicoesPossiveis = self.transicoes[estadoAtual]
+  if transicoesPossiveis then
+    for proximoEstado, gatilho in pairs(transicoesPossiveis) do
+      print("Transição de", estadoAtual, "para", proximoEstado)
       if self.gatilhos[gatilho](parametros) then
-        estado_atual = proximo_estado
         -- Execute as ações de saída do estado aqui
-        return estado_atual
+        return proximoEstado
       end
     end
   else
-    print("Nenhuma transição possível a partir do estado:", estado_atual)
+    print("Nenhuma transição possível a partir do estado:", estadoAtual)
   end
-  return estado_atual
+  return estadoAtual
 end
 
 ------------------------------------------------------------------------
 -- Principal da Máquina de Estados
 
-function maquina_de_estados:executar()
-  local estado_atual = self.estados[1] -- Estado inicial
-  local parametros = {}                -- Parâmetros para as funções de gatilho
-  for _, estado in ipairs(self.estados) do
-    estado_atual = self:atualizar(estado_atual, parametros)
+function maquinaDeEstados:executar()
+  local estadoAtual = self.estados[1] -- Estado inicial
+  local parametros = {}               -- Parâmetros para as funções de gatilho
+  for _ = 1, #self.estados do         -- Um passo por estado configurado
+    estadoAtual = self:atualizar(estadoAtual, parametros)
   end
+  return estadoAtual
 end
 
 ------------------------------------------------------------------------
 -- Sugestões Adicionais Aplicadas:
 
 -- Tratamento de Erros
-function maquina_de_estados:validar()
+function maquinaDeEstados:validar()
   for estado, transicoes in pairs(self.transicoes) do
-    for proximo_estado, gatilho in pairs(transicoes) do
+    for proximoEstado, gatilho in pairs(transicoes) do
       if not self.gatilhos[gatilho] then
-        error("Gatilho inválido para a transição de " .. estado .. " para " .. proximo_estado)
+        error("Gatilho inválido para a transição de " .. estado .. " para " .. proximoEstado)
       end
     end
   end
+  return true
 end
 
 -- Ações de Entrada e Saída de Estado
-function maquina_de_estados:ao_entrar_no_estado(estado)
+function maquinaDeEstados:aoEntrarNoEstado(estado)
   print("Entrando no estado:", estado)
   -- Adicione as ações de entrada aqui
 end
 
-function maquina_de_estados:ao_sair_do_estado(estado)
+function maquinaDeEstados:aoSairDoEstado(estado)
   print("Saindo do estado:", estado)
   -- Adicione as ações de saída aqui
 end
@@ -87,19 +88,19 @@ end
 -- Implemente conforme necessário
 
 -- Histórico de Estados
-function maquina_de_estados:atualizar_historico_de_estados(estado_atual, historico)
-  table.insert(historico, estado_atual)
+function maquinaDeEstados:atualizarHistoricoDeEstados(estadoAtual, historico)
+  table.insert(historico, estadoAtual)
 end
 
-function maquina_de_estados:executar_com_historico()
-  local estado_atual = self.estados[1] -- Estado inicial
-  local parametros = {}                -- Parâmetros para as funções de gatilho
-  local historico = {}                 -- Rastreia o histórico de estados
+function maquinaDeEstados:executarComHistorico()
+  local estadoAtual = self.estados[1] -- Estado inicial
+  local parametros = {}               -- Parâmetros para as funções de gatilho
+  local historico = {}                -- Rastreia o histórico de estados
   for _, estado in ipairs(self.estados) do
-    self:ao_entrar_no_estado(estado)
-    estado_atual = self:atualizar(estado_atual, parametros)
-    self:ao_sair_do_estado(estado)
-    self:atualizar_historico_de_estados(estado_atual, historico)
+    self:aoEntrarNoEstado(estado)
+    estadoAtual = self:atualizar(estadoAtual, parametros)
+    self:aoSairDoEstado(estado)
+    self:atualizarHistoricoDeEstados(estadoAtual, historico)
   end
   return historico
 end
@@ -122,11 +123,12 @@ end
 ------------------------------------------------------------------------
 
 -- Valida a configuração da máquina de estados
-maquina_de_estados:validar()
+assert(maquinaDeEstados:validar())
 
--- Executa a máquina de estados
-maquina_de_estados:executar()
+-- Executa a máquina de estados: amarelo -> vermelho -> verde -> amarelo
+assert(maquinaDeEstados:executar() == "amarelo")
 
 -- Executa a máquina de estados com rastreamento de histórico
-local historico = maquina_de_estados:executar_com_historico()
+local historico = maquinaDeEstados:executarComHistorico()
+assert(table.concat(historico, " -> ") == "vermelho -> verde -> amarelo")
 print("Histórico de estados:", table.concat(historico, " -> "))
