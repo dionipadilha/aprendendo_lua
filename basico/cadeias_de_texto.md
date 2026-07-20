@@ -76,9 +76,14 @@ print(str1 == str2) --> false
 ```lua
 -- Conversão para maiúsculas e minúsculas:
 local str = "Lua é incrível"
-print(str:upper()) --> LUA É INCRÍVEL
+print(str:upper()) --> LUA é INCRíVEL
 print(str:lower()) --> lua é incrível
 ```
+
+**Atenção:** `upper` e `lower` operam **byte a byte** e não convertem
+caracteres acentuados de UTF-8 — o `é` e o `í` ficam como estão (por isso
+`INCRíVEL`, e não `INCRÍVEL`). O `lower` acima só "funciona" porque o único
+caractere maiúsculo da frase é o `L`, que é ASCII.
 
 ```lua
 -- Normalizar para comparação:
@@ -120,20 +125,26 @@ print(str:gsub("fácil", "poderosa")) --> Lua é poderosa 1
 
 ```lua
 -- Substituir todas as ocorrências:
+-- %a+ casa QUALQUER sequência de letras — inclusive "O", "o" e "e",
+-- por isso o contador mostra 7 substituições:
 local str = "O gato, o rato e o elefante"
-print(str:gsub("(%a+)", "Animal")) --> Animal, Animal e Animal 7
+print(str:gsub("%a+", "Animal"))
+--> Animal Animal, Animal Animal Animal Animal Animal	7
+
+-- Para substituir apenas palavras com 3 letras ou mais, exija-as no padrão:
+print(str:gsub("%a%a%a+", "Animal")) --> O Animal, o Animal e o Animal	3
 ```
 
 ```lua
 -- Substituir formatos numéricos, monetários:
 local str = "O preço é R$ 100"
-print(str:gsub("(%d+)", "%1,00")) --> O preço é R$ 100,00
+print(str:gsub("(%d+)", "%1,00")) --> O preço é R$ 100,00	1
 ```
 
 ```lua
 -- Uso de escape em padrões:
 local str = "100%"
-print(str:gsub("%%", " por cento")) --> 100 por cento
+print(str:gsub("%%", " por cento")) --> 100 por cento	1
 ```
 
 ```lua
@@ -155,8 +166,14 @@ function string.titleize(str)
 end
 local str = "bob no país das maravilhas"
 local nomeProprio = str:titleize()
-print(nomeProprio) --> Bob No País Das Maravilhas
+print(nomeProprio) --> Bob No PaíS Das Maravilhas
 ```
+
+**Atenção:** repare no `PaíS`. Como `%a` e `%w` só casam letras **ASCII**,
+o `í` de "país" interrompe o casamento no meio da palavra e o `s` seguinte é
+tratado como início de uma nova palavra — e capitalizado. Para capitalizar
+texto acentuado corretamente é preciso percorrer os caracteres com a
+biblioteca `utf8` (veja a seção de bytes vs caracteres, no início).
 
 ```lua
 -- Capturar partes da string:

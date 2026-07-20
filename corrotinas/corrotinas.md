@@ -166,6 +166,14 @@ print(coroutine.resume(co, 4, 5)) --> true
 print(coroutine.resume(co, 6, 7)) --> false	cannot resume dead coroutine
 ```
 
+**Atenção:** apenas o **primeiro** `resume` inicializa os parâmetros da
+função (`a = 2`, `b = 3`). Nos `resume` seguintes, os argumentos extras
+viram **valores de retorno do `yield`** que estava pendente — aqui são
+descartados, por isso `a - b` ainda usa `2` e `3`, e o `resume(co, 4, 5)`
+não produz `-1` de novo: ele apenas conclui a função (que não retorna
+nada). O recebimento de valores via `yield` é demonstrado passo a passo em
+`argumentos_de_corrotinas.lua`.
+
 Esse mecanismo permite que as corrotinas se comuniquem e cooperem, como no exemplo a seguir:
 
 ### Exemplo de Cooperação entre Corrotinas:

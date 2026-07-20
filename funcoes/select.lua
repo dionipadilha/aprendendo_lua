@@ -1,6 +1,6 @@
 local lista = { "a", "b", "c" }
 
--- retorna todos os argumentos após o índice informado:
+-- retorna todos os argumentos a partir do índice informado, inclusive:
 print(select(1, table.unpack(lista)))  --> a	b	c
 print(select(2, table.unpack(lista)))  --> b	c
 print(select(3, table.unpack(lista)))  --> c
