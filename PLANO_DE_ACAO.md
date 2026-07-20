@@ -9,7 +9,7 @@ Plano baseado em uma auditoria executada em 2026-07-20: todos os arquivos `.lua`
   - 1.5: `require.lua` convertido em `require.md`; `interface.lua` removido (o conteúdo já existe, na forma correta, em `interface/`).
   - Correção extra encontrada pelo smoke test: `Test/range.lua` era uma cópia byte a byte de `test_range.lua` que, dentro de `Test/`, fazia auto-`require` infinito (C stack overflow) — removida.
 - ✅ **Fase 2 concluída** — Lua 5.4 declarado no README; typos corrigidos; renomeados `anonymous_functios.md` → `anonymous_functions.md`, `corotinas.md` → `coroutines.md`, `tipos.md` → `types.md`, `fluxo.md` → `control_flow.md`, `nomenclatura.md` → `naming_conventions.md`, `poo.md` → `oop.md`; `.gitignore` criado.
-- ✅ **Fase 3 concluída** — `LICENSE` (MIT), `smoke_test.sh` e workflow de CI (`.github/workflows/ci.yml`) criados; README atualizado com badge, trilha de estudo e instruções. Correção ao plano: nenhum exemplo é infinito — `clock.lua` e os busy-waits terminam em até ~30s, então a CI executa **todos** os 124 arquivos com timeout de 90s, sem lista de exclusão. Resultado local: `Total: 124 | Falhas: 0`.
+- ✅ **Fase 3 concluída** — `LICENSE` (MIT), `smoke_test.sh` (hoje `executar_testes.sh`) e workflow de CI (`.github/workflows/ci.yml`) criados; README atualizado com badge, trilha de estudo e instruções. Correção ao plano: nenhum exemplo é infinito — `clock.lua` e os busy-waits terminam em até ~30s, então a CI executa **todos** os 124 arquivos com timeout de 90s, sem lista de exclusão. Resultado local: `Total: 124 | Falhas: 0`.
 - ✅ **Fase 4 concluída** — raiz reorganizada em 18 pastas temáticas com `git mv` (histórico preservado); README atualizado com a tabela de organização. Consolidações (4.2):
   - `basic_unit_test.lua` (raiz) removido — versão concatenada do que já existe, na forma correta, em `testing/` (antigo `Test/`).
   - `strategy.lua` (raiz) removido — versão concatenada de `patterns/strategy/`.
@@ -17,6 +17,7 @@ Plano baseado em uma auditoria executada em 2026-07-20: todos os arquivos `.lua`
   - `_.lua` removido — placeholder vazio.
   - `coroutines.md` e `coroutines_expanded.md` mantidos lado a lado em `coroutines/`: são complementares (guia introdutório + aprofundamento em formato perguntas e respostas).
   - Verificação pós-reorganização: `Total: 120 | Falhas: 0`.
+- ✅ **Extra (pós-plano): migração completa para pt-BR** — a pedido do autor, todo o repositório foi traduzido: nomes de pastas e arquivos, identificadores (sem acentos, limitação do Lua), comentários, strings e documentação (incluindo o guia de estudos, que estava em inglês). Permanecem em inglês apenas elementos da linguagem (palavras-chave, biblioteca padrão, metamétodos, valores retornados pela VM) e termos consagrados (CRUD, MVC, SOLID, JSON, fizzbuzz; `pcall.lua`, `next.lua`, `tostring.lua` etc. nomeiam funções/metamétodos da linguagem). O script de verificação virou `executar_testes.sh` e o CI foi atualizado.
 
 ---
 

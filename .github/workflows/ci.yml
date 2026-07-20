@@ -5,13 +5,13 @@ on:
   pull_request:
 
 jobs:
-  smoke-test:
+  teste-de-fumaca:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Lua 5.4
+      - name: Instalar Lua 5.4
         run: sudo apt-get update && sudo apt-get install -y lua5.4
 
-      - name: Run smoke tests
-        run: ./smoke_test.sh
+      - name: Executar todos os exemplos
+        run: ./executar_testes.sh

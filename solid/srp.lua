@@ -1,26 +1,26 @@
 --srp.lua
 
--- Single Responsibility Principle:
--- Each function has a clear and specific responsibility.
+-- Princípio da Responsabilidade Única:
+-- Cada função tem uma responsabilidade clara e específica.
 
 local SRP = {}
 
-function SRP.validateRequest(request)
-  -- validation logic
+function SRP.validarRequisicao(requisicao)
+  -- lógica de validação
 end
 
-function SRP.processRequest(request)
-  -- validation logic
+function SRP.processarRequisicao(requisicao)
+  -- lógica de validação
 end
 
-function SRP.logRequest(request)
-  -- logging logic
+function SRP.registrarRequisicao(requisicao)
+  -- lógica de registro
 end
 
-function SRP:handleRequest(request)
-  self.validateRequest(request)
-  self.processRequest(request)
-  self.logRequest(request)
+function SRP:tratarRequisicao(requisicao)
+  self.validarRequisicao(requisicao)
+  self.processarRequisicao(requisicao)
+  self.registrarRequisicao(requisicao)
 end
 
 return SRP

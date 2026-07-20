@@ -1,47 +1,47 @@
 -- lsp.lua
 
--- Liskov Substitution Principle:
--- Objects of a derived class should be substitutable for objects of the base.
+-- Princípio da Substituição de Liskov:
+-- Objetos de uma classe derivada devem poder substituir objetos da base.
 
-local Shape = {}
+local Forma = {}
 
-function Shape:new(shape)
-  shape = shape or {}
-  setmetatable(shape, self)
+function Forma:novo(forma)
+  forma = forma or {}
+  setmetatable(forma, self)
   self.__index = self
-  return shape
+  return forma
 end
 
-function Shape:area()
-  error("This method should be overridden")
+function Forma:area()
+  error("Este método deve ser sobrescrito")
 end
 
-local Rectangle = Shape:new()
+local Retangulo = Forma:novo()
 
-function Rectangle:new(length, width)
-  local rectangle = Shape.new(self)
-  rectangle.length = length or 1
-  rectangle.width = width or 1
-  return rectangle
+function Retangulo:novo(comprimento, largura)
+  local retangulo = Forma.novo(self)
+  retangulo.comprimento = comprimento or 1
+  retangulo.largura = largura or 1
+  return retangulo
 end
 
-function Rectangle:area()
-  return self.length * self.width
+function Retangulo:area()
+  return self.comprimento * self.largura
 end
 
-local Square = Rectangle:new()
+local Quadrado = Retangulo:novo()
 
-function Square:new(side)
-  local square = Rectangle.new(self, side, side)
-  return square
+function Quadrado:novo(lado)
+  local quadrado = Retangulo.novo(self, lado, lado)
+  return quadrado
 end
 
--- Test
-local shapes = {
-  Rectangle:new(3, 4), --> 12
-  Square:new(5)        --> 25
+-- Teste
+local formas = {
+  Retangulo:novo(3, 4), --> 12
+  Quadrado:novo(5)      --> 25
 }
 
-for _, shape in ipairs(shapes) do
-  print(shape:area())
+for _, forma in ipairs(formas) do
+  print(forma:area())
 end

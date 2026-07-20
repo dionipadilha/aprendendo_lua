@@ -1,38 +1,38 @@
 -- ocp.lua
 
--- Open-Closed Principle:
--- Entities should be open for extension but closed for modification.
+-- Princípio Aberto-Fechado:
+-- Entidades devem estar abertas para extensão, mas fechadas para modificação.
 
--- #1. Abstract Customer Class:
-local Customer = {
-  getDiscount = function(self) return error("not implemented") end
+-- #1. Classe Abstrata de Cliente:
+local Cliente = {
+  obterDesconto = function(self) return error("não implementado") end
 }
 
-function Customer:new(customerType)
+function Cliente:novo(tipoDeCliente)
   self.__index = self
-  customerType = customerType or {}
-  return setmetatable(customerType, self)
+  tipoDeCliente = tipoDeCliente or {}
+  return setmetatable(tipoDeCliente, self)
 end
 
--- #2. Concrete Customer Types:
-local RegularCustomer = Customer:new {
-  getDiscount = function(self) return 0.1 end
+-- #2. Tipos Concretos de Cliente:
+local ClienteRegular = Cliente:novo {
+  obterDesconto = function(self) return 0.1 end
 }
 
-local PremiumCustomer = Customer:new {
-  getDiscount = function(self) return 0.2 end
+local ClientePremium = Cliente:novo {
+  obterDesconto = function(self) return 0.2 end
 }
 
--- #3. Generic Discount Calculation:
-local pay = {}
+-- #3. Cálculo Genérico de Desconto:
+local pagamento = {}
 
-function pay.calculateDiscount(customer)
-  assert(customer.getDiscount, "Invalid customer object.")
-  return customer:getDiscount()
+function pagamento.calcularDesconto(cliente)
+  assert(cliente.obterDesconto, "Objeto de cliente inválido.")
+  return cliente:obterDesconto()
 end
 
-local Roberto = RegularCustomer:new {}
-local Paulo = PremiumCustomer:new {}
+local Roberto = ClienteRegular:novo {}
+local Paulo = ClientePremium:novo {}
 
-assert(pay.calculateDiscount(Roberto) == 0.1)
-assert(pay.calculateDiscount(Paulo) == 0.2)
+assert(pagamento.calcularDesconto(Roberto) == 0.1)
+assert(pagamento.calcularDesconto(Paulo) == 0.2)

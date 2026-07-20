@@ -14,46 +14,50 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 - **Explicações claras e concisas:** Conceitos básicos da linguagem de programação são expostos de forma didática e objetiva.
 - **Exemplos práticos e soluções:** Diversos exemplos demonstram a aplicação prática dos conceitos, além de oferecer soluções para desafios comuns em programação.
 - **Cobertura:** Os guias abrangem a instalação da linguagem, tópicos básicos e tópicos mais avançados.
-- **Códigos revisados:** Todos os scripts são executados automaticamente pela CI (veja `smoke_test.sh`).
+- **Códigos revisados:** Todos os scripts são executados automaticamente pela CI (veja `executar_testes.sh`).
 
 ### Organização do repositório:
 
 | Pasta | Tema |
 |-------|------|
-| `basics/` | Primeiros passos, tipos, strings, operadores e formatação |
-| `control_flow/` | Condicionais, switch e goto |
-| `functions/` | Funções, closures, varargs e memoização |
-| `tables/` | Tabelas, arrays, pilhas, listas e iteradores |
-| `oop/` | Classes, herança, polimorfismo e interfaces |
-| `metatables/` | Metatables, metamétodos, proxies e tabelas read-only |
-| `gc/` | Garbage collection e weak tables |
-| `coroutines/` | Guias e exemplos de corrotinas |
-| `errors/` | error, assert, pcall, xpcall e try/except |
-| `modules/` | require, dofile, loadfile e rockspec |
+| `basico/` | Primeiros passos, tipos, cadeias de texto, operadores e formatação |
+| `controle_de_fluxo/` | Condicionais, switch e goto |
+| `funcoes/` | Funções, clausuras, varargs e memoização |
+| `tabelas/` | Tabelas, vetores, pilhas, listas e iteradores |
+| `poo/` | Classes, herança, polimorfismo e interfaces |
+| `metatabelas/` | Metatabelas, metamétodos, proxies e tabelas somente leitura |
+| `gc/` | Coleta de lixo e tabelas fracas |
+| `corrotinas/` | Guias e exemplos de corrotinas |
+| `erros/` | error, assert, pcall, xpcall e try/except |
+| `modulos/` | require, dofile, loadfile e rockspec |
 | `io/` | Leitura e escrita de arquivos |
-| `oslib/` | Data e hora, clock, delays e números aleatórios |
-| `database/` | Integração com SQLite via CLI |
-| `patterns/` | Padrões de projeto: factory, observer, decorator, strategy, facade, MVC, FSM |
+| `sistema/` | Data e hora, relógio, esperas e números aleatórios |
+| `banco_de_dados/` | Integração com SQLite via CLI |
+| `padroes/` | Padrões de projeto: fábrica, observador, decorador, estratégia, fachada, MVC, máquina de estados |
 | `solid/` | Princípios SOLID, um arquivo por princípio |
-| `testing/` | Framework de teste unitário e exemplos de testes |
-| `projects/` | Projetos completos: `pluralizer/`, `json/`, `crew/` |
-| `docs/` | Guia de estudo, roadmap, paradigmas e convenções |
+| `testes/` | Framework de teste unitário e exemplos de testes |
+| `projetos/` | Projetos completos: `pluralizador/`, `json/`, `equipe/` |
+| `documentacao/` | Guia de estudos, roteiro, paradigmas e convenções |
 
-A trilha completa de estudo está em `docs/lua_roadmap.yml` e `docs/study_guide.md`.
+A trilha completa de estudo está em `documentacao/roteiro_de_estudos.yml` e `documentacao/guia_de_estudos.md`.
+
+### Convenções de idioma:
+
+Todo o material — nomes de arquivos, identificadores, comentários e mensagens — está em **pt-BR**. Permanecem em inglês apenas o que pertence à própria linguagem (palavras-chave, biblioteca padrão como `table.insert`, metamétodos como `__index`) e termos técnicos consagrados (siglas como CRUD, MVC e SOLID). Identificadores não levam acento porque Lua só aceita ASCII em nomes (`funcao`, `heranca`).
 
 ## Como executar:
 
 Os exemplos têm como alvo o **Lua 5.4**. Cada arquivo é independente — execute a partir do diretório em que ele está:
 
 ```sh
-lua5.4 basics/hello_world.lua
-cd projects/json && lua5.4 main.lua
+lua5.4 basico/ola_mundo.lua
+cd projetos/json && lua5.4 principal.lua
 ```
 
 Para verificar todos os scripts de uma vez (o mesmo teste executado pela CI):
 
 ```sh
-./smoke_test.sh
+./executar_testes.sh
 ```
 
 ## Utilização:
