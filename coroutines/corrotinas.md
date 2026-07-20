@@ -13,9 +13,9 @@ Para criar e executar uma co-rotina, usamos as seguintes funções:
 ### Exemplo Básico:
 ```lua
 local co = coroutine.create(function ()
-  print("Hi")
+  print("Oi")
 end)
-coroutine.resume(co) --> Hi
+coroutine.resume(co) --> Oi
 ```
 
 As co-rotinas são objetos do tipo `thread`, e cada nova instância recebe um identificador exclusivo. 
@@ -32,10 +32,10 @@ As co-rotinas podem estar em um de três estados:
 ### Exemplo de Status:
 ```lua
 local co = coroutine.create(function ()
-  print("running")
+  print("executando")
 end)
 print(coroutine.status(co)) --> suspended
-coroutine.resume(co)        --> running
+coroutine.resume(co)        --> executando
 print(coroutine.status(co)) --> dead
 ```
 
@@ -48,17 +48,17 @@ As co-rotinas em Lua são executadas em modo protegido. Portanto, se ocorrer um 
 local co = coroutine.create(function()
   assert(1 > 2)
 end)
-local try, exception = coroutine.resume(co)
-if not try then print(exception) end --> assertion failed!
-print("finally ...")                 --> finally ...
+local sucesso, excecao = coroutine.resume(co)
+if not sucesso then print(excecao) end --> assertion failed!
+print("finalmente ...")                --> finalmente ...
 ```
 
 ### Alternativa: Usando `pcall` para Tratamento de Erros
 Você também pode usar `pcall` para capturar erros de forma mais segura:
 ```lua
-local try, exception = pcall(function() assert(1 > 2) end)
-if not try then
-  print(exception) -- Exibe o erro sem interromper o programa
+local sucesso, excecao = pcall(function() assert(1 > 2) end)
+if not sucesso then
+  print(excecao) -- Exibe o erro sem interromper o programa
 end
 ```
 
@@ -134,26 +134,26 @@ print(coroutine.resume(c2, y)) --> true 11
 Em um cenário de jogo, podemos usar co-rotinas para simular a movimentação de diferentes personagens:
 
 ```lua
-local function player()
+local function jogador()
   for i = 1, 3 do
-    print("Player is at position " .. i)
+    print("O jogador está na posição " .. i)
     coroutine.yield()
   end
 end
 
-local function enemy()
+local function inimigo()
   for i = 3, 1, -1 do
-    print("Enemy is at position " .. i)
+    print("O inimigo está na posição " .. i)
     coroutine.yield()
   end
 end
 
-local playerCoroutine = coroutine.create(player)
-local enemyCoroutine = coroutine.create(enemy)
+local corrotinaDoJogador = coroutine.create(jogador)
+local corrotinaDoInimigo = coroutine.create(inimigo)
 
-while coroutine.status(playerCoroutine) ~= "dead" and coroutine.status(enemyCoroutine) ~= "dead" do
-  coroutine.resume(playerCoroutine)
-  coroutine.resume(enemyCoroutine)
+while coroutine.status(corrotinaDoJogador) ~= "dead" and coroutine.status(corrotinaDoInimigo) ~= "dead" do
+  coroutine.resume(corrotinaDoJogador)
+  coroutine.resume(corrotinaDoInimigo)
 end
 ```
 
@@ -162,31 +162,31 @@ end
 Podemos usar co-rotinas para ler dados em blocos de forma eficiente, sem bloquear a execução do programa:
 
 ```lua
-local function readChunks(reader)
+local function lerBlocos(leitor)
   while true do
-    local chunk = reader()
-    if not chunk then break end
-    coroutine.yield(chunk)
+    local bloco = leitor()
+    if not bloco then break end
+    coroutine.yield(bloco)
   end
 end
 
-local function simulateFileReader(data)
-  local index = 1
+local function simularLeitorDeArquivo(dados)
+  local indice = 1
   return function()
-    if index > #data then return nil end
-    local chunk = data[index]
-    index = index + 1
-    return chunk
+    if indice > #dados then return nil end
+    local bloco = dados[indice]
+    indice = indice + 1
+    return bloco
   end
 end
 
-local fileReader = simulateFileReader({"chunk1", "chunk2", "chunk3"})
-local co = coroutine.create(readChunks)
+local leitorDeArquivo = simularLeitorDeArquivo({"bloco1", "bloco2", "bloco3"})
+local co = coroutine.create(lerBlocos)
 
 while coroutine.status(co) ~= "dead" do
-  local success, chunk = coroutine.resume(co, fileReader)
-  if success and chunk then
-    print("Read: " .. chunk)
+  local sucesso, bloco = coroutine.resume(co, leitorDeArquivo)
+  if sucesso and bloco then
+    print("Lido: " .. bloco)
   end
 end
 ```
@@ -196,48 +196,48 @@ end
 Usando co-rotinas, podemos criar um simples agendador de tarefas cooperativas:
 
 ```lua
-local function task(name, duration)
-  for i = 1, duration do
-    print(name .. " step " .. i)
+local function tarefa(nome, duracao)
+  for i = 1, duracao do
+    print(nome .. " passo " .. i)
     coroutine.yield()
   end
 end
 
-local scheduler = {}
-scheduler.__index = scheduler
+local agendador = {}
+agendador.__index = agendador
 
-function scheduler.new()
-  local self = setmetatable({}, scheduler)
-  self.tasks = {}
+function agendador.novo()
+  local self = setmetatable({}, agendador)
+  self.tarefas = {}
   return self
 end
 
-function scheduler:add_task(co)
-  table.insert(self.tasks, co)
+function agendador:adicionar_tarefa(co)
+  table.insert(self.tarefas, co)
 end
 
-function scheduler:run()
-  while #self.tasks > 0 do
-    for i = #self.tasks, 1, -1 do
-      local status, res = coroutine.resume(self.tasks[i])
-      if not status or coroutine.status(self.tasks[i]) == "dead" then
-        table.remove(self.tasks, i)
+function agendador:executar()
+  while #self.tarefas > 0 do
+    for i = #self.tarefas, 1, -1 do
+      local status, res = coroutine.resume(self.tarefas[i])
+      if not status or coroutine.status(self.tarefas[i]) == "dead" then
+        table.remove(self.tarefas, i)
       end
     end
   end
 end
 
--- Create tasks
-local task1 = coroutine.create(function() task("Task 1", 3) end)
-local task2 = coroutine.create(function() task("Task 2", 5) end)
+-- Cria as tarefas
+local tarefa1 = coroutine.create(function() tarefa("Tarefa 1", 3) end)
+local tarefa2 = coroutine.create(function() tarefa("Tarefa 2", 5) end)
 
--- Schedule tasks
-local sched = scheduler.new()
-sched:add_task(task1)
-sched:add_task(task2)
+-- Agenda as tarefas
+local agenda = agendador.novo()
+agenda:adicionar_tarefa(tarefa1)
+agenda:adicionar_tarefa(tarefa2)
 
--- Run scheduler
-sched:run()
+-- Executa o agendador
+agenda:executar()
 ```
 
 ### Máquinas de Estados Finitos
@@ -245,42 +245,42 @@ sched:run()
 Co-rotinas podem ser usadas para implementar uma máquina de estados de forma simples:
 
 ```lua
-local states = {}
+local estados = {}
 
-function states.idle()
-  print("Entering idle state")
+function estados.ocioso()
+  print("Entrando no estado ocioso")
   while true do
-    local event = coroutine.yield()
-    if event == "start" then
-      return states.running
+    local evento = coroutine.yield()
+    if evento == "iniciar" then
+      return estados.executando
     end
   end
 end
 
-function states.running()
-  print("Entering running state")
+function estados.executando()
+  print("Entrando no estado de execução")
   while true do
-    local event = coroutine.yield()
-    if event == "stop" then
-      return states.idle
+    local evento = coroutine.yield()
+    if evento == "parar" then
+      return estados.ocioso
     end
   end
 end
 
-local function state_machine()
-  local state = states.idle
+local function maquina_de_estados()
+  local estado = estados.ocioso
   while true do
-    state = state()
+    estado = estado()
   end
 end
 
-local sm = coroutine.create(state_machine)
+local maquina = coroutine.create(maquina_de_estados)
 
-coroutine.resume(sm)
-coroutine.resume(sm, "start")
-coroutine.resume(sm)
-coroutine.resume(sm, "stop")
-coroutine.resume(sm)
+coroutine.resume(maquina)
+coroutine.resume(maquina, "iniciar")
+coroutine.resume(maquina)
+coroutine.resume(maquina, "parar")
+coroutine.resume(maquina)
 ```
 
 ## Conclusão

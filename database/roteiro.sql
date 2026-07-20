@@ -1,4 +1,4 @@
--- engine: sqlite3
+-- motor: sqlite3
 
 CREATE TABLE Artists(
   artist_id   INTEGER PRIMARY KEY,
