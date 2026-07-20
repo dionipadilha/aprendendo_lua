@@ -1,20 +1,21 @@
 # Roteiro de Estudos da Programação em Lua
-Comentários:
+# Cada tópico indica a pasta do repositório com os exemplos práticos correspondentes.
+Comentários: # exemplos: basico/
   - Comentários de uma linha # -- Comentário de uma linha
   - Comentários de múltiplas linhas # --[[ Comentário de múltiplas linhas --]]
   - Comentários de saída esperada # print(frutas[1]) --> maçã
-Variáveis:
+Variáveis: # exemplos: basico/
   - Escopo de variáveis # global, local
   - Declaração de variáveis # local nomeDaVariavel
   - Atribuição de variáveis # local nomeDaVariavel = valor
-Tipos de Dados:
+Tipos de Dados: # exemplos: basico/
   - Strings # "Olá, Lua!"
   - Números # 3.14
   - Booleanos # true ou false
-  - Tabelas # frutas = {"maçã", ...}, pessoa = {nome = "João da Silva", ...}
-  - Nil # local x, print(x) --> nil
+  - Tabelas # local frutas = {"maçã", ...}, local pessoa = {nome = "João da Silva", ...}
+  - Nil # local x; print(x) --> nil
   - Funções # local function minhaFuncao() end
-Operadores:
+Operadores: # exemplos: basico/
   - Operadores aritméticos:
       - Adição # 5 + 2 --> 7
       - Subtração # 5 - 2 --> 3
@@ -22,7 +23,7 @@ Operadores:
       - Divisão # 5/2 --> 2.5
       - Divisão inteira # 5//2 --> 2
       - Módulo # 5%2 --> 1
-      - Exponenciação # 2^3 --> 8
+      - Exponenciação # 2^3 --> 8.0 (sempre float)
   - Operadores relacionais:
       - Igualdade # 5 == 2 --> false
       - Desigualdade # 5 ~= 2 --> true
@@ -38,30 +39,30 @@ Operadores:
       - E bit a bit (AND) # 5 & 2 --> 0 (0000 0101 & 0000 0010 = 0000 0000)
       - Ou bit a bit (OR) # 5 | 2 --> 7 (0000 0101 | 0000 0010 = 0000 0111)
       - Ou exclusivo bit a bit (XOR) # 5 ~ 2 --> 7 (0000 0101 ~ 0000 0010 = 0000 0111)
-      - Negação bit a bit (NOT) # ~5 --> -6 (0000 0101 = 1111 1010)
+      - Negação bit a bit (NOT) # ~5 --> -6 (~0000 0101 = 1111 1010)
       - Deslocamento de bits à esquerda # 5 << 2 --> 20 (0000 0101 << 2 = 0001 0100)
       - Deslocamento de bits à direita # 5 >> 2 --> 1 (0000 0101 >> 2 = 0000 0001)
   - Operador de concatenação # "Olá" .. " " .. "Lua!" --> "Olá Lua!"
   - Operador de comprimento # #frutas --> 3
-Estruturas condicionais:
+Estruturas condicionais: # exemplos: controle_de_fluxo/
   - if # if condicao then comandos end
   - elseif # elseif condicao then comandos end
   - else # else comandos end
-Estruturas de repetição:
+Estruturas de repetição: # exemplos: controle_de_fluxo/
   - while # while condicao do comandos end
   - repeat...until # repeat comandos until condicao
   - for numérico (intervalo) # for variavel = inicio, fim, passo do comandos end
   - for genérico (for each) # for chave, valor in pairs(tabela) do comandos end
-  - break # break (continue N/A)
-Funções:
+  - break # break (não existe continue; veja o idioma goto continue em controle_de_fluxo/goto.lua)
+Funções: # exemplos: funcoes/
   - Definição # local function minhaFuncao(parametros) comandos end
   - Chamada # local x = minhaFuncao(arg)
-  - Valores padrão de parâmetros # minhaFuncao(param = valor)
+  - Valor padrão de parâmetro (idioma) # parametro = parametro or valorPadrao (Lua não tem parâmetros com valor padrão na assinatura)
   - Número variável de parâmetros # minhaFuncao(...)
   - Valores de retorno # return valor
   - Retornar múltiplos valores # return valor1, valor2
-  - Retorno condicional com operador ternário # return a and b or c
-Tabelas como Arrays:
+  - Retorno condicional (idioma and/or) # return a and b or c (Lua não tem operador ternário; falha se b for false ou nil)
+Tabelas como Arrays: # exemplos: tabelas/
   - Empacotar os elementos em um array # local frutas = table.pack("maçã", "banana")
   - Criar um array vazio # local array = {}
   - Criar um array com elementos # local frutas = {"maçã", "banana", "cereja"}
@@ -70,24 +71,30 @@ Tabelas como Arrays:
   - Acessar elementos fora dos limites # --> nil
   - Percorrer os elementos # for _, fruta in ipairs(frutas) do algumaCoisa(fruta) end
   - Modificar elementos pelo índice # frutas[3] = "chocolate"
-  - Acrescentar novos elementos # frutas:insert("laranja")
-  - Adicionar novos elementos pelo índice # frutas:insert("manga", 3)
-  - Remover o último elemento # frutas:remove()
-  - Remover elemento pelo índice # frutas:remove(3)
+  - Acrescentar novos elementos # table.insert(frutas, "laranja")
+  - Adicionar novos elementos pelo índice # table.insert(frutas, 3, "manga") (a posição vem antes do valor)
+  - Remover o último elemento # table.remove(frutas)
+  - Remover elemento pelo índice # table.remove(frutas, 3)
   - Ordenação # table.sort(frutas)
   - Ordenação personalizada # table.sort(frutas, ordenacaoPersonalizada)
-Tabelas como Dicionários:
+Tabelas como Dicionários: # exemplos: tabelas/
   - Criar um mapa # local pessoa = {nome = "João da Silva", idade = 30}
   - Acessar elementos # print(pessoa.nome) --> João da Silva
   - Percorrer os elementos # for chave, valor in pairs(tabela) do algumaCoisa(chave, valor) end
   - Adicionar novos elementos # pessoa.cargo = "programador lua"
 Veja mais:
-  - Manipulação de Strings # regex, ...
-  - Tratamento de Erros e Exceções # assert, error, pcall, xpcall
-  - Módulos # criar um módulo, require "modulo"
-  - Manipulação de Arquivos # biblioteca io
-  - Metaprogramação # metatables, metamétodos
-  - Orientação a Objetos # classes, objetos, ...
-  - Threads # coroutine, ...
-  - Coleta de Lixo (Garbage Collection) # ...
-  - API C # ...
+  - Manipulação de Strings # biblioteca string, padrões de captura (não é regex POSIX) (exemplos: basico/)
+  - Tratamento de Erros e Exceções # assert, error, pcall, xpcall (exemplos: erros/)
+  - Módulos # criar um módulo, require "modulo" (exemplos: modulos/)
+  - Manipulação de Arquivos # biblioteca io (exemplos: io/)
+  - Metaprogramação # metatables, metamétodos (exemplos: metatabelas/)
+  - Orientação a Objetos # classes, objetos, ... (exemplos: poo/)
+  - Corrotinas # coroutine (valores do tipo thread), ... (exemplos: corrotinas/)
+  - Coleta de Lixo (Garbage Collection) # collectgarbage, ... (exemplos: gc/)
+  - Sistema Operacional # biblioteca os, data e hora, medição de tempo (exemplos: sistema/)
+  - Banco de Dados # SQLite via os.execute (exemplos: banco_de_dados/)
+  - Padrões de Projeto # fábrica, observador, estratégia, MVC, ... (exemplos: padroes/)
+  - Princípios SOLID # SRP, OCP, LSP, ISP, DIP (exemplos: solid/)
+  - Testes # asserções, suítes de teste (exemplos: testes/)
+  - Projetos Práticos # pluralizador, JSON, ferramentas de equipe (exemplos: projetos/)
+  - API C # integração com C (sem pasta de exemplos neste repositório)
