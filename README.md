@@ -16,28 +16,38 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 - **Cobertura:** Os guias abrangem a instalação da linguagem, tópicos básicos e tópicos mais avançados.
 - **Códigos revisados:** Todos os scripts são executados automaticamente pela CI (veja `smoke_test.sh`).
 
-### Trilha sugerida:
+### Organização do repositório:
 
-| Tema | Onde começar |
-|------|--------------|
-| Primeiros passos | `lua_start.md`, `lua_fast_intro.lua`, `basics.md`, `hello_world.lua` |
-| Tipos, strings e tabelas | `types.md`, `strings.md`, `tables.lua`, `arrays.lua`, `tablelib.lua` |
-| Controle de fluxo e funções | `control_flow.md`, `functions.md`, `functions.lua`, `closures.lua`, `iterators.lua` |
-| Orientação a objetos | `oop.md`, `class.lua`, `inheritance.lua`, `polymorphism.lua`, `metatable.lua`, `metamethods/` |
-| Corrotinas | `coroutines.md`, `coroutines_expanded.md`, `coroutine_game.lua` |
-| Erros e testes | `error.lua`, `pcall.lua`, `xpcall.lua`, `unit_tests.lua`, `Test/` |
-| Padrões de projeto | `factory.lua`, `observer.lua`, `decorator.lua`, `strategy/`, `facade/`, `solid/`, `mvc/` |
-| Projetos completos | `Pluralizer/`, `json/`, `crew/` |
+| Pasta | Tema |
+|-------|------|
+| `basics/` | Primeiros passos, tipos, strings, operadores e formatação |
+| `control_flow/` | Condicionais, switch e goto |
+| `functions/` | Funções, closures, varargs e memoização |
+| `tables/` | Tabelas, arrays, pilhas, listas e iteradores |
+| `oop/` | Classes, herança, polimorfismo e interfaces |
+| `metatables/` | Metatables, metamétodos, proxies e tabelas read-only |
+| `gc/` | Garbage collection e weak tables |
+| `coroutines/` | Guias e exemplos de corrotinas |
+| `errors/` | error, assert, pcall, xpcall e try/except |
+| `modules/` | require, dofile, loadfile e rockspec |
+| `io/` | Leitura e escrita de arquivos |
+| `oslib/` | Data e hora, clock, delays e números aleatórios |
+| `database/` | Integração com SQLite via CLI |
+| `patterns/` | Padrões de projeto: factory, observer, decorator, strategy, facade, MVC, FSM |
+| `solid/` | Princípios SOLID, um arquivo por princípio |
+| `testing/` | Framework de teste unitário e exemplos de testes |
+| `projects/` | Projetos completos: `pluralizer/`, `json/`, `crew/` |
+| `docs/` | Guia de estudo, roadmap, paradigmas e convenções |
 
-A trilha completa de estudo está em `lua_roadmap.yml` e `study_guide.md`.
+A trilha completa de estudo está em `docs/lua_roadmap.yml` e `docs/study_guide.md`.
 
 ## Como executar:
 
 Os exemplos têm como alvo o **Lua 5.4**. Cada arquivo é independente — execute a partir do diretório em que ele está:
 
 ```sh
-lua5.4 hello_world.lua
-cd json && lua5.4 main.lua
+lua5.4 basics/hello_world.lua
+cd projects/json && lua5.4 main.lua
 ```
 
 Para verificar todos os scripts de uma vez (o mesmo teste executado pela CI):
