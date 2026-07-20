@@ -20,31 +20,32 @@ end
 
 --------------------------------------------------------------------------------
 -- Testa a seleção básica de casos
+-- (cada caso imprime a mensagem e devolve o nome do caso executado)
 
 local estudantes = {
-  padrao = function() print("Este é o caso padrão") end,
+  padrao = function() print("Este é o caso padrão") return "padrao" end,
   -- Adiciona casos
-  ana = function() print("Este é o caso da Ana") end,
-  bob = function() print("Este é o caso do Bob") end,
-  charlie = function() print("Este é o caso do Charlie") end,
+  ana = function() print("Este é o caso da Ana") return "ana" end,
+  bob = function() print("Este é o caso do Bob") return "bob" end,
+  charlie = function() print("Este é o caso do Charlie") return "charlie" end,
 }
 
-switch(estudantes, "ana")  --> Este é o caso da Ana
-switch(estudantes, "bob")  --> Este é o caso do Bob
-switch(estudantes, "duda") --> Este é o caso padrão
+assert(switch(estudantes, "ana") == "ana")     --> Este é o caso da Ana
+assert(switch(estudantes, "bob") == "bob")     --> Este é o caso do Bob
+assert(switch(estudantes, "duda") == "padrao") --> Este é o caso padrão
 
 --------------------------------------------------------------------------------
 -- Testa o estilo de método
 
 local amigos = {
   switch = switch,
-  padrao = function() print("Este é o caso padrão") end,
+  padrao = function() print("Este é o caso padrão") return "padrao" end,
   -- Adiciona casos
-  john = function() print("Este é o caso do John") end,
-  jane = function() print("Este é o caso da Jane") end,
-  jack = function() print("Este é o caso do Jack") end,
+  john = function() print("Este é o caso do John") return "john" end,
+  jane = function() print("Este é o caso da Jane") return "jane" end,
+  jack = function() print("Este é o caso do Jack") return "jack" end,
 }
 
-amigos:switch("jack") --> Este é o caso do Jack
-amigos:switch("bob")  --> Este é o caso padrão
+assert(amigos:switch("jack") == "jack")  --> Este é o caso do Jack
+assert(amigos:switch("bob") == "padrao") --> Este é o caso padrão
 --------------------------------------------------------------------------------

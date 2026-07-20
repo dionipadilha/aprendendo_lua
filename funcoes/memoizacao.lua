@@ -29,3 +29,9 @@ local function testeMemoizacao()
 end
 
 testeMemoizacao()
+
+-- Verificação: valores corretos e segunda chamada vinda do cache
+local valor, origem = fatorial(5)
+assert(valor == 120 and origem == "recuperado do cache")
+assert(fatorial(8) == 40320)
+assert(not pcall(fatorial, -1)) -- entradas negativas disparam o erro

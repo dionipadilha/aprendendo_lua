@@ -1,4 +1,4 @@
-### Funções Anônimas em LUA
+### Funções Anônimas em Lua
 
 - Chama diretamente uma função anônima com um argumento:
 ```lua

@@ -1,6 +1,6 @@
 # Primeiros Passos com Lua
 
-Lua é uma linguagem de script versátil e eficiente.
+Lua é uma linguagem de programação leve, de alto nível e multiparadigma, projetada principalmente para uso embarcado em aplicações. Ela enfatiza a extensibilidade e a simplicidade.
 
 Dicas para aprender Lua:
 
@@ -26,14 +26,22 @@ print("Olá, Mundo!") --> comentário lateral
 
 - Tipos de Dados:
 
+Lua possui oito tipos básicos: `nil`, `boolean`, `number`, `string`, `function`, `userdata`, `thread` e `table` (veja `tipos.md` e `tipos.lua`).
+
 ```lua
 local numero = 10
 local texto = "Lua"
 local booleano = true
-local tabela = {item1, item2, item3} -- lista, array
-local tabela = {chave_1 = "str", chave_2 = 30} -- dicionário, mapa
+local lista = {"item1", "item2", "item3"} -- lista, array
+local tabela = {chave1 = "str", chave2 = 30} -- dicionário, mapa
 local x = nil -- representa a ausência de valor
 ```
+
+- Operadores:
+
+  - **Aritméticos:** `+`, `-`, `*`, `/`, `//`, `%`, `^`
+  - **Relacionais:** `==`, `~=`, `>`, `<`, `>=`, `<=`
+  - **Lógicos:** `and`, `or`, `not`
 
 - Condicional:
 
@@ -44,7 +52,7 @@ else print("O número é 5")
 end
 ```
 
-- Estruturas de repetição
+- Estruturas de repetição (`for`, `while` e `repeat ... until`):
 
 ```lua
 -- Laço for:
@@ -56,6 +64,13 @@ while i <= 5 do
   print(i)
   i = i + 1
 end
+
+-- Laço repeat ... until (executa o bloco ao menos uma vez):
+local n = 1
+repeat
+  print(n)
+  n = n + 1
+until n > 5
 ```
 
 - Funções
@@ -70,15 +85,19 @@ end
 
 -- Invocação de funções
 saudar("Alice")
+
+-- Funções anônimas podem ser definidas sem nome, úteis para operações curtas:
+local dobro = function(x) return 2 * x end
 ```
 
 - Tabelas
 
 ```lua
--- Em Lua, as tabelas são o único mecanismo de estruturação de dados.
+-- Em Lua, as tabelas são o único mecanismo de estruturação de dados:
+-- funcionam como arrays associativos e representam listas, dicionários e objetos.
 
 -- lista, arrays
-local lista = {item1, item2, item3}
+local lista = {"item1", "item2", "item3"}
 print(lista[1]) --> item1
 
 -- mapa, dicionários
@@ -91,13 +110,38 @@ print(pessoa.nome)  --> bob
 print(pessoa.idade)  --> 30
 ```
 
+Metatabelas e metamétodos podem definir comportamentos personalizados para tabelas (veja a pasta `metatabelas/`).
+
+- Módulos
+
+```lua
+-- Módulos são incluídos usando a função require:
+local modulo = require("nomeDoModulo")
+```
+
 - Tratamento de erros
 
 ```lua
 -- Tratamento de erros com a função pcall
-if pcall(funcao_que_pode_falhar) then print("Sucesso")
+if pcall(funcaoQuePodeFalhar) then print("Sucesso")
 else print("Falha")
 end
+
+-- xpcall permite fornecer uma função tratadora de erros;
+-- a função error lança um erro manualmente:
+error("Esta é uma mensagem de erro")
+```
+
+- Corrotinas
+
+```lua
+-- Corrotinas permitem pausar (yield) e retomar (resume) uma função:
+local co = coroutine.create(function()
+  coroutine.yield("pausa")
+  return "fim"
+end)
+print(coroutine.resume(co)) --> true	pausa
+print(coroutine.resume(co)) --> true	fim
 ```
 
 - Operações com arquivos

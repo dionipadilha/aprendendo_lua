@@ -28,6 +28,7 @@ local function saudar(nome, saudacao)
 end
 saudar("Ana", "Oi") --> Oi Ana
 -- saudar("Bob")    --> erro: argumento obrigatório
+assert(not pcall(saudar, "Bob")) -- sem a saudação, a chamada dispara o erro
 
 -- Argumentos padrão:
 local function saudar(nome, saudacao)
@@ -57,6 +58,7 @@ local function saudar(saudacao, ...)
   end
 end
 --saudar() --> erro: pelo menos um nome é obrigatório
+assert(not pcall(saudar, "Oi")) -- sem nenhum nome, a chamada dispara o erro
 saudar("Oi", "Ana")        --> Oi Ana
 saudar("Ei", "Ana", "Bob") --> Ei Ana, Ei Bob
 
@@ -67,7 +69,7 @@ local function saudar(argumentos)
 end
 saudar()                                      --> Oi Ana
 saudar({ nome = "Bob", saudacao = "Ei" })     --> Ei Bob
-saudar({ saudacao = "Tchau", nome = "Jhon" }) --> Tchau Jhon
+saudar({ saudacao = "Tchau", nome = "João" }) --> Tchau João
 
 
 -- Funções como argumentos (Funções de Ordem Superior):

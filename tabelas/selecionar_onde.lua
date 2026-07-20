@@ -41,8 +41,10 @@ local numerosPares = selecionarOnde(numeros, ehPar)
 local numerosImpares = selecionarOnde(numeros, ehImpar)
 
 -- Imprime as listas selecionadas:
-print("Números pares:", table.concat(numerosPares, ", "))
-print("Números ímpares:", table.concat(numerosImpares, ", "))
+print("Números pares:", table.concat(numerosPares, ", "))   --> 2, 4, 6, 8, 10
+print("Números ímpares:", table.concat(numerosImpares, ", ")) --> 1, 3, 5, 7, 9
+assert(table.concat(numerosPares, ", ") == "2, 4, 6, 8, 10")
+assert(table.concat(numerosImpares, ", ") == "1, 3, 5, 7, 9")
 
 --------------------------------------------------------------------------------
 -- Testes unitários

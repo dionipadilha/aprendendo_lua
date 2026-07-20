@@ -52,6 +52,13 @@ local agente = Agente:novo {
   }
 }
 
+-- Verificação: o agente escolhe a ferramenta certa para cada tarefa
+assert(agente:escolherFerramenta("limpar janela") == "rodo")
+assert(agente:escolherFerramenta("aspirar chão") == "aspirador")
+assert(agente:escolherFerramenta("escrever relatório") == "computador")
+assert(agente:escolherFerramenta("pesquisar dados") == "internet")
+assert(agente:escolherFerramenta("tarefa desconhecida") == nil)
+
 -- Executa as tarefas
 for _, tarefa in ipairs(tarefas) do
   print("tarefa: " .. tarefa)

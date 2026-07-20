@@ -31,3 +31,9 @@ print(c2()) --> 5
 
 print(c1()) --> nil
 print(c2()) --> nil
+
+-- Verificação: contadores novos são independentes e terminam em nil
+local v1 = novoContador(2)
+local v2 = novoContador(3)
+assert(v1() == 1 and v1() == 2 and v1() == nil)
+assert(v2() == 1 and v2() == 2 and v2() == 3 and v2() == nil)

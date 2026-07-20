@@ -51,6 +51,36 @@ local numeroReal = 3.14
 print(numeroInteiro + numeroReal)
 ```
 
+**Inteiro vs float (Lua 5.4):**
+
+- O tipo `number` tem duas representações internas: **integer** e **float**.
+- `type()` devolve `"number"` para ambas; quem as distingue é `math.type()`, que devolve `"integer"`, `"float"` ou `nil` (quando o valor não é um número).
+- A divisão `/` e a exponenciação `^` **sempre** produzem float, mesmo entre inteiros e mesmo quando o resultado é exato (`4 / 2` é `2.0`). Já a divisão inteira `//` preserva o subtipo: inteiro `//` inteiro produz inteiro.
+- `math.tointeger(x)` converte um float de valor inteiro para o subtipo integer; devolve `nil` quando a conversão não é possível.
+
+**Exemplo:**
+
+```lua
+assert(math.type(42) == "integer")
+assert(math.type(3.14) == "float")
+assert(math.type("oi") == nil)   -- não é número
+
+-- `/` e `^` sempre produzem float:
+assert(4 / 2 == 2.0 and math.type(4 / 2) == "float")
+assert(2 ^ 3 == 8.0 and math.type(2 ^ 3) == "float")
+
+-- `//` preserva inteiro entre inteiros:
+assert(7 // 2 == 3 and math.type(7 // 2) == "integer")
+assert(math.type(7.0 // 2) == "float")   -- com float, produz float (3.0)
+
+-- Conversão explícita float -> integer:
+assert(math.tointeger(2.0) == 2)
+assert(math.tointeger(2.5) == nil)
+
+-- Na comparação, inteiro e float de mesmo valor são iguais:
+assert(2 == 2.0)
+```
+
 **4. string:**
 
 - Representa sequências de caracteres.
