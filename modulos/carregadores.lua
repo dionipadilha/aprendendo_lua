@@ -15,7 +15,9 @@ assert(arquivoLuaExterno == "Oi Bob!")
 ----------------------------------------------------------------------
 -- loadfile:
 
--- Carrega código Lua em string de um arquivo txt externo.
+-- Compila o código Lua de um ARQUIVO externo, SEM executá-lo, e o devolve
+-- como função (contraste com load, abaixo, que compila uma STRING).
+-- A extensão do arquivo não importa: aqui o código Lua está num .txt.
 -- arquivo.txt = return "Oi Bob!"
 local trechoLua = loadfile("arquivo.txt")
 print(trechoLua) --> function: 0x... (o endereço varia)
@@ -31,7 +33,8 @@ end
 ----------------------------------------------------------------------
 -- load:
 
--- Carrega código Lua a partir de uma string de código.
+-- Compila código Lua a partir de uma STRING já na memória, sem executá-lo
+-- (para código guardado em arquivo, o carregador é loadfile, acima).
 local trecho = "local nome='Bob' print('Olá ' .. nome)"
 local trechoCompilado = load(trecho)
 print(trechoCompilado) --> function: 0x... (o endereço varia)

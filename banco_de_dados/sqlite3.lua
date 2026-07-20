@@ -1,6 +1,8 @@
 -- sqlite3.lua
 
--- Demonstração de acesso ao SQLite pela CLI (os.execute).
+-- Demonstração de acesso ao SQLite pela CLI: os.execute roda um comando
+-- e devolve apenas o STATUS; io.popen roda um comando CAPTURANDO a saída,
+-- que assim pode ser verificada pelo próprio Lua.
 
 -- Este arquivo pressupõe execução a partir de banco_de_dados/ (o
 -- ".read roteiro.sql" abaixo procura o script no diretório corrente).
@@ -25,17 +27,35 @@ local sqlite = {}
 
 sqlite.cli = 'sqlite3 %s \"%s\"'
 sqlite.bancoDeDados = "banco_de_dados.db"
-sqlite.sql = {
-  ".read roteiro.sql",
-  "SELECT * FROM Tracks;"
-}
 
-for _, consulta in ipairs(sqlite.sql) do
-  sqlite.comandoCli = sqlite.cli:format(sqlite.bancoDeDados, consulta)
-  -- os.execute retorna: sucesso (boolean), tipo de término ("exit" ou
-  -- "signal") e o código de saída (ou número do sinal):
-  local sucesso, tipoDeTermino, codigo = os.execute(sqlite.comandoCli)
-  if not sucesso then
-    print(("Erro do Sqlite (%s, código %d): %s"):format(tipoDeTermino, codigo, consulta))
-  end
+--------------------------------------------------------------------------------
+-- os.execute: executa o roteiro que (re)cria e preenche as tabelas.
+
+sqlite.comandoRoteiro = sqlite.cli:format(sqlite.bancoDeDados, ".read roteiro.sql")
+-- os.execute retorna: sucesso (boolean), tipo de término ("exit" ou
+-- "signal") e o código de saída (ou número do sinal):
+local sucesso, tipoDeTermino, codigo = os.execute(sqlite.comandoRoteiro)
+if not sucesso then
+  print(("Erro do Sqlite (%s, código %d): .read roteiro.sql"):format(tipoDeTermino, codigo))
+  -- Falha DE VERDADE (exit 1), para o teste de fumaça enxergar um roteiro
+  -- quebrado — o exit 0 fica reservado à ausência da CLI, tratada acima.
+  os.exit(1)
 end
+
+--------------------------------------------------------------------------------
+-- io.popen: consulta as faixas capturando a saída do comando — com
+-- os.execute o resultado do SELECT iria direto ao stdout e o Lua nunca
+-- veria os dados; com io.popen dá para iterar as linhas e verificá-las.
+
+sqlite.comandoConsulta = sqlite.cli:format(sqlite.bancoDeDados, "SELECT * FROM Tracks;")
+local processo = assert(io.popen(sqlite.comandoConsulta))
+local faixas = 0
+for linha in processo:lines() do
+  print(linha) --> 1|Antog|1 ... 6|Factorial|3 (uma faixa por linha)
+  faixas = faixas + 1
+end
+-- close em um handle de io.popen devolve o mesmo trio de os.execute:
+assert(processo:close(), "a consulta SELECT falhou")
+
+-- propriedade: o roteiro insere exatamente 6 faixas na tabela Tracks.
+assert(faixas == 6, "esperava 6 faixas, obtive " .. faixas)
