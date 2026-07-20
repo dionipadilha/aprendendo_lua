@@ -45,6 +45,9 @@ end
 
 -- caso nº 5: palavras terminadas em "is"
 -- thesis --> theses
+-- Limitação conhecida: como toda regra por sufixo, super-generaliza —
+-- "iris" viraria "ires" (o correto é "irises"). Palavras assim devem
+-- entrar em excecoes.lua, como as demais exceções.
 local function pluralizarIs(palavra)
     if palavra:match("is$") then
         return palavra:sub(1, -3) .. "es"

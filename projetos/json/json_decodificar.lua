@@ -12,6 +12,10 @@ local escapes = {
 }
 
 local function jsonDecodificar(valor)
+  if type(valor) ~= "string" then
+    error("jsonDecodificar espera uma string, recebeu " .. type(valor))
+  end
+
   local posicao = 1
 
   local function decodificarValor()
@@ -79,6 +83,9 @@ local function jsonDecodificar(valor)
       pularEspacos()
       while valor:sub(posicao, posicao) ~= '}' do
         pularEspacos()
+        if valor:sub(posicao, posicao) ~= '"' then
+          error("Chave de objeto deve ser uma string entre aspas")
+        end
         local chave = decodificarString()
         pularEspacos()
         if valor:sub(posicao, posicao) ~= ':' then
