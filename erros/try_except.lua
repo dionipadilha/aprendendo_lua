@@ -5,6 +5,13 @@
 --   * blocos.tentar     → o código protegido;
 --   * blocos.capturar   → trata o erro, se houver;
 --   * blocos.finalmente → SEMPRE executa (com ou sem erro) — ideal para limpeza.
+--
+-- Limitações desta abstração didática (um try/finally de verdade, como
+-- o de Python, cobre esses casos):
+--   * no sucesso, o segundo retorno é o 1º valor devolvido por tentar
+--     (o pcall devolve os retornos do bloco), não um erro;
+--   * capturar e finalmente NÃO são protegidos: um erro dentro deles
+--     escapa — e, se capturar lançar, finalmente não chega a rodar.
 
 local function tentar(blocos)
   local ok, erro = pcall(blocos.tentar)

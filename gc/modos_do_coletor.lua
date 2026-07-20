@@ -2,10 +2,10 @@
 
 -- collectgarbage aceita opções que controlam o coletor de lixo de Lua 5.4:
 --   "incremental"  - ativa o modo incremental (coleta em pequenos passos).
---   "generational" - ativa o modo geracional (foca nos objetos jovens;
---                    é o modo em que o interpretador de linha de comando
---                    `lua` inicia — um estado Lua embutido em C via
---                    liblua, porém, começa no modo incremental).
+--   "generational" - ativa o modo geracional (foca nos objetos jovens).
+--                    É o modo em que o interpretador de linha de comando
+--                    `lua` de 5.4 inicia; já um estado Lua embutido em C
+--                    via liblua começa no modo incremental.
 --   "count"        - memória em uso pelo Lua, em kilobytes.
 --   "collect"      - executa um ciclo completo de coleta (opção padrão).
 
@@ -14,7 +14,9 @@
 
 local modoAnterior = collectgarbage("incremental")
 print("modo anterior:", modoAnterior) --> generational
-assert(modoAnterior == "generational")
+-- (o assert aceita os dois modos: rodado pelo CLI, o modo inicial é
+-- "generational"; embutido em outro host, pode ser "incremental")
+assert(modoAnterior == "generational" or modoAnterior == "incremental")
 
 -- Voltando ao modo geracional; agora o modo anterior é "incremental":
 modoAnterior = collectgarbage("generational")

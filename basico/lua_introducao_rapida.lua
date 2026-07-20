@@ -157,3 +157,6 @@ local conteudo = arquivo:read()
 print(conteudo) --> torrada!
 assert(conteudo == "torrada!")
 assert(arquivo:close())
+
+-- remove o arquivo da demonstração (sem deixar lixo para trás):
+assert(os.remove("arquivo_demo.txt"))

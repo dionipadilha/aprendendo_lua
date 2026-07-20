@@ -1,5 +1,8 @@
 -- carregadores.lua
 
+-- (execute a partir deste diretório: dofile e loadfile procuram os
+-- arquivos no diretório corrente, não relativo a este script)
+
 ----------------------------------------------------------------------
 -- dofile:
 

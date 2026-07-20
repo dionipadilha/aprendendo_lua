@@ -15,7 +15,12 @@ end
 function Classe:mixin(...)
   local classes = { ... }
   for _, classe in ipairs(classes) do
-    for k, v in pairs(classe) do self[k] = v end
+    for k, v in pairs(classe) do
+      -- Armadilha do mixin ingênuo: se a classe misturada já tiver sido
+      -- usada como base, ela carrega um __index — copiá-lo sequestraria
+      -- a cadeia de herança do alvo. Pulamos os metacampos.
+      if k ~= "__index" then self[k] = v end
+    end
   end
 end
 
