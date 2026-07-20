@@ -52,7 +52,7 @@ until tentativas >= 3
 
 **Outras Estruturas:**
 
-- **break:** Sai de um loop de repetição.
+- **break:** Sai de um laço de repetição.
 - **return:** Retorna um valor de uma função.
 - **goto:** Pula para um rótulo específico no código (veja o idioma `goto continue` em `goto.lua`).
 

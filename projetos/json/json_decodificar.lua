@@ -1,3 +1,5 @@
+-- json_decodificar.lua
+
 -- Escapes básicos do JSON e o caractere que cada um representa.
 -- Limitação documentada no README.md: \uXXXX não é suportado.
 local escapes = {

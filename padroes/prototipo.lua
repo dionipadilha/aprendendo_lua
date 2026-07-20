@@ -5,7 +5,7 @@
 --
 -- Nota didática: este é o modelo NATURAL de Lua. A linguagem não tem
 -- classes; a "herança" de poo/prototipo.lua já é uma cadeia de
--- protótipos via metatables (delegação com __index). Aquele arquivo
+-- protótipos via metatabelas (delegação com __index). Aquele arquivo
 -- mostra a DELEGAÇÃO (o clone consulta o protótipo quando não tem o
 -- campo); este mostra a CÓPIA (o clone nasce com os próprios campos e
 -- fica independente do exemplar).

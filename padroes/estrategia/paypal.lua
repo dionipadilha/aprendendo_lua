@@ -1,3 +1,5 @@
+-- paypal.lua
+
 local Pagamento = require "pagamento"
 
 local PayPal = Pagamento:novo {

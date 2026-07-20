@@ -1,3 +1,5 @@
+-- controlador.lua
+
 -- Controlador: Gerencia a interação entre o Modelo e a Visão.
 
 local Classe = require "comum"

@@ -6,7 +6,7 @@ executar tarefas, e um registrador anota as ações.
 
 | Arquivo | Papel |
 |---------|-------|
-| `classe.lua` | Classe base minimalista (construtor com metatable) |
+| `classe.lua` | Classe base minimalista (construtor com metatabela) |
 | `ferramenta.lua` | Contrato de uma ferramenta: nome, descrição e `executar` |
 | `ferramentas_basicas.lua` | Ferramentas prontas: somador, subtrator, multiplicador e divisor |
 | `agente.lua` | O agente: só executa ferramentas que possui |

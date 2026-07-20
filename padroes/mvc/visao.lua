@@ -1,3 +1,5 @@
+-- visao.lua
+
 -- Visão: Cuida da camada de apresentação.
 
 local Classe = require "comum"

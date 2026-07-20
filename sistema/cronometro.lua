@@ -1,6 +1,6 @@
---------------------------------------------------------------------------------
 -- cronometro.lua
 
+--------------------------------------------------------------------------------
 -- Um cronômetro mede TEMPO DE PAREDE (tempo real transcorrido), por isso
 -- usa os.time e os.difftime. os.clock mede tempo de CPU e fica reservado
 -- para benchmarks — veja cpu_vs_parede.lua para a diferença na prática.

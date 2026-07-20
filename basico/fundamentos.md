@@ -80,7 +80,7 @@ until n > 5
 - Funções
 
 ```lua
--- Lua suporta funções de primeira classe e closures.
+-- Lua suporta funções de primeira classe e clausuras (closures).
 
 -- Definição de funções
 -- (o `local` importa: sem ele, a função viraria uma variável GLOBAL,

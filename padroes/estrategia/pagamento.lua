@@ -1,3 +1,5 @@
+-- pagamento.lua
+
 local Pagamento = {}
 
 function Pagamento:novo(objeto)

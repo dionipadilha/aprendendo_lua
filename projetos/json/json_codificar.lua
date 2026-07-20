@@ -1,3 +1,5 @@
+-- json_codificar.lua
+
 -- Sequências de escape exigidas pelo JSON: barra invertida, aspas duplas
 -- e caracteres de controle têm formas próprias; os demais controles
 -- (ex.: \v) viram a forma genérica \u00XX.

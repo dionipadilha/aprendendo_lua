@@ -1,3 +1,5 @@
+-- classe.lua
+
 local Classe = {}
 
 function Classe:novo(objeto)
