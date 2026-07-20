@@ -2,6 +2,16 @@
 
 Plano baseado em uma auditoria executada em 2026-07-20: todos os arquivos `.lua` da raiz e os subprojetos foram executados com Lua 5.4, e os guias em Markdown foram revisados. O plano está organizado em quatro fases, da mais urgente à mais opcional. Cada item traz o problema, a ação proposta e o critério de aceitação.
 
+## Status de execução (2026-07-20)
+
+- ✅ **Fase 1 concluída** — todas as correções aplicadas e verificadas. Notas:
+  - 1.4: criados `file.lua` e `file.txt` (o exemplo de `loadfile` também dependia de um `.txt`).
+  - 1.5: `require.lua` convertido em `require.md`; `interface.lua` removido (o conteúdo já existe, na forma correta, em `interface/`).
+  - Correção extra encontrada pelo smoke test: `Test/range.lua` era uma cópia byte a byte de `test_range.lua` que, dentro de `Test/`, fazia auto-`require` infinito (C stack overflow) — removida.
+- ✅ **Fase 2 concluída** — Lua 5.4 declarado no README; typos corrigidos; renomeados `anonymous_functios.md` → `anonymous_functions.md`, `corotinas.md` → `coroutines.md`, `tipos.md` → `types.md`, `fluxo.md` → `control_flow.md`, `nomenclatura.md` → `naming_conventions.md`, `poo.md` → `oop.md`; `.gitignore` criado.
+- ✅ **Fase 3 concluída** — `LICENSE` (MIT), `smoke_test.sh` e workflow de CI (`.github/workflows/ci.yml`) criados; README atualizado com badge, trilha de estudo e instruções. Correção ao plano: nenhum exemplo é infinito — `clock.lua` e os busy-waits terminam em até ~30s, então a CI executa **todos** os 124 arquivos com timeout de 90s, sem lista de exclusão. Resultado local: `Total: 124 | Falhas: 0`.
+- ⬜ **Fase 4 pendente** — reorganização de pastas e consolidação de duplicados, a fazer em PR próprio conforme recomendado abaixo.
+
 ---
 
 ## Fase 1 — Corrigir código quebrado (prioridade alta)

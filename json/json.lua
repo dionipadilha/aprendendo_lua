@@ -1,5 +1,6 @@
-local json_decode = require "json.json_decode"
-local json_encode = require "json.json_encode"
+-- run from within the json/ directory: lua main.lua
+local json_decode = require "json_decode"
+local json_encode = require "json_encode"
 
 local JSON = {}
 

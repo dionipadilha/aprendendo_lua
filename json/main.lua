@@ -4,7 +4,7 @@ local function main(luaTable)
   local json = JSON:encode(luaTable)
   print(json)
   local decodedTable = JSON:decode(json)
-  print(decodedTable.name) --> John Doe
+  print(decodedTable.name) --> Bob
   for _, hobby in ipairs(decodedTable.hobbies) do print(hobby) end
 end
 
