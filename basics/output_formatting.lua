@@ -28,7 +28,7 @@ print("Names: ", table.concat(list, "-")) --> Names: 	Ana-Bob-Charlie
 
 -- Unpacking List Elements:
 local list = { "Ana", "Bob", "Charlie" }
-print("Names: ", unpack(list)) --> Names: 	Ana	Bob	Charlie
+print("Names: ", table.unpack(list)) --> Names: 	Ana	Bob	Charlie
 
 -- Using Metatables for Custom __tostring:
 local p = setmetatable(

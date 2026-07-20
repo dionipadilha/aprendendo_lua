@@ -1,12 +1,12 @@
 -- class.lua
 
--- abstracat class:
+-- abstract class:
 local Class = {}
 
-function Class:new(instace)
+function Class:new(instance)
   self.__index = self
-  instace = instace or {}
-  return setmetatable(instace, self)
+  instance = instance or {}
+  return setmetatable(instance, self)
 end
 
 function Class:mixin(...)
@@ -75,9 +75,13 @@ local ClassC = Class:new {
   end
 }
 
-function ClassC:fc()
-  return self:super(ClassC, "fc") .. " and extended in ClassC"
+-- ClassD inherits from ClassC and overrides fc,
+-- calling the superclass implementation via super:
+local ClassD = ClassC:new {}
+
+function ClassD:fc()
+  return self:super(ClassC, "fc") .. " and extended in ClassD"
 end
 
-local instanceC = ClassC:new {}
-assert(instanceC:fc() == "rc from ClassC and extended in ClassC")
+local instanceD = ClassD:new {}
+assert(instanceD:fc() == "rc from ClassC and extended in ClassD")

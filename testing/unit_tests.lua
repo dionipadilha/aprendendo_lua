@@ -84,8 +84,10 @@ local function runUnitTests()
     assert(expected[n] == obtained, errorMsg)
   end
 
-  -- Not number inputs
-  print(execute(range("3"))) -- not number
+  -- Not number inputs must raise an error; catch it with pcall:
+  local ok, err = pcall(range, "3")
+  assert(not ok, "range('3') should have raised an error")
+  print("Expected error caught: " .. err)
 end
 
 runUnitTests()
