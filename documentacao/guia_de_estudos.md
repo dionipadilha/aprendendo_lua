@@ -147,7 +147,7 @@ local meumodulo = require("meumodulo")
 meumodulo.dizerOla()  -- Saída: Olá do meu módulo!
 ```
 
-Exemplos práticos: pasta [`modulos/`](../modulos/) — o par `modulo.lua`/`usando_require.lua` demonstra também o cache do `require` em `package.loaded`.
+Exemplos práticos: pasta [`modulos/`](../modulos/) — o par `modulo.lua`/`usando_require.lua` demonstra também o cache do `require` em `package.loaded`. O empacotamento com LuaRocks, incluindo o rockspec real do pluralizador que a CI instala, está em [`modulos/empacotamento.md`](../modulos/empacotamento.md).
 
 **9. Tratamento de Erros**
 Lua sinaliza erros com `error` e os captura em modo protegido com `pcall`/`xpcall`. Dominar esse mecanismo — incluindo objetos de erro, o nível do erro e asserções — é o que separa scripts frágeis de programas que falham com mensagens claras.

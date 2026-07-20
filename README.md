@@ -35,7 +35,7 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | `gc/` | Coleta de lixo e tabelas fracas |
 | `corrotinas/` | Guias e exemplos de corrotinas |
 | `erros/` | error, assert, pcall, xpcall e try/except |
-| `modulos/` | require, dofile, loadfile e rockspec |
+| `modulos/` | require, dofile, loadfile e empacotamento com LuaRocks |
 | `io/` | Leitura e escrita de arquivos |
 | `sistema/` | Data e hora, relógio, esperas e números aleatórios |
 | `banco_de_dados/` | Integração com SQLite via CLI |
