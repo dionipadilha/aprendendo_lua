@@ -196,7 +196,7 @@ As corrotinas oferecem diversas vantagens:
 
 - **Leveza e eficiência**: são mais leves que threads, com menor custo de criação e gerenciamento.
 - **Controle e previsibilidade**: como a execução é cooperativa, o programador decide quando uma tarefa cede o controle, o que facilita o rastreamento e a depuração.
-- **Simplicidade**: a API pequena (`create`, `resume`, `yield`, `status`, `wrap`, `close`) torna fácil escrever código concorrente sem complicação.
+- **Simplicidade**: a API é pequena — gira em torno de `create`, `resume`, `yield`, `status`, `wrap` e `close` (mais as auxiliares `isyieldable` e `running`) — o que torna fácil escrever código concorrente sem complicação.
 - **Funcionalidades específicas**: são ideais para implementar iteradores, máquinas de estados e sistemas de agendamento de tarefas.
 
 Essas vantagens tornam as corrotinas ideais para cenários que exigem concorrência leve e onde o paralelismo não é necessário.

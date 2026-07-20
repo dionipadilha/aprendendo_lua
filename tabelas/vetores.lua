@@ -54,10 +54,11 @@ for _, fruta in ipairs(frutas) do
   print(fruta) --> maçã, --> banana, --> laranja
 end
 
--- Iterando com next:
+-- Iterando com next (a ordem de visita NÃO é garantida pelo manual,
+-- nem para índices numéricos — use ipairs quando a ordem importar):
 local indice, valor = next(frutas)
 while indice do
-  print(valor) --> maçã, --> banana, --> laranja
+  print(valor) -- visita todos os elementos, em ordem não especificada
   indice, valor = next(frutas, indice)
 end
 

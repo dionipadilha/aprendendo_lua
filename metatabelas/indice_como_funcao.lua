@@ -62,7 +62,8 @@ rawset(config, "furo", true)
 assert(config.furo == true)  -- a chave agora existe: __index não dispara
 assert(#registro == 3)       -- e nada disso apareceu no registro
 
--- limitação dos proxies: # e pairs enxergam o PROXY (vazio) — o Lua 5.4
--- não tem __pairs; para iterar, exponha uma função própria sobre o apoio.
+-- limitação dos proxies: # e pairs enxergam o PROXY (vazio). O metamétodo
+-- __pairs ainda funciona no Lua 5.4, mas foi DEPRECIADO (§8.2 do manual)
+-- e removido no 5.5 — prefira expor uma função própria sobre o apoio.
 
 print("__index como função e proxy completo verificados!")

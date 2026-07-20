@@ -61,7 +61,7 @@ until tentativas >= 3
 Uma condição em Lua pode ser **qualquer expressão**, não apenas booleanos. A regra é simples:
 
 - Apenas `nil` e `false` contam como **falsos**.
-- **Todos** os outros valores contam como **verdadeiros** — inclusive `0` e a string vazia `""` (diferente de linguagens como C, Python e JavaScript).
+- **Todos** os outros valores contam como **verdadeiros** — inclusive `0` (que é falso em C, Python e JavaScript) e a string vazia `""` (falsa em Python e JavaScript).
 
 ```lua
 if 0 then print("0 é verdadeiro em Lua") end    -- imprime!
