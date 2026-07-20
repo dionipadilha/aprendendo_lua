@@ -60,6 +60,11 @@ local inicio = utf8.offset(str, 5) -- 5º caractere ("é")
 print(str:sub(inicio, inicio + 1)) --> é (2 bytes)
 ```
 
+O aprofundamento da biblioteca — validar entrada suspeita com `utf8.len`,
+iterar com `utf8.charpattern`, índices negativos e por que "iguais na
+tela" não garante "iguais nos bytes" — está em
+[`utf8_na_pratica.lua`](utf8_na_pratica.lua).
+
 ```lua
 -- Comprimento de string vazias:
 local str = ""
