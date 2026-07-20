@@ -1,6 +1,9 @@
 # Repositório de Tutoriais de Programação Lua
 
 [![CI](https://github.com/dionipadilha/aprendendo_lua/actions/workflows/ci.yml/badge.svg)](https://github.com/dionipadilha/aprendendo_lua/actions/workflows/ci.yml)
+[![Lua 5.4](https://img.shields.io/badge/Lua-5.4-blue)](https://www.lua.org/manual/5.4/)
+[![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
+[![pt-BR](https://img.shields.io/badge/idioma-pt--BR-yellow)](#convenções-de-idioma)
 
 Este repositório oferece guias para a linguagem de programação Lua, abrangendo diversos conceitos.
 O material aqui apresentado é fruto de meu estudo e desenvolvimento, e visa auxiliar programadores em diferentes níveis de experiência.
@@ -43,6 +46,15 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | `documentacao/` | Guia de estudos, roteiro, paradigmas, convenções, instalação no Windows e guia de enunciados de projetos |
 
 A trilha completa de estudo está em `documentacao/roteiro_de_estudos.yml` e `documentacao/guia_de_estudos.md`.
+
+### Destaques:
+
+Quatro exemplos que mostram o espírito do repositório — executáveis, autoverificados e honestos sobre limitações:
+
+- **[`projetos/json/`](projetos/json/)** — codificador e decodificador de JSON do zero, com testes de roundtrip e uma seção de limitações conhecidas que diz a verdade (`null`, Unicode, ciclos).
+- **[`corrotinas/jogo_com_corrotinas.lua`](corrotinas/jogo_com_corrotinas.lua)** — um mini-jogo de perseguição jogável no terminal que ensina a troca de valores entre `resume` e `yield`.
+- **[`solid/`](solid/)** — cada princípio SOLID com a violação e o redesenho lado a lado, no mesmo arquivo, verificados por asserts.
+- **[`tabelas/buracos_e_comprimento.lua`](tabelas/buracos_e_comprimento.lua)** — a pegadinha mais famosa de Lua (`#` com buracos) demonstrada em vez de apenas descrita.
 
 ### Convenções de idioma:
 
