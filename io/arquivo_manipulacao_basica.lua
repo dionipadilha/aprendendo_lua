@@ -5,26 +5,26 @@
 -- Escrevendo em um arquivo
 local arquivoDeEscrita = io.open("teste.txt", "w")
 if arquivoDeEscrita then
-    arquivoDeEscrita:write("Olá, Lua!")
-    arquivoDeEscrita:close()
+  arquivoDeEscrita:write("Olá, Lua!")
+  arquivoDeEscrita:close()
 else
-    print("Erro ao abrir o arquivo para escrita.")
+  print("Erro ao abrir o arquivo para escrita.")
 end
 
 -- Lendo de um arquivo
 local arquivoDeLeitura = io.open("teste.txt", "r")
 local conteudo = nil
 if arquivoDeLeitura then
-    conteudo = arquivoDeLeitura:read("a")
-    arquivoDeLeitura:close()
+  conteudo = arquivoDeLeitura:read("a")
+  arquivoDeLeitura:close()
 else
-    print("Erro ao abrir o arquivo para leitura.")
+  print("Erro ao abrir o arquivo para leitura.")
 end
 
 if conteudo then
-    print("Conteúdo do arquivo: " .. conteudo)
+  print("Conteúdo do arquivo: " .. conteudo)
 else
-    print("Nenhum conteúdo lido do arquivo.")
+  print("Nenhum conteúdo lido do arquivo.")
 end
 assert(conteudo == "Olá, Lua!")
 

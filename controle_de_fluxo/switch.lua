@@ -13,6 +13,8 @@ local function switch(casos, valor)
     "valor deve ser uma string ou um número"
   )
 
+  -- atenção: "padrao" é uma chave reservada desta implementação — um
+  -- switch(casos, "padrao") seleciona o próprio caso padrão:
   local acao = casos[valor] or casos["padrao"]
   assert(type(acao) == "function", "a ação deve ser uma função")
   return acao()

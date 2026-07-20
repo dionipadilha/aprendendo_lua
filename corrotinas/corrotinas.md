@@ -292,7 +292,7 @@ end
 function agendador:executar()
   while #self.tarefas > 0 do
     for i = #self.tarefas, 1, -1 do
-      local status, res = coroutine.resume(self.tarefas[i])
+      local status = coroutine.resume(self.tarefas[i])
       if not status or coroutine.status(self.tarefas[i]) == "dead" then
         table.remove(self.tarefas, i)
       end

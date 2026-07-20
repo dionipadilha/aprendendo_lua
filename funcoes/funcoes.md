@@ -3,8 +3,8 @@
 **Funções:**
 
 - **Definição:** Blocos de código que executam tarefas específicas e podem ser reutilizados.
-- **Declaração:** `local function nome_da_funcao(parametros) ... end`
-- **Chamada:** `nome_da_funcao(argumentos)`
+- **Declaração:** `local function nomeDaFuncao(parametros) ... end`
+- **Chamada:** `nomeDaFuncao(argumentos)`
 
 **Múltiplos Valores de Retorno:**
 

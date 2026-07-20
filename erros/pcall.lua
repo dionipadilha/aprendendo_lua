@@ -3,7 +3,7 @@
 --------------------------------------------
 -- Detalhes:
 
--- Executa uma função dentro de um ambiente seguro.
+-- Executa uma função em modo protegido (protected mode).
 
 -- Sintaxe: pcall(funcao, arg1, arg2, ...)
 -- Retorna: sucesso, resultado1, resultado2, ...

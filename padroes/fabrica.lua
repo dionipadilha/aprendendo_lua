@@ -36,6 +36,9 @@ end
 
 --------------------------------------------------------------------------------
 -- O método fabril: a decisão de qual classe instanciar fica em UM lugar.
+-- (Esta variante com registro de tipos é a "fábrica simples/parametrizada";
+-- o Factory Method do GoF — subclasses do criador sobrescrevendo o método
+-- de criação — aparece em fabrica_abstrata.lua.)
 
 local tiposDeInimigo = {
   zumbi = Zumbi,

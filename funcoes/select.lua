@@ -1,3 +1,5 @@
+-- select.lua
+
 local lista = { "a", "b", "c" }
 
 -- retorna todos os argumentos a partir do índice informado, inclusive:

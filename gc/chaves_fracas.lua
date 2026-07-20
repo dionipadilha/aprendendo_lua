@@ -20,6 +20,10 @@ for k, v in pairs(tabelaFraca) do print(k, v) end
 --> table: 0x...	x
 assert(contarEntradas(tabelaFraca) == 1)
 
+-- (os asserts de contagem antes do collectgarbage assumem que nenhum
+-- ciclo automático do GC rodou no meio-tempo — determinístico num
+-- script pequeno como este)
+
 -- #3. Substituindo a referência anterior:
 chave = {}
 tabelaFraca[chave] = "y"

@@ -32,6 +32,9 @@ end
 --------------------------------------------------------------------------------
 -- Controlador
 
+-- cache e visao são criados aqui, na ÚNICA instância do gerenciador —
+-- se fossem defaults na tabela de uma classe reutilizada, seriam
+-- compartilhados entre instâncias (ver ../padroes/observador.lua):
 local GerenciadorDeSessoes = Classe:novo {
   cache = {},
   visao = {}

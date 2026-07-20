@@ -1,3 +1,5 @@
+-- pix.lua
+
 local IPagamento = require "ipagamento"
 
 -- Definição da classe Pix
@@ -6,7 +8,7 @@ local Pix = {
 
   -- implementa as propriedades de IPagamento
   dadosDoMetodo = "Pix",
-  data = "",
+  dataDoPagamento = "",
 
   -- propriedades adicionais de Pix
   tipoDeChave = "CPF", -- CPF ou CNPJ
@@ -51,19 +53,8 @@ function Pix:pagar(valor)
   return true, log[3], valor
 end
 
--- Método para verificar a implementação da interface IPagamento
-function Pix:implementa(interface)
-  local log = "\nfalha: a classe Pix não implementa o membro %s de IPagamento"
-  for nomeDaPropriedade, tipoDaPropriedade in pairs(interface) do
-    assert(
-      tipoDaPropriedade == type(self[nomeDaPropriedade]),
-      log:format(nomeDaPropriedade)
-    )
-  end
-  return true
-end
-
--- Assinar o contrato de IPagamento
-assert(Pix:implementa(IPagamento))
+-- Assinar o contrato de IPagamento (o verificador é compartilhado e
+-- mora em ipagamento.lua):
+assert(IPagamento:verificarImplementacao(Pix))
 
 return Pix

@@ -144,7 +144,7 @@ end
 
 -- Outros métodos
 function Estudante:estudar()
-    return string.format("Estudando no curso de %s.", self:getCurso())
+  return string.format("Estudando no curso de %s.", self:getCurso())
 end
 ```
 
@@ -155,7 +155,7 @@ end
 ```lua
 -- Sobrescrita do método comer
 function Estudante:comer()
-    return "Comendo um lanche na cantina."
+  return "Comendo um lanche na cantina."
 end
 ```
 
@@ -190,7 +190,7 @@ print(estudante1:estudar()) --> Estudando no curso de Engenharia.
 
 - Argumentos Opcionais: definidos com valores padrão.
 
-- Encapsulamento: embora não seja imposto em Lua, mas é uma boa prática usar a convenção do prefixo `_` para indicar propriedades privadas.
+- Encapsulamento: não é imposto em Lua, mas é uma boa prática usar a convenção do prefixo `_` para indicar propriedades privadas.
 
 - Uso de `self`: utilizada para se referir à instância atual da classe.
 

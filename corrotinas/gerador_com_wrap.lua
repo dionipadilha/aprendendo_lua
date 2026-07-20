@@ -66,6 +66,8 @@ local recebidos = {}
 while true do
   local ok, item = coroutine.resume(produtor)
   assert(ok, item)
+  -- nil funciona como sentinela de término aqui porque o produtor
+  -- nunca cede nil como item legítimo (os itens são strings):
   if item == nil then break end -- o produtor terminou
   table.insert(recebidos, item)
 end

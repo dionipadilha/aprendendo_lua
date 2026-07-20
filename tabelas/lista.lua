@@ -8,9 +8,9 @@ local nomes = { "ana", "bob", "carlos" }
 local frutas = table.pack("maçã", "banana", "laranja")
 
 -- Desempacotando os elementos:
-local nome_1, nome_2, nome_3 = table.unpack(nomes)
-print(nome_2) --> bob
-assert(nome_1 == "ana" and nome_2 == "bob" and nome_3 == "carlos")
+local nome1, nome2, nome3 = table.unpack(nomes)
+print(nome2) --> bob
+assert(nome1 == "ana" and nome2 == "bob" and nome3 == "carlos")
 
 -- Obtendo o número de elementos:
 print(#nomes) --> 3

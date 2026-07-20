@@ -8,16 +8,16 @@
 local function definirTempoLimite(funcaoDeRetorno, segundosDeEspera)
   local tempoInicial = os.clock()
   local function verificarTempo()
-      if os.clock() - tempoInicial >= segundosDeEspera then
-          funcaoDeRetorno()
-          return true
-      else
-          return false
-      end
+    if os.clock() - tempoInicial >= segundosDeEspera then
+      funcaoDeRetorno()
+      return true
+    else
+      return false
+    end
   end
 
   repeat
-      coroutine.yield()
+    coroutine.yield()
   until verificarTempo()
 end
 

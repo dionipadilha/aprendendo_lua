@@ -23,10 +23,6 @@ function Retangulo:novo(cantoInferiorEsquerdo, cantoSuperiorDireito)
   setmetatable(ret, self)
   self.__index = self
 
-  -- Definir cantos padrão:
-  cantoInferiorEsquerdo = cantoInferiorEsquerdo or { 0, 0 }
-  cantoSuperiorDireito = cantoSuperiorDireito or { 0, 0 }
-
   -- Extrair as coordenadas dos cantos:
   ret.x1, ret.y1 = cantoInferiorEsquerdo[1], cantoInferiorEsquerdo[2]
   ret.x2, ret.y2 = cantoSuperiorDireito[1], cantoSuperiorDireito[2]

@@ -2,7 +2,7 @@
 
 -- #1. Definindo uma tabela protótipo:
 local ClassePai = {}
-ClassePai.chave_pai = "valor_pai"
+ClassePai.chavePai = "valorPai"
 
 -- #2. Criando um método fábrica:
 function ClassePai:novo(objeto)
@@ -13,17 +13,17 @@ end
 
 -- #3. Criando uma classe filha:
 local ClasseFilha = ClassePai:novo()
-ClasseFilha.chave_filha = "valor_filho"
+ClasseFilha.chaveFilha = "valorFilho"
 
 -- #4. Criando uma instância de objeto:
 local objeto = ClasseFilha:novo()
-objeto.chave_propria = "valor_proprio"
+objeto.chavePropria = "valorProprio"
 
 -- #5. Acessar propriedades em diferentes níveis:
-print(objeto.chave_pai)     --> valor_pai
-print(objeto.chave_filha)   --> valor_filho
-print(objeto.chave_propria) --> valor_proprio
+print(objeto.chavePai)     --> valorPai
+print(objeto.chaveFilha)   --> valorFilho
+print(objeto.chavePropria) --> valorProprio
 
-assert(objeto.chave_pai == "valor_pai")         -- herdada do protótipo pai
-assert(objeto.chave_filha == "valor_filho")     -- herdada do protótipo filho
-assert(objeto.chave_propria == "valor_proprio") -- própria do objeto
+assert(objeto.chavePai == "valorPai")         -- herdada do protótipo pai
+assert(objeto.chaveFilha == "valorFilho")     -- herdada do protótipo filho
+assert(objeto.chavePropria == "valorProprio") -- própria do objeto

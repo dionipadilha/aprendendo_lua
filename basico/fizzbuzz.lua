@@ -10,13 +10,13 @@
 -- Devolve a saída de FizzBuzz para um número:
 local function fizzbuzz(i)
   if i % 15 == 0 then
-      return "FizzBuzz"
+    return "FizzBuzz"
   elseif i % 3 == 0 then
-      return "Fizz"
+    return "Fizz"
   elseif i % 5 == 0 then
-      return "Buzz"
+    return "Buzz"
   else
-      return i
+    return i
   end
 end
 

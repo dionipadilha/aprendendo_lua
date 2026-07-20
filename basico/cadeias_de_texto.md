@@ -62,7 +62,7 @@ print(str:sub(inicio, inicio + 1)) --> é (2 bytes)
 
 ```lua
 -- Comprimento de string vazias:
-local str= ""
+local str = ""
 print(#str) --> 0
 ```
 
@@ -146,6 +146,12 @@ print(str:gsub("(%d+)", "%1,00")) --> O preço é R$ 100,00	1
 local str = "100%"
 print(str:gsub("%%", " por cento")) --> 100 por cento	1
 ```
+
+> **Nota:** os exemplos abaixo estendem a biblioteca `string` global
+> (`function string.capitalize(...)`) por concisão didática — assim o
+> método fica disponível como `str:capitalize()`. Em código de produção,
+> prefira funções locais (como faz `cadeias_de_texto.lua`): modificar
+> tabelas globais afeta o programa inteiro.
 
 ```lua
 -- Formatação de Títulos:
