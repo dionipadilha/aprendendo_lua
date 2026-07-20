@@ -36,6 +36,11 @@ local ok, erro = pcall(intervalo, "3")
 assert(not ok, "teste #11: intervalo('3') deveria ter lançado um erro")
 assert(erro:match("O valor de início deve ser um número"), "teste #11: mensagem inesperada")
 
+-- Passo zero produziria um iterador infinito; deve ser rejeitado:
+local okPassoZero, erroPassoZero = pcall(intervalo, 1, 5, 0)
+assert(not okPassoZero, "teste #11b: intervalo(1, 5, 0) deveria ter lançado um erro")
+assert(erroPassoZero:match("O passo não pode ser zero"), "teste #11b: mensagem inesperada")
+
 ------------------------------------------------------------
 -- Exemplo de tratador de erros com xpcall:
 -- o tratador formata a exceção, e os asserts sobre o RESULTADO do xpcall

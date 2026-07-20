@@ -23,7 +23,7 @@ local Agente = Classe:novo {
   --- Conjunto de capacidades ou funções que o agente pode usar para executar
   --- tarefas. Espera-se que sejam instâncias de classes personalizadas
   --- compatíveis com o ambiente de execução do agente.
-  ferramentas = {},
+  --- (campo mutável: inicializado POR INSTÂNCIA no construtor, logo abaixo)
 
   -- propriedade: maxIteracoes
   --- Número máximo de iterações que o agente pode executar antes de ser
@@ -71,6 +71,16 @@ local Agente = Classe:novo {
   llmChamadaDeFuncoes = nil
 }
 
+-- Campos mutáveis são inicializados POR INSTÂNCIA: se `ferramentas = {}`
+-- ficasse na tabela da classe, todos os agentes compartilhariam a MESMA
+-- lista — equipar um agente equiparia todos os outros
+-- (mesma regra aplicada em registrador.lua).
+function Agente:novo(objeto)
+  objeto = Classe.novo(self, objeto)
+  objeto.ferramentas = objeto.ferramentas or {}
+  return objeto
+end
+
 function Agente:usar(ferramenta, ...)
   -- Verifica se a ferramenta existe na tabela de ferramentas
   for _, ferramentaDisponivel in ipairs(self.ferramentas) do
@@ -81,5 +91,15 @@ function Agente:usar(ferramenta, ...)
   end
   return nil
 end
+
+-- testes: dois agentes criados sem ferramentas não compartilham a mesma lista
+local agenteA = Agente:novo {}
+local agenteB = Agente:novo {}
+assert(agenteA.ferramentas ~= agenteB.ferramentas,
+  "os agentes não podem compartilhar a tabela de ferramentas")
+table.insert(agenteA.ferramentas, "ferramenta de teste")
+assert(#agenteA.ferramentas == 1)
+assert(#agenteB.ferramentas == 0,
+  "equipar o agente A não pode equipar o agente B")
 
 return Agente

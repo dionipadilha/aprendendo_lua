@@ -53,7 +53,7 @@ end
 
 -- Método para verificar a implementação da interface IPagamento
 function Pix:implementa(interface)
-  local log = "\nfalha: a classe Pix implementa IPagamento %s"
+  local log = "\nfalha: a classe Pix não implementa o membro %s de IPagamento"
   for nomeDaPropriedade, tipoDaPropriedade in pairs(interface) do
     assert(
       tipoDaPropriedade == type(self[nomeDaPropriedade]),

@@ -90,10 +90,14 @@ local function jsonDecodificar(valor)
         pularEspacos()
         if valor:sub(posicao, posicao) == ',' then
           posicao = posicao + 1
+          pularEspacos()
+          -- vírgula final, como em {"a":1,}, é JSON inválido:
+          if valor:sub(posicao, posicao) == '}' then
+            error("Vírgula final não é permitida em objetos")
+          end
         elseif valor:sub(posicao, posicao) ~= '}' then
           error("Esperado ',' ou '}'")
         end
-        pularEspacos()
       end
       posicao = posicao + 1
       return objeto
@@ -107,10 +111,14 @@ local function jsonDecodificar(valor)
         pularEspacos()
         if valor:sub(posicao, posicao) == ',' then
           posicao = posicao + 1
+          pularEspacos()
+          -- vírgula final, como em [1,2,], é JSON inválido:
+          if valor:sub(posicao, posicao) == ']' then
+            error("Vírgula final não é permitida em vetores")
+          end
         elseif valor:sub(posicao, posicao) ~= ']' then
           error("Esperado ',' ou ']'")
         end
-        pularEspacos()
       end
       posicao = posicao + 1
       return vetor
@@ -127,7 +135,17 @@ local function jsonDecodificar(valor)
     end
   end
 
-  return decodificarValor()
+  local resultado = decodificarValor()
+
+  -- Rejeita sobras após o valor: "123abc" ou '{"a":1} lixo' são inválidos.
+  while string.match(valor:sub(posicao, posicao), "%s") do
+    posicao = posicao + 1
+  end
+  if posicao <= #valor then
+    error("Conteúdo inesperado após o fim do JSON: " .. valor:sub(posicao))
+  end
+
+  return resultado
 end
 
 return jsonDecodificar

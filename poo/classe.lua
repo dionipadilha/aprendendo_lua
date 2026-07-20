@@ -13,13 +13,17 @@ function Classe:mixin(...)
   local classes = { ... }
   for _, classe in ipairs(classes) do
     for k, v in pairs(classe) do
-      if not self[k] then self[k] = v end
+      -- Compara com nil (e não com "if not"): um campo existente com
+      -- valor false também deve ser preservado, não sobrescrito.
+      if self[k] == nil then self[k] = v end
     end
   end
 end
 
 function Classe:temPropriedade(nomeDaPropriedade)
-  return self[nomeDaPropriedade]
+  -- Compara com nil para que uma propriedade com valor false
+  -- ainda conte como existente.
+  return self[nomeDaPropriedade] ~= nil
 end
 
 function Classe:super(classe, nomeDoMetodo, ...)
@@ -58,6 +62,13 @@ assert(ClasseAB.pb == "x")
 assert(ClasseAB:temPropriedade("pa"))
 assert(ClasseAB:temPropriedade("fa"))
 assert(not ClasseAB:temPropriedade("propriedade_inexistente"))
+
+-- Campos com valor false não são confundidos com campos ausentes:
+local ClasseComFalso = Classe:novo { ativo = false }
+ClasseComFalso:mixin({ ativo = true, extra = "e" })
+assert(ClasseComFalso.ativo == false)  -- o mixin não sobrescreveu o false
+assert(ClasseComFalso.extra == "e")    -- mas copiou o campo realmente ausente
+assert(ClasseComFalso:temPropriedade("ativo") == true)
 
 -- #3. Criar instâncias:
 local instancia = ClasseAB:novo {}

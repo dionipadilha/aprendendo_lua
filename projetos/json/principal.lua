@@ -57,3 +57,27 @@ assert(JSON:codificar('a"b') == '"a\\"b"')
 assert(JSON:codificar("a\\b") == '"a\\\\b"')
 
 print("Roundtrip de strings com escapes: ok")
+
+--------------------------------------------------------------------------------
+-- O decodificador é estrito: entradas malformadas devem lançar erro.
+
+local function decodificarFalha(texto)
+  local ok = pcall(function() return JSON:decodificar(texto) end)
+  return not ok
+end
+
+assert(decodificarFalha('123abc'), "sobra após o número deveria ser rejeitada")
+assert(decodificarFalha('{"a":1} lixo'), "sobra após o objeto deveria ser rejeitada")
+assert(decodificarFalha('[1,2,]'), "vírgula final em vetor deveria ser rejeitada")
+assert(decodificarFalha('{"a":1,}'), "vírgula final em objeto deveria ser rejeitada")
+
+-- valores válidos com espaços ao redor continuam aceitos:
+assert(JSON:decodificar("  42  ") == 42)
+
+-- o codificador rejeita números que não existem em JSON:
+assert(not pcall(function() return JSON:codificar(0 / 0) end),
+  "NaN deveria ser rejeitado")
+assert(not pcall(function() return JSON:codificar(math.huge) end),
+  "infinito deveria ser rejeitado")
+
+print("Validação estrita de JSON: ok")

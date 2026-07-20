@@ -34,9 +34,12 @@ function maquinaDeEstados:atualizar(estadoAtual, parametros)
   local transicoesPossiveis = self.transicoes[estadoAtual]
   if transicoesPossiveis then
     for proximoEstado, gatilho in pairs(transicoesPossiveis) do
-      print("Transição de", estadoAtual, "para", proximoEstado)
+      -- Só anuncia e executa os ganchos DEPOIS que o gatilho autoriza
+      -- a transição; os ganchos recebem os estados reais envolvidos.
       if self.gatilhos[gatilho](parametros) then
-        -- Execute as ações de saída do estado aqui
+        print("Transição de", estadoAtual, "para", proximoEstado)
+        self:aoSairDoEstado(estadoAtual)
+        self:aoEntrarNoEstado(proximoEstado)
         return proximoEstado
       end
     end
@@ -96,10 +99,8 @@ function maquinaDeEstados:executarComHistorico()
   local estadoAtual = self.estados[1] -- Estado inicial
   local parametros = {}               -- Parâmetros para as funções de gatilho
   local historico = {}                -- Rastreia o histórico de estados
-  for _, estado in ipairs(self.estados) do
-    self:aoEntrarNoEstado(estado)
+  for _ = 1, #self.estados do         -- Um passo por estado configurado
     estadoAtual = self:atualizar(estadoAtual, parametros)
-    self:aoSairDoEstado(estado)
     self:atualizarHistoricoDeEstados(estadoAtual, historico)
   end
   return historico

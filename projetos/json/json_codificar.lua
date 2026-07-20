@@ -46,7 +46,14 @@ local function jsonCodificar(valor)
       end
     elseif type(v) == "string" then
       return '"' .. escaparString(v) .. '"'
-    elseif type(v) == "number" or type(v) == "boolean" then
+    elseif type(v) == "number" then
+      -- NaN e ±infinito não existem em JSON: melhor falhar com uma
+      -- mensagem clara do que emitir "nan"/"inf", que nenhum parser aceita.
+      if v ~= v or v == math.huge or v == -math.huge then
+        error("JSON não representa NaN nem infinito: " .. tostring(v))
+      end
+      return tostring(v)
+    elseif type(v) == "boolean" then
       return tostring(v)
     elseif v == nil then
       return "null"
