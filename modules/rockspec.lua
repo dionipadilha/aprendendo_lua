@@ -1,4 +1,4 @@
--- file.rockspec:
+-- arquivo.rockspec:
 
 -- ...
 

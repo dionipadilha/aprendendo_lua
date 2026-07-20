@@ -4,21 +4,21 @@ Um módulo em Lua é um arquivo que retorna uma tabela; `require` carrega o
 módulo uma única vez e reaproveita o resultado nas chamadas seguintes.
 O exemplo abaixo usa dois arquivos separados.
 
-`module.lua`:
+`modulo.lua`:
 
 ```lua
-local module = {}
+local modulo = {}
 
-module.doSomething = function ()
-  print("toast!")
+modulo.fazAlgo = function ()
+  print("torrada!")
 end
 
-return module
+return modulo
 ```
 
-`main.lua`:
+`principal.lua`:
 
 ```lua
-local module = require "module"
-module.doSomething() --> toast!
+local modulo = require "modulo"
+modulo.fazAlgo() --> torrada!
 ```

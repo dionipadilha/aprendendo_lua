@@ -1,28 +1,28 @@
--- Person Class Definition:
+-- Definição da Classe Pessoa:
 
-local Person = {
-  firstName = "",
-  lastName = "",
-  age = 0
+local Pessoa = {
+  nome = "",
+  sobrenome = "",
+  idade = 0
 }
 
-function Person:new(object)
-  object = object or {}
-  setmetatable(object, self)
+function Pessoa:novo(objeto)
+  objeto = objeto or {}
+  setmetatable(objeto, self)
   self.__index = self
-  return object
+  return objeto
 end
 
-function Person:__tostring()
+function Pessoa:__tostring()
   return table.concat({
-    "First Name: " .. self.firstName,
-    "Last Name: " .. self.lastName,
-    "Age: " .. self.age
+    "Nome: " .. self.nome,
+    "Sobrenome: " .. self.sobrenome,
+    "Idade: " .. self.idade
   }, ", ")
 end
 
-local person1 = Person:new { firstName = "John", lastName = "Doe", age = 30 }
-local person2 = Person:new { firstName = "Jane", lastName = "Smith", age = 25 }
+local pessoa1 = Pessoa:novo { nome = "John", sobrenome = "Doe", idade = 30 }
+local pessoa2 = Pessoa:novo { nome = "Jane", sobrenome = "Smith", idade = 25 }
 
-print(person1) --> First Name: John, Last Name: Doe, Age: 30
-print(person2) --> First Name: Jane, Last Name: Smith, Age: 25
+print(pessoa1) --> Nome: John, Sobrenome: Doe, Idade: 30
+print(pessoa2) --> Nome: Jane, Sobrenome: Smith, Idade: 25

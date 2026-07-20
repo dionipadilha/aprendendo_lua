@@ -1,61 +1,61 @@
-# Lua Shopping Cart with Payment System
+# Carrinho de Compras em Lua com Sistema de Pagamento
 
-This project demonstrates a simple shopping cart implementation in Lua, featuring support for multiple payment methods through an interface-based design.
+Este projeto demonstra uma implementação simples de carrinho de compras em Lua, com suporte a múltiplos métodos de pagamento por meio de um design baseado em interface.
 
-## Key Components
+## Componentes Principais
 
--   **`IPayment` Interface (`ipayment.lua`)**: Defines the contract for payment methods, specifying the required properties (`date`,  `methodData`) and methods (`canMakePayment`,  `processPayment`,  `pay`).
-    
--   **Payment Implementations**:
-    
-    -   **`CreditCard` (`creditcard.lua`)**: Handles credit card payments, storing card details and simulating payment processing.
-    -   **`Pix` (`pix.lua`)**: Supports Pix payments, storing the Pix key and simulating payment processing.
--   **`ShoppingCart` (`shoppingcart.lua`)**: Represents the shopping cart itself. It allows setting a payment method and initiating the checkout process.
-    
--   **`main.lua`**: Provides a usage example, creating a shopping cart, setting different payment methods, and performing checkouts.
-    
+-   **Interface `IPagamento` (`ipagamento.lua`)**: Define o contrato para os métodos de pagamento, especificando as propriedades obrigatórias (`data`, `dadosDoMetodo`) e os métodos obrigatórios (`podeRealizarPagamento`, `processarPagamento`, `pagar`).
 
-## How It Works
+-   **Implementações de Pagamento**:
 
-1.  **Payment Interface**: The `IPayment` interface ensures that all payment methods adhere to a common structure, making the shopping cart adaptable to different payment options.
-    
-2.  **Payment Classes**: The `CreditCard` and `Pix` classes implement the `IPayment` interface, providing concrete implementations for credit card and Pix payments respectively.
-    
-3.  **Shopping Cart**: The `ShoppingCart` class holds a reference to the selected payment method. When `checkout` is called, it delegates the payment processing to the associated payment object.
-    
-4.  **Main Script**: The `main.lua` script demonstrates how to create a shopping cart, set payment methods, and perform checkouts.
+    -   **`CartaoDeCredito` (`cartao_de_credito.lua`)**: Lida com pagamentos por cartão de crédito, armazenando os dados do cartão e simulando o processamento do pagamento.
+    -   **`Pix` (`pix.lua`)**: Suporta pagamentos via Pix, armazenando a chave Pix e simulando o processamento do pagamento.
+-   **`CarrinhoDeCompras` (`carrinho_de_compras.lua`)**: Representa o carrinho de compras em si. Permite definir um método de pagamento e iniciar o processo de finalização da compra.
+
+-   **`principal.lua`**: Fornece um exemplo de uso, criando um carrinho de compras, definindo diferentes métodos de pagamento e finalizando compras.
 
 
-## Usage
+## Como Funciona
 
-1.  **Include Modules**: Require the necessary modules in your Lua script:
+1.  **Interface de Pagamento**: A interface `IPagamento` garante que todos os métodos de pagamento sigam uma estrutura comum, tornando o carrinho de compras adaptável a diferentes opções de pagamento.
+
+2.  **Classes de Pagamento**: As classes `CartaoDeCredito` e `Pix` implementam a interface `IPagamento`, fornecendo implementações concretas para pagamentos por cartão de crédito e Pix, respectivamente.
+
+3.  **Carrinho de Compras**: A classe `CarrinhoDeCompras` mantém uma referência ao método de pagamento selecionado. Quando `finalizarCompra` é chamado, ela delega o processamento do pagamento ao objeto de pagamento associado.
+
+4.  **Script Principal**: O script `principal.lua` demonstra como criar um carrinho de compras, definir métodos de pagamento e finalizar compras.
+
+
+## Uso
+
+1.  **Incluir os Módulos**: Faça o require dos módulos necessários no seu script Lua:
 
 ```lua
-local ShoppingCart = require "shoppingcart"
-local CreditCard = require "creditcard"
+local CarrinhoDeCompras = require "carrinho_de_compras"
+local CartaoDeCredito = require "cartao_de_credito"
 local Pix = require "pix"
 ```
-2. **Create Instances**: Create instances of the shopping cart and payment methods:
+2. **Criar Instâncias**: Crie instâncias do carrinho de compras e dos métodos de pagamento:
 
 ```lua
-local cart = ShoppingCart:new()
-local creditCard = CreditCard:new {}
-local pix = Pix:new {}
+local carrinho = CarrinhoDeCompras:novo()
+local cartaoDeCredito = CartaoDeCredito:novo {}
+local pix = Pix:novo {}
 ```
-3. **Set Payment Method**: Associate a payment method with the cart:
+3. **Definir o Método de Pagamento**: Associe um método de pagamento ao carrinho:
 ```lua
-cart:setPayment(creditCard)  -- Or cart:setPayment(pix)
+carrinho:definirPagamento(cartaoDeCredito)  -- Ou carrinho:definirPagamento(pix)
 ```
 
-4. **Checkout**: Initiate the checkout process with the desired amount:
+4. **Finalizar a Compra**: Inicie o processo de finalização da compra com o valor desejado:
 ```lua
-cart:checkout(100) 
+carrinho:finalizarCompra(100)
 ```
 
-## Additional Notes
+## Observações Adicionais
 
--   **Simulation**: The payment processing in this example is simulated. In a real-world application, you would integrate with actual payment gateways.
-    
--   **Error Handling**: The code includes basic error handling for invalid payment amounts and failed payment processing.
-    
--   **Extensibility**: You can easily add more payment methods by creating new classes that implement the `IPayment` interface.
+-   **Simulação**: O processamento de pagamento neste exemplo é simulado. Em uma aplicação real, você integraria gateways de pagamento reais.
+
+-   **Tratamento de Erros**: O código inclui tratamento básico de erros para valores de pagamento inválidos e falhas no processamento do pagamento.
+
+-   **Extensibilidade**: Você pode adicionar facilmente mais métodos de pagamento criando novas classes que implementem a interface `IPagamento`.

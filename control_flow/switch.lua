@@ -1,50 +1,50 @@
 -- switch.lua
--- executes a case based on the provided value
+-- executa um caso com base no valor fornecido
 
 --------------------------------------------------------------------------------
--- Defines switch function
+-- Define a função switch
 
 
-local function switch(cases, value)
-  assert(type(cases) == "table", "Invalid table cases")
-  assert(cases["default"], "Provide the default case")
+local function switch(casos, valor)
+  assert(type(casos) == "table", "Tabela de casos inválida")
+  assert(casos["padrao"], "Forneça o caso padrão")
   assert(
-    type(value) == "string" or type(value) == "number",
-    "value must be a string or number"
+    type(valor) == "string" or type(valor) == "number",
+    "valor deve ser uma string ou um número"
   )
 
-  local action = cases[value] or cases["default"]
-  assert(type(action) == "function", "action must be a function")
-  return action()
+  local acao = casos[valor] or casos["padrao"]
+  assert(type(acao) == "function", "a ação deve ser uma função")
+  return acao()
 end
 
 --------------------------------------------------------------------------------
--- Test basic case selection
+-- Testa a seleção básica de casos
 
-local students = {
-  default = function() print("This is the default case") end,
-  -- Add cases
-  ana = function() print("This is Ana's case") end,
-  bob = function() print("This is Bob's case") end,
-  charlie = function() print("This is Charlie's case") end,
+local estudantes = {
+  padrao = function() print("Este é o caso padrão") end,
+  -- Adiciona casos
+  ana = function() print("Este é o caso da Ana") end,
+  bob = function() print("Este é o caso do Bob") end,
+  charlie = function() print("Este é o caso do Charlie") end,
 }
 
-switch(students, "ana")  --> This is Ana's case
-switch(students, "bob")  --> This is Bob's case
-switch(students, "duda") --> This is the default case
+switch(estudantes, "ana")  --> Este é o caso da Ana
+switch(estudantes, "bob")  --> Este é o caso do Bob
+switch(estudantes, "duda") --> Este é o caso padrão
 
 --------------------------------------------------------------------------------
--- Test method style
+-- Testa o estilo de método
 
-local friends = {
+local amigos = {
   switch = switch,
-  default = function() print("This is the default case") end,
-  -- Add cases
-  john = function() print("This is John's case") end,
-  jane = function() print("This is Jane's case") end,
-  jack = function() print("This is Jack's case") end,
+  padrao = function() print("Este é o caso padrão") end,
+  -- Adiciona casos
+  john = function() print("Este é o caso do John") end,
+  jane = function() print("Este é o caso da Jane") end,
+  jack = function() print("Este é o caso do Jack") end,
 }
 
-friends:switch("jack") --> This is Jack's case
-friends:switch("bob")  --> This is the default case
+amigos:switch("jack") --> Este é o caso do Jack
+amigos:switch("bob")  --> Este é o caso padrão
 --------------------------------------------------------------------------------

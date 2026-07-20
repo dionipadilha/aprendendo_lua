@@ -1,12 +1,12 @@
 local App = {
-  try = function(a, b)
+  tentar = function(a, b)
     assert(a + b == 7)
   end,
 
-  excpet = function(excption)
-    print(excption)
+  capturar = function(excecao)
+    print(excecao)
   end
 }
 
-local result = xpcall(App.try, App.excpet, 6, 3)
-print("finaly ...")
+local resultado = xpcall(App.tentar, App.capturar, 6, 3)
+print("finalmente ...")

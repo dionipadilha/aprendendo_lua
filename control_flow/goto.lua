@@ -2,17 +2,17 @@
 
 local a = 0
 
-::start::
+::inicio::
 a = a + 1
 if a < 10 then
-  goto start
+  goto inicio
 else
-  goto stop
+  goto parada
 end
 
-::jump::
-print("Jumped code")
+::salto::
+print("Código pulado")
 
 
-::stop::
-print("Stop code")
+::parada::
+print("Código de parada")

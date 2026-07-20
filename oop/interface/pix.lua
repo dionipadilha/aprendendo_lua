@@ -1,69 +1,69 @@
-local IPayment = require "ipayment"
+local IPagamento = require "ipagamento"
 
--- Pix class definition
+-- Definição da classe Pix
 local Pix = {
-  class = "Pix",
+  classe = "Pix",
 
-  -- implements IPayment properties
-  methodData = "Pix",
-  date = "",
+  -- implementa as propriedades de IPagamento
+  dadosDoMetodo = "Pix",
+  data = "",
 
-  -- extend Pix properties
-  keyType = "CPF", -- CPF or CNPJ
-  key = "000.000.000-00"
+  -- propriedades adicionais de Pix
+  tipoDeChave = "CPF", -- CPF ou CNPJ
+  chave = "000.000.000-00"
 }
 
--- Pix Constructor
-function Pix:new(pix)
+-- Construtor de Pix
+function Pix:novo(pix)
   pix = pix or {}
   setmetatable(pix, self)
   self.__index = self
   return pix
 end
 
--- IPayment method: canMakePayment
-function Pix:canMakePayment()
-  local log = "fail: Payment cannot be made"
-  local response = true -- #simulation
-  assert(response, log)
+-- Método de IPagamento: podeRealizarPagamento
+function Pix:podeRealizarPagamento()
+  local log = "falha: O pagamento não pode ser realizado"
+  local resposta = true -- #simulação
+  assert(resposta, log)
   return self
 end
 
--- IPayment method: processPayment
-function Pix:processPayment(amount)
-  local log = "ProcessPayment: Payment processing failed"
-  local response = true -- -- #simulation
-  assert(response, log)
-  return response
+-- Método de IPagamento: processarPagamento
+function Pix:processarPagamento(valor)
+  local log = "processarPagamento: O processamento do pagamento falhou"
+  local resposta = true -- -- #simulação
+  assert(resposta, log)
+  return resposta
 end
 
--- IPayment method: pay
-function Pix:pay(amount)
+-- Método de IPagamento: pagar
+function Pix:pagar(valor)
   local log = {
-    "\nfail: Amount must be a non-negative number",
-    "\nProcess payment: fail",
-    "Process payment: success"
+    "\nfalha: O valor deve ser um número não negativo",
+    "\nProcessar pagamento: falha",
+    "Processar pagamento: sucesso"
   }
-  -- Ensure the amount is a non-negative number
-  assert(type(amount) == "number" and amount >= 0, log[1])
-  -- Check if payment can be made and then process it
-  assert(self:canMakePayment():processPayment(amount), log[2])
-  return true, log[3], amount
+  -- Garantir que o valor é um número não negativo
+  assert(type(valor) == "number" and valor >= 0, log[1])
+  -- Verificar se o pagamento pode ser realizado e então processá-lo
+  assert(self:podeRealizarPagamento():processarPagamento(valor), log[2])
+  return true, log[3], valor
 end
 
--- Method to check implementation of IPayment interface
-function Pix:implements(interface)
-  local log = "\nfail: class Pix implements IPayment %s"
-  for propertyName, propertyType in pairs(interface) do
+-- Método para verificar a implementação da interface IPagamento
+function Pix:implementa(interface)
+  local log = "\nfalha: a classe Pix implementa IPagamento %s"
+  for nomeDaPropriedade, tipoDaPropriedade in pairs(interface) do
     assert(
-      propertyType == type(self[propertyName]),
-      log:format(propertyName)
+      tipoDaPropriedade == type(self[nomeDaPropriedade]),
+      log:format(nomeDaPropriedade)
     )
   end
   return true
 end
 
--- Sign the IPayment contract
-assert(Pix:implements(IPayment))
+-- Assinar o contrato de IPagamento
+assert(Pix:implementa(IPagamento))
 
 return Pix

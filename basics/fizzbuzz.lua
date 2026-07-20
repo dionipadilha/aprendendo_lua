@@ -1,10 +1,10 @@
 -- fizzbuzz.lua
 
 --[[
-  prints the numbers 1 to n, but:
-    - for multiples of 3, it prints "Fizz",
-    - for multiples of 5, it prints "Buzz",
-    - for numbers which are multiples of both, it prints "FizzBuzz".
+  imprime os números de 1 a n, mas:
+    - para múltiplos de 3, imprime "Fizz",
+    - para múltiplos de 5, imprime "Buzz",
+    - para números múltiplos de ambos, imprime "FizzBuzz".
 --]]
 
 for i = 1, 100 do
