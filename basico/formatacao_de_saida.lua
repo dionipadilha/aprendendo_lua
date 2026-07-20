@@ -60,9 +60,9 @@ local function centralizar(str, largura)
   local tamanho = #str
   if tamanho >= largura then return str end
   local preenchimento = (largura - tamanho) / 2
-  local preenchimento_esquerda = math.floor(preenchimento)
-  local preenchimento_direita = math.ceil(preenchimento)
-  return string.rep(" ", preenchimento_esquerda) .. str .. string.rep(" ", preenchimento_direita)
+  local preenchimentoEsquerda = math.floor(preenchimento)
+  local preenchimentoDireita = math.ceil(preenchimento)
+  return string.rep(" ", preenchimentoEsquerda) .. str .. string.rep(" ", preenchimentoDireita)
 end
 
 print("|" .. centralizar("centro", 10) .. "|") --> |  centro  |

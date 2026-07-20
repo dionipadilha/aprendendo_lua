@@ -1,4 +1,4 @@
---srp.lua
+-- srp.lua
 
 -- Princípio da Responsabilidade Única:
 -- Cada função tem uma responsabilidade clara e específica.

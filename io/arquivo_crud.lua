@@ -14,7 +14,7 @@ end
 -- lendo o conteúdo de um arquivo
 do
   local arquivo = assert(io.open(nomeDoArquivo, "r"))
-  local conteudo = arquivo:read("*a")
+  local conteudo = arquivo:read("a")
   assert(conteudo == conteudoInicial)
   assert(arquivo:close())
 end
@@ -27,7 +27,7 @@ do
 
   -- verificando a atualização
   arquivo = assert(io.open(nomeDoArquivo, "r"))
-  local conteudo = arquivo:read("*a")
+  local conteudo = arquivo:read("a")
   assert(conteudo == conteudoAtualizado)
   assert(arquivo:close())
 end

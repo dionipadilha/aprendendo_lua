@@ -57,23 +57,23 @@ assert(meusAmigos[1] == "lois" and meusAmigos[5] == "charlie")
 
 -- Aplicando uma função a cada elemento de uma lista:
 for i, numero in ipairs(quadradosBasicos) do
-    print(numero + i) --> 2.0, 6.0, 12.0
+  print(numero + i) --> 2.0, 6.0, 12.0
 end
 
 -- Selecionando elementos com base em certos critérios:
-local function comecaCom_c(texto)
-    return texto:sub(1, 1) == "c"
+local function comecaComC(texto)
+  return texto:sub(1, 1) == "c"
 end
 
 local function selecionarPor(lista, criterio)
-    local selecionados = {}
-    for _, item in ipairs(lista) do
-        if criterio(item) then table.insert(selecionados, item) end
-    end
-    return selecionados
+  local selecionados = {}
+  for _, item in ipairs(lista) do
+    if criterio(item) then table.insert(selecionados, item) end
+  end
+  return selecionados
 end
 
-local meusMelhoresAmigos = selecionarPor(meusAmigos, comecaCom_c)
+local meusMelhoresAmigos = selecionarPor(meusAmigos, comecaComC)
 print(table.unpack(meusMelhoresAmigos)) --> clark	charlie
 assert(#meusMelhoresAmigos == 2)
 assert(meusMelhoresAmigos[1]:sub(1, 1) == "c" and meusMelhoresAmigos[2]:sub(1, 1) == "c")

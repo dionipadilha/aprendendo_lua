@@ -33,7 +33,7 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | `io/` | Leitura e escrita de arquivos |
 | `sistema/` | Data e hora, relógio, esperas e números aleatórios |
 | `banco_de_dados/` | Integração com SQLite via CLI |
-| `padroes/` | Padrões de projeto: fábrica, observador, decorador, estratégia, fachada, MVC, máquina de estados |
+| `padroes/` | Padrões de projeto: fábrica, fábrica abstrata, construtor, protótipo, singleton, adaptador, comando, decorador, estratégia, fachada, observador, MVC, máquina de estados |
 | `solid/` | Princípios SOLID, um arquivo por princípio |
 | `testes/` | Framework de teste unitário e exemplos de testes |
 | `projetos/` | Projetos completos: `pluralizador/`, `json/`, `equipe/` |

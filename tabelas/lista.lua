@@ -1,3 +1,5 @@
+-- lista.lua
+
 -- Métodos de Lista/Vetor em Lua
 
 -- Criando uma Lista/Vetor:
@@ -27,9 +29,9 @@ for _, nome in ipairs(nomes) do print(nome) end
 --> carlos
 
 -- Convertendo a lista em string:
-local lista_como_string = table.concat(nomes, ", ")
-print(lista_como_string) --> ana, bob, carlos
-assert(lista_como_string == "ana, bob, carlos")
+local listaComoString = table.concat(nomes, ", ")
+print(listaComoString) --> ana, bob, carlos
+assert(listaComoString == "ana, bob, carlos")
 
 -- Acrescentando à lista:
 table.insert(nomes, "duda")
@@ -74,9 +76,9 @@ print(table.concat(nomes, ", "))
 assert(table.concat(nomes, ", ") == "edu, duda, bob, maçã, banana, laranja")
 
 -- Buscando em listas:
-local este_nome = "bob"
+local esteNome = "bob"
 
-local function buscar_na_lista(alvo, lista)
+local function buscarNaLista(alvo, lista)
   local indices = {}
   for i, item in ipairs(lista) do
     if item == alvo then table.insert(indices, i) end
@@ -84,6 +86,6 @@ local function buscar_na_lista(alvo, lista)
   return indices
 end
 
-local lista_de_indices_do_alvo = buscar_na_lista(este_nome, nomes)
-print(table.concat(lista_de_indices_do_alvo, ", ")) --> 3
-assert(#lista_de_indices_do_alvo == 1 and lista_de_indices_do_alvo[1] == 3)
+local listaDeIndicesDoAlvo = buscarNaLista(esteNome, nomes)
+print(table.concat(listaDeIndicesDoAlvo, ", ")) --> 3
+assert(#listaDeIndicesDoAlvo == 1 and listaDeIndicesDoAlvo[1] == 3)

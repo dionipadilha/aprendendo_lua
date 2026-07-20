@@ -32,7 +32,7 @@ end
 -- Método de IPagamento: processarPagamento
 function Pix:processarPagamento(valor)
   local log = "processarPagamento: O processamento do pagamento falhou"
-  local resposta = true -- -- #simulação
+  local resposta = true -- #simulação
   assert(resposta, log)
   return resposta
 end

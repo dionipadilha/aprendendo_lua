@@ -1,3 +1,5 @@
+-- corrotina_com_wrap.lua
+
 -- cria uma função de corrotina usando coroutine.wrap():
 local fazAlgo = coroutine.wrap(function()
   print("fazAlgo #1")

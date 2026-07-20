@@ -112,8 +112,8 @@ print(table.concat(frutas, ", ")) --> laranja, maçã, pera
 assert(table.concat(frutas, ", ") == "laranja, maçã, pera")
 
 -- Ordenação inversa:
-local OrdenacaoInversa = function(a, b) return a > b end
-table.sort(frutas, OrdenacaoInversa)
+local ordenacaoInversa = function(a, b) return a > b end
+table.sort(frutas, ordenacaoInversa)
 print(table.concat(frutas, ", ")) --> pera, maçã, laranja
 assert(table.concat(frutas, ", ") == "pera, maçã, laranja")
 
@@ -152,10 +152,10 @@ local n = 3
 local m = 4
 local grade = {}
 for i = 1, n do
-    grade[i] = {}
-    for j = 1, m do
-        grade[i][j] = 0
-    end
+  grade[i] = {}
+  for j = 1, m do
+    grade[i][j] = 0
+  end
 end
 assert(#grade == 3 and #grade[1] == 4 and grade[3][4] == 0)
 
@@ -174,7 +174,7 @@ assert(matriz[2][1] == 4)
 -- Percorrendo um vetor multidimensional:
 for i = 1, #matriz do
   for j = 1, #matriz[i] do
-      print(matriz[i][j]) --> 1, 2, 3, 4, 5, 6, 7, 8, 9
+    print(matriz[i][j]) --> 1, 2, 3, 4, 5, 6, 7, 8, 9
   end
 end
 

@@ -37,8 +37,8 @@ assert(contador == 2)
 -- Iterando com a função next (mesma observação: ordem não garantida):
 local chave, valor = next(tabela, nil)
 while chave do
-    print(chave, valor) --> imprime os pares chave1/valor1 e chave2/valor2 (em ordem não garantida)
-    chave, valor = next(tabela, chave)
+  print(chave, valor) --> imprime os pares chave1/valor1 e chave2/valor2 (em ordem não garantida)
+  chave, valor = next(tabela, chave)
 end
 
 --------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ assert(tabela.chave1 == nil)
 local tabela1 = {a = 1, b = 2}
 local tabela2 = {c = 3, d = 4}
 for k, v in pairs(tabela2) do
-    tabela1[k] = v
+  tabela1[k] = v
 end
 print(tabela1.a, tabela1.b, tabela1.c, tabela1.d) --> 1	2	3	4
 assert(tabela1.a == 1 and tabela1.b == 2 and tabela1.c == 3 and tabela1.d == 4)
@@ -93,8 +93,8 @@ assert(tabelaMultidimensional.primeira.a == nil)
 -- Percorrendo os elementos em tabelas multidimensionais:
 -- (a ordem de pairs não é garantida em nenhum dos dois níveis)
 for chave, valor in pairs(tabelaMultidimensional) do
-    for k, v in pairs(valor) do
-        print(k, v)
-    end
+  for k, v in pairs(valor) do
+    print(k, v)
+  end
 end
 --------------------------------------------------------------------------------

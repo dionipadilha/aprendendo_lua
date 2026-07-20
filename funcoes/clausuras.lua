@@ -2,11 +2,11 @@
 
 -- Cria funções que mantêm estado entre as chamadas.
 local novoContador = function(n)
-    local i = 0
-    return function()
-        i = i + 1
-        return i <= n and i or nil
-    end
+  local i = 0
+  return function()
+    i = i + 1
+    return i <= n and i or nil
+  end
 end
 
 -- Cria um contador separado com seu próprio ambiente:
