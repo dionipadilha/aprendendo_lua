@@ -34,6 +34,8 @@ end
 -- #4. Testes
 local instanciaA = ClasseA:novo {}
 print(instanciaA:saudar()) --> Olá da ClasseA
+assert(instanciaA:saudar() == "Olá da ClasseA")
 
 local instanciaB = ClasseB:novo {}
 print(instanciaB:saudar()) --> Olá da ClasseA e boas-vindas da ClasseB
+assert(instanciaB:saudar() == "Olá da ClasseA e boas-vindas da ClasseB")

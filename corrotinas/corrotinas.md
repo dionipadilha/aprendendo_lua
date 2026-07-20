@@ -1,14 +1,14 @@
-# Noções básicas de Co-rotinas em Lua
+# Corrotinas em Lua
 
-## Co-rotinas da Linguagem Lua
+## Introdução
 
-As co-rotinas em Lua oferecem um mecanismo poderoso para gerenciar a execução concorrente de forma leve e eficiente, sem a complexidade das **threads** ou a necessidade de gerenciamento de múltiplos fluxos de controle. Elas utilizam um modelo de **multitarefa cooperativa**, em que as tarefas cedem explicitamente o controle para outras, garantindo uma execução mais controlada e previsível. Podemos entender as co-rotinas como "linhas de execução independentes dentro de um programa, que possuem suas próprias variáveis locais e rastreiam seu estado de execução". Elas são uma excelente alternativa quando a **verdadeira concorrência** não é necessária.
+As corrotinas em Lua oferecem um mecanismo poderoso para gerenciar a execução concorrente de forma leve e eficiente, sem a complexidade das **threads** ou a necessidade de gerenciamento de múltiplos fluxos de controle. Elas utilizam um modelo de **multitarefa cooperativa**, em que as tarefas cedem explicitamente o controle para outras, garantindo uma execução mais controlada e previsível. Podemos entender as corrotinas como "linhas de execução independentes dentro de um programa, que possuem suas próprias variáveis locais e rastreiam seu estado de execução". Elas são uma excelente alternativa quando a **verdadeira concorrência** não é necessária — especialmente em jogos, simulações e sistemas em que várias tarefas precisam progredir sem o custo de threads reais.
 
-## Explorando o Ciclo das Co-rotinas
+## Explorando o Ciclo das Corrotinas
 
-Para criar e executar uma co-rotina, usamos as seguintes funções:
-- `create`: cria uma nova co-rotina.
-- `resume`: (re)inicia a execução de uma co-rotina.
+Para criar e executar uma corrotina, usamos as seguintes funções:
+- `coroutine.create`: cria uma nova corrotina.
+- `coroutine.resume`: (re)inicia a execução de uma corrotina.
 
 ### Exemplo Básico:
 ```lua
@@ -18,16 +18,20 @@ end)
 coroutine.resume(co) --> Oi
 ```
 
-As co-rotinas são objetos do tipo `thread`, e cada nova instância recebe um identificador exclusivo. 
+As corrotinas são objetos do tipo `thread`, e cada nova instância recebe um identificador exclusivo.
 ```lua
 local co = coroutine.create(function () end)
 print(co)            --> thread: id
 ```
 
-As co-rotinas podem estar em um de três estados:
-- **`suspended`**: co-rotina aguardando iniciar ou continuar sua execução.
-- **`running`**: co-rotina está em execução.
-- **`dead`**: co-rotina totalmente finalizada.
+### Os Quatro Estados de uma Corrotina
+
+Em Lua 5.4, `coroutine.status` pode retornar **quatro** estados:
+
+- **`suspended`**: corrotina aguardando iniciar ou continuar sua execução (estado inicial após `create` e após cada `yield`).
+- **`running`**: corrotina em execução — é o estado da corrotina que está rodando neste momento.
+- **`normal`**: corrotina ativa, mas que não está executando — é o estado de uma corrotina que retomou **outra** corrotina e aguarda essa outra ceder ou terminar.
+- **`dead`**: corrotina totalmente finalizada (ou encerrada por um erro); não pode mais ser retomada.
 
 ### Exemplo de Status:
 ```lua
@@ -39,9 +43,44 @@ coroutine.resume(co)        --> executando
 print(coroutine.status(co)) --> dead
 ```
 
-## Tratando Erros de Execução em Co-rotinas
+### Exemplo do Estado `normal`:
 
-As co-rotinas em Lua são executadas em modo protegido. Portanto, se ocorrer um erro dentro de uma co-rotina, Lua não exibirá a mensagem de erro diretamente, mas retornará a mensagem para a função `resume`.
+O estado `normal` só aparece quando uma corrotina retoma outra: enquanto a corrotina interna executa, a externa não está suspensa (não pode ser retomada) nem executando — ela está `normal`.
+
+```lua
+local externa -- declarada antes para ser visível dentro da interna
+
+local interna = coroutine.create(function()
+  -- Enquanto a interna executa, a externa que a retomou fica "normal":
+  print(coroutine.status(externa)) --> normal
+end)
+
+externa = coroutine.create(function()
+  print(coroutine.status(externa)) --> running
+  coroutine.resume(interna)
+end)
+
+coroutine.resume(externa)
+```
+
+### Encerrando Corrotinas com `coroutine.close` (Lua 5.4)
+
+Lua 5.4 introduziu `coroutine.close(co)`, que encerra uma corrotina no estado `suspended` sem retomá-la: as variáveis to-be-closed pendentes dela são fechadas, seus recursos são liberados e seu estado passa a ser `dead`. É útil quando decidimos não consumir o restante de uma corrotina (um gerador abandonado no meio, por exemplo).
+
+```lua
+local co = coroutine.create(function()
+  coroutine.yield(1)
+  coroutine.yield(2)
+end)
+
+print(coroutine.resume(co)) --> true	1
+print(coroutine.close(co))  --> true
+print(coroutine.status(co)) --> dead
+```
+
+## Tratando Erros de Execução em Corrotinas
+
+As corrotinas em Lua são executadas em modo protegido. Portanto, se ocorrer um erro dentro de uma corrotina, Lua não exibirá a mensagem de erro diretamente, mas retornará `false` seguido da mensagem para quem chamou `resume`. Repare que a mensagem vem com o prefixo real `arquivo:linha:` indicando onde o erro ocorreu.
 
 ### Exemplo de Erro:
 ```lua
@@ -49,24 +88,39 @@ local co = coroutine.create(function()
   assert(1 > 2)
 end)
 local sucesso, excecao = coroutine.resume(co)
-if not sucesso then print(excecao) end --> assertion failed!
+if not sucesso then print(excecao) end --> exemplo.lua:2: assertion failed!
 print("finalmente ...")                --> finalmente ...
 ```
 
-### Alternativa: Usando `pcall` para Tratamento de Erros
-Você também pode usar `pcall` para capturar erros de forma mais segura:
+> **Atenção:** `pcall(coroutine.resume, co)` **não** captura erros da corrotina. Como `resume` nunca lança erro — ele **retorna** `false` e a mensagem —, nesse idioma o `pcall` sempre "dá certo" (retorna `true, false, mensagem`) e o erro passa despercebido. Verifique sempre o primeiro valor retornado pelo próprio `resume`:
+>
+> ```lua
+> local co = coroutine.create(function()
+>   error("Erro intencional")
+> end)
+>
+> local ok, err = coroutine.resume(co)
+> if not ok then
+>   print("Erro na corrotina: " .. err) --> Erro na corrotina: exemplo.lua:2: Erro intencional
+> end
+> ```
+
+### `pcall` para Funções Comuns
+
+Para funções comuns (fora de corrotinas), `pcall` é a forma padrão de capturar erros:
+
 ```lua
 local sucesso, excecao = pcall(function() assert(1 > 2) end)
 if not sucesso then
-  print(excecao) -- Exibe o erro sem interromper o programa
+  print(excecao) --> exemplo.lua:1: assertion failed!
 end
 ```
 
 ## Retomando a Execução e "Colhendo" Valores
 
 A função `yield` permite:
-- Suspender uma co-rotina em execução para que ela possa ser retomada mais tarde.
-- "_Colher_" os valores obtidos durante a retomada da execução da co-rotina.
+- Suspender uma corrotina em execução para que ela possa ser retomada mais tarde.
+- "_Colher_" os valores obtidos durante a retomada da execução da corrotina.
 
 ### Exemplo de Yield e Resumo:
 ```lua
@@ -79,7 +133,7 @@ print(coroutine.resume(co)) --> true	1
 print(coroutine.status(co)) --> suspended
 ```
 
-Quando retomada pela função `resume`, a co-rotina será executada até o próximo `yield` ou até o seu final.
+Quando retomada pela função `resume`, a corrotina será executada até o próximo `yield` ou até o seu final.
 
 ### Exemplo de Execução Contínua:
 ```lua
@@ -98,7 +152,7 @@ print(coroutine.status(co)) --> dead
 
 ## Multitarefa Cooperativa
 
-A comunicação entre co-rotinas pode ser feita com o uso combinado de `resume` e `yield`, permitindo o envio e recebimento de valores. Esse comportamento é semelhante ao uso de funções geradoras ou multitarefa cooperativa em outras linguagens de programação.
+A comunicação entre corrotinas pode ser feita com o uso combinado de `resume` e `yield`, permitindo o envio e recebimento de valores. Esse comportamento é semelhante ao uso de funções geradoras ou multitarefa cooperativa em outras linguagens de programação.
 
 ### Exemplo de Multitarefa:
 ```lua
@@ -112,9 +166,9 @@ print(coroutine.resume(co, 4, 5)) --> true
 print(coroutine.resume(co, 6, 7)) --> false	cannot resume dead coroutine
 ```
 
-Esse mecanismo permite que as co-rotinas se comuniquem e cooperem, como no exemplo a seguir:
+Esse mecanismo permite que as corrotinas se comuniquem e cooperem, como no exemplo a seguir:
 
-### Exemplo de Cooperação entre Co-rotinas:
+### Exemplo de Cooperação entre Corrotinas:
 ```lua
 local c1 = coroutine.create(function(n)
   coroutine.yield(n * 2)
@@ -125,13 +179,24 @@ local c2 = coroutine.create(function(n)
 end)
 
 local _, y = coroutine.resume(c1, 5)
-print(coroutine.resume(c2, y)) --> true 11
+print(coroutine.resume(c2, y)) --> true	11
 ```
+
+## Vantagens das Corrotinas
+
+As corrotinas oferecem diversas vantagens:
+
+- **Leveza e eficiência**: são mais leves que threads, com menor custo de criação e gerenciamento.
+- **Controle e previsibilidade**: como a execução é cooperativa, o programador decide quando uma tarefa cede o controle, o que facilita o rastreamento e a depuração.
+- **Simplicidade**: a API pequena (`create`, `resume`, `yield`, `status`, `wrap`, `close`) torna fácil escrever código concorrente sem complicação.
+- **Funcionalidades específicas**: são ideais para implementar iteradores, máquinas de estados e sistemas de agendamento de tarefas.
+
+Essas vantagens tornam as corrotinas ideais para cenários que exigem concorrência leve e onde o paralelismo não é necessário.
 
 ## Exemplos Práticos de Uso
 
 ### Simulação de Tarefas em um Jogo
-Em um cenário de jogo, podemos usar co-rotinas para simular a movimentação de diferentes personagens:
+Em um cenário de jogo, podemos usar corrotinas para simular a movimentação de diferentes personagens:
 
 ```lua
 local function jogador()
@@ -159,7 +224,7 @@ end
 
 ### Leitura de Dados em Blocos
 
-Podemos usar co-rotinas para ler dados em blocos de forma eficiente, sem bloquear a execução do programa:
+Podemos usar corrotinas para ler dados em blocos de forma eficiente, sem bloquear a execução do programa:
 
 ```lua
 local function lerBlocos(leitor)
@@ -193,7 +258,7 @@ end
 
 ### Agendamento de Tarefas
 
-Usando co-rotinas, podemos criar um simples agendador de tarefas cooperativas:
+Usando corrotinas, podemos criar um simples agendador de tarefas cooperativas:
 
 ```lua
 local function tarefa(nome, duracao)
@@ -212,7 +277,7 @@ function agendador.novo()
   return self
 end
 
-function agendador:adicionar_tarefa(co)
+function agendador:adicionarTarefa(co)
   table.insert(self.tarefas, co)
 end
 
@@ -233,8 +298,8 @@ local tarefa2 = coroutine.create(function() tarefa("Tarefa 2", 5) end)
 
 -- Agenda as tarefas
 local agenda = agendador.novo()
-agenda:adicionar_tarefa(tarefa1)
-agenda:adicionar_tarefa(tarefa2)
+agenda:adicionarTarefa(tarefa1)
+agenda:adicionarTarefa(tarefa2)
 
 -- Executa o agendador
 agenda:executar()
@@ -242,7 +307,7 @@ agenda:executar()
 
 ### Máquinas de Estados Finitos
 
-Co-rotinas podem ser usadas para implementar uma máquina de estados de forma simples:
+Corrotinas podem ser usadas para implementar uma máquina de estados de forma simples:
 
 ```lua
 local estados = {}
@@ -267,14 +332,14 @@ function estados.executando()
   end
 end
 
-local function maquina_de_estados()
+local function maquinaDeEstados()
   local estado = estados.ocioso
   while true do
     estado = estado()
   end
 end
 
-local maquina = coroutine.create(maquina_de_estados)
+local maquina = coroutine.create(maquinaDeEstados)
 
 coroutine.resume(maquina)
 coroutine.resume(maquina, "iniciar")
@@ -283,8 +348,12 @@ coroutine.resume(maquina, "parar")
 coroutine.resume(maquina)
 ```
 
+## Limitações e Considerações
+
+Embora as corrotinas sejam eficientes, elas não permitem paralelismo real, ou seja, não aproveitam múltiplos núcleos de CPU. Elas são executadas de forma cooperativa em um único núcleo de processamento. Portanto, se você precisar de paralelismo real (execução em múltiplos núcleos simultaneamente), corrotinas não são adequadas — em tais casos, outras abordagens, como threads ou processos, seriam mais indicadas.
+
 ## Conclusão
 
-- As co-rotinas são uma ferramenta poderosa para gerenciar a execução concorrente de forma eficiente, sem a complexidade das **threads**.
-- As funções `create`, `resume`, e `yield` permitem criar fluxos de execução independentes que colaboram entre si.
-- As co-rotinas permitem a criação de programas mais organizados e fáceis de manter, sem a complexidade adicional das threads.
+- As corrotinas são uma ferramenta poderosa para gerenciar a execução concorrente de forma eficiente, sem a complexidade das **threads**.
+- As funções `create`, `resume` e `yield` permitem criar fluxos de execução independentes que colaboram entre si; `status` distingue os quatro estados (`suspended`, `running`, `normal`, `dead`) e `coroutine.close` (Lua 5.4) encerra corrotinas abandonadas.
+- As corrotinas permitem a criação de programas mais organizados e fáceis de manter — desde que se entenda sua principal limitação: concorrência cooperativa, sem paralelismo real.
