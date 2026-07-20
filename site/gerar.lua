@@ -46,7 +46,7 @@ local configuracao = {
     { nome = "testes", tema = "Framework de teste unitário e exemplos de testes" },
     { nome = "projetos", tema = "Projetos completos e soluções dos exercícios" },
     { nome = "documentacao", tema = "Guia de estudos, roteiro, paradigmas e convenções" },
-    { nome = "site", tema = "O gerador deste site, em Lua puro (autopublicado)" },
+    { nome = "site", tema = "O gerador deste site em arquitetura hexagonal (autopublicado)" },
   },
 
   -- sanidade específica DESTE repositório:

@@ -50,7 +50,7 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | `testes/` | Framework de teste unitário e exemplos de testes |
 | `projetos/` | Projetos completos (`pluralizador/`, `json/`, `equipe/`) e soluções dos exercícios (`exercicios/`) |
 | `documentacao/` | Guia de estudos, roteiro, paradigmas, convenções, instalação no Windows e guia de enunciados de projetos |
-| `site/` | Gerador do site estático (conversor de Markdown e realce em Lua puro) |
+| `site/` | Gerador do site estático em arquitetura hexagonal — estudo de caso de portas e adaptadores |
 
 A trilha completa de estudo está em `documentacao/roteiro_de_estudos.yml` e `documentacao/guia_de_estudos.md`.
 

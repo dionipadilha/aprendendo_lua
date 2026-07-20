@@ -193,7 +193,7 @@ Exemplos práticos: pasta [`testes/`](../testes/) — um mini-framework de teste
 **13. Padrões de Projeto e SOLID**
 Com POO e módulos dominados, vale estudar como organizar programas maiores: os padrões de projeto clássicos (fábrica, observador, estratégia, comando, MVC, máquina de estados etc.) e os princípios SOLID, todos implementados em Lua neste repositório.
 
-Exemplos práticos: pastas [`padroes/`](../padroes/) (16 padrões) e [`solid/`](../solid/) (um arquivo por princípio, com a violação e o redesenho lado a lado).
+Exemplos práticos: pastas [`padroes/`](../padroes/) (16 padrões) e [`solid/`](../solid/) (um arquivo por princípio, com a violação e o redesenho lado a lado). O degrau seguinte — uma **arquitetura** inteira aplicada a um programa real — está em [`site/`](../site/): o gerador do site do repositório é organizado em arquitetura hexagonal (portas e adaptadores), com o estudo de caso explicado no README da pasta.
 
 **14. Tópicos Avançados**
 Os tópicos avançados de programação em Lua incluem concorrência baseada em corrotinas (coroutines) para tarefas assíncronas, a incorporação de Lua em aplicações maiores (como motores de jogos) e a integração de Lua com C/C++ para operações críticas em desempenho. Esses tópicos atendem a desenvolvedores que buscam explorar todo o potencial de Lua em diversos domínios de aplicação.
