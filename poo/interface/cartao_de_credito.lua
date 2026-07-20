@@ -1,3 +1,5 @@
+-- cartao_de_credito.lua
+
 local IPagamento = require "ipagamento"
 
 -- a classe CartaoDeCredito implementa as propriedades de IPagamento
@@ -6,7 +8,7 @@ local CartaoDeCredito = {
 
   -- implementa as propriedades de IPagamento
   dadosDoMetodo = "CartaoDeCredito",
-  data = "",
+  dataDoPagamento = "",
 
   -- propriedades adicionais de CartaoDeCredito
   numeroDoCartao = "0000 0000 0000 0000",
@@ -52,19 +54,8 @@ function CartaoDeCredito:pagar(valor)
   return true, log[3], valor
 end
 
--- implementa o contrato de IPagamento
-function CartaoDeCredito:implementa(interface)
-  local log = "\nfalha: a classe CartaoDeCredito não implementa o membro %s de IPagamento"
-  for nomeDaPropriedade, tipoDaPropriedade in pairs(interface) do
-    assert(
-      tipoDaPropriedade == type(self[nomeDaPropriedade]),
-      log:format(nomeDaPropriedade)
-    )
-  end
-  return true
-end
-
--- assina o contrato de IPagamento
-assert(CartaoDeCredito:implementa(IPagamento))
+-- assina o contrato de IPagamento (o verificador é compartilhado e
+-- mora em ipagamento.lua):
+assert(IPagamento:verificarImplementacao(CartaoDeCredito))
 
 return CartaoDeCredito

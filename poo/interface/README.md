@@ -4,7 +4,7 @@ Este projeto demonstra uma implementação simples de carrinho de compras em Lua
 
 ## Componentes Principais
 
--   **Interface `IPagamento` (`ipagamento.lua`)**: Define o contrato para os métodos de pagamento, especificando as propriedades obrigatórias (`data`, `dadosDoMetodo`) e os métodos obrigatórios (`podeRealizarPagamento`, `processarPagamento`, `pagar`).
+-   **Interface `IPagamento` (`ipagamento.lua`)**: Define o contrato para os métodos de pagamento, especificando as propriedades obrigatórias (`dataDoPagamento`, `dadosDoMetodo`) e os métodos obrigatórios (`podeRealizarPagamento`, `processarPagamento`, `pagar`).
 
 -   **Implementações de Pagamento**:
 

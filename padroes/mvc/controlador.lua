@@ -20,6 +20,9 @@ function Controlador:definirDados(dados)
     "os dados devem ser uma string não vazia"
   )
   self.modelo:definirDados(dados)
+  -- Variante "push": o controlador entrega os dados à visão. No MVC
+  -- clássico a visão consulta (ou observa) o modelo; esta forma mais
+  -- direta é comum em exemplos e aproxima o desenho de um MVP.
   self.visao:renderizar(dados)
 end
 

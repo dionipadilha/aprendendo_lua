@@ -23,7 +23,7 @@ end
 --------------------------------------------------------------------------------
 local SuiteDeTestes = {}
 
-SuiteDeTestes.testes_facaIsso = TesteUnitarioBasico:novo {
+SuiteDeTestes.testesFacaIsso = TesteUnitarioBasico:novo {
   id = "Teste #1 - facaIsso",
   teste = facaIsso,
   casos = {
@@ -35,7 +35,7 @@ SuiteDeTestes.testes_facaIsso = TesteUnitarioBasico:novo {
 
 -- O caso "gatosx" é uma FALHA DEMONSTRATIVA proposital: mostra como o
 -- framework reporta uma reprovação sem derrubar a suíte inteira.
-SuiteDeTestes.testes_facaAquilo = TesteUnitarioBasico:novo {
+SuiteDeTestes.testesFacaAquilo = TesteUnitarioBasico:novo {
   id = "Teste #2 - facaAquilo",
   teste = facaAquilo,
   casos = {
@@ -46,8 +46,8 @@ SuiteDeTestes.testes_facaAquilo = TesteUnitarioBasico:novo {
 }
 
 function SuiteDeTestes:executar()
-  local aprovados1, reprovados1 = self.testes_facaIsso:tentar()
-  local aprovados2, reprovados2 = self.testes_facaAquilo:tentar()
+  local aprovados1, reprovados1 = self.testesFacaIsso:tentar()
+  local aprovados2, reprovados2 = self.testesFacaAquilo:tentar()
   return aprovados1, reprovados1, aprovados2, reprovados2
 end
 

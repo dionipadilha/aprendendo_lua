@@ -37,7 +37,7 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | `solid/` | Princípios SOLID, um arquivo por princípio |
 | `testes/` | Framework de teste unitário e exemplos de testes |
 | `projetos/` | Projetos completos: `pluralizador/`, `json/`, `equipe/` |
-| `documentacao/` | Guia de estudos, roteiro, paradigmas e convenções |
+| `documentacao/` | Guia de estudos, roteiro, paradigmas, convenções, instalação no Windows e guia de enunciados de projetos |
 
 A trilha completa de estudo está em `documentacao/roteiro_de_estudos.yml` e `documentacao/guia_de_estudos.md`.
 
@@ -66,6 +66,8 @@ Os códigos disponibilizados neste repositório são livres para uso, sob a [lic
 A citação da fonte é apreciada.
 
 ## Links:
-- https://gist.github.com/oatmealine/655c9e64599d0f0dd47687c1186de99f
+- [Manual de referência do Lua 5.4](https://www.lua.org/manual/5.4/)
+- [Programming in Lua (livro dos autores da linguagem)](https://www.lua.org/pil/)
+- [Guia rápido da comunidade (gist)](https://gist.github.com/oatmealine/655c9e64599d0f0dd47687c1186de99f)
 
 **Espero que este material seja útil para o meu/seu aprendizado!**

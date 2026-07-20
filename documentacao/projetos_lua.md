@@ -1,4 +1,11 @@
-## Projetos em Lua
+## Como propor projetos de estudo em Lua
+
+Este documento é um guia para **elaborar enunciados** de projetos de
+estudo — útil para educadores e para quem quer praticar além dos
+exemplos. Os projetos completos deste repositório (em
+[`projetos/`](../projetos/): `pluralizador/`, `json/` e `equipe/`)
+seguem o espírito destes critérios: propósito claro, relevância
+prática, limitações documentadas e testes.
 
 ### Com propósito:
 **Enunciado:** "Escreva uma função Lua que calcule o fatorial de um número inteiro não negativo \( n \). Discuta como sua implementação trata casos extremos, como \( n = 0 \) e \( n = 1 \), e explique a complexidade computacional da sua solução."

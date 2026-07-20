@@ -19,8 +19,18 @@ local function escaparString(texto)
 end
 
 local function jsonCodificar(valor)
+  -- tabelas em codificação na pilha atual: se uma tabela reaparecer
+  -- dentro de si mesma, há um ciclo — sem esta checagem a recursão
+  -- estouraria a pilha (stack overflow) com uma mensagem obscura.
+  local emCodificacao = {}
+
   local function codificarValor(v)
     if type(v) == "table" then
+      if emCodificacao[v] then
+        error("JSON não representa ciclos: a tabela referencia a si mesma")
+      end
+      emCodificacao[v] = true
+
       local ehVetor = true
       local indiceMaximo = 0
       for k in pairs(v) do
@@ -31,19 +41,23 @@ local function jsonCodificar(valor)
         if k > indiceMaximo then indiceMaximo = k end
       end
 
+      local resultado
       if ehVetor then
         local itens = {}
         for i = 1, indiceMaximo do
           table.insert(itens, codificarValor(v[i]))
         end
-        return "[" .. table.concat(itens, ",") .. "]"
+        resultado = "[" .. table.concat(itens, ",") .. "]"
       else
         local itens = {}
         for k, item in pairs(v) do
           table.insert(itens, '"' .. escaparString(tostring(k)) .. '":' .. codificarValor(item))
         end
-        return "{" .. table.concat(itens, ",") .. "}"
+        resultado = "{" .. table.concat(itens, ",") .. "}"
       end
+
+      emCodificacao[v] = nil
+      return resultado
     elseif type(v) == "string" then
       return '"' .. escaparString(v) .. '"'
     elseif type(v) == "number" then

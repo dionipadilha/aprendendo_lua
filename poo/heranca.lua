@@ -1,16 +1,16 @@
 -- heranca.lua
 
 -- Definindo as tabelas Pai e Filha:
-local tabela_pai = { chave_pai = "valor_pai" }
-local tabela_filha = { chave_filha = "valor_filho" }
+local tabelaPai = { chavePai = "valorPai" }
+local tabelaFilha = { chaveFilha = "valorFilho" }
 
 -- Configurando a herança:
-setmetatable(tabela_filha, { __index = tabela_pai })
+setmetatable(tabelaFilha, { __index = tabelaPai })
 
 -- Acessando a chave herdada:
-print(tabela_filha.chave_filha) --> valor_filho
-print(tabela_filha.chave_pai)   --> valor_pai
+print(tabelaFilha.chaveFilha) --> valorFilho
+print(tabelaFilha.chavePai)   --> valorPai
 
-assert(tabela_filha.chave_filha == "valor_filho")
-assert(tabela_filha.chave_pai == "valor_pai")   -- herdada via __index
-assert(rawget(tabela_filha, "chave_pai") == nil) -- não existe na filha
+assert(tabelaFilha.chaveFilha == "valorFilho")
+assert(tabelaFilha.chavePai == "valorPai")   -- herdada via __index
+assert(rawget(tabelaFilha, "chavePai") == nil) -- não existe na filha

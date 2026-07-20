@@ -5,8 +5,10 @@ local agora = os.time()
 local hoje = os.time({ year = 2024, month = 05, day = 07, hour = 00 })
 local amanha = os.time({ year = 2024, month = 05, day = 08, hour = 00 })
 print(agora)  --> 1784549331 (varia: é o momento da execução)
-print(hoje)   --> 1715040000 (em UTC; varia com o fuso horário)
-print(amanha) --> 1715126400 (em UTC; varia com o fuso horário)
+-- os.time{...} interpreta a tabela como hora LOCAL, então o timestamp
+-- varia com o fuso; os valores abaixo são os obtidos com TZ=UTC:
+print(hoje)   --> 1715040000 (com TZ=UTC)
+print(amanha) --> 1715126400 (com TZ=UTC)
 
 -- Propriedades: época em segundos, com hoje < amanha:
 assert(math.type(agora) == "integer")

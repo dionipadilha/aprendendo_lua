@@ -1,11 +1,18 @@
 -- jogo_com_corrotinas.lua
 
+-- Mini-jogo de perseguição numa grade: a corrotina do jogador espera
+-- comandos (w/a/s/d) e a dos inimigos persegue o jogador um passo por
+-- turno. O ponto didático é a troca de valores com resume/yield: o
+-- PRIMEIRO resume entrega os personagens (viram os parâmetros da
+-- função); os seguintes entregam o comando do turno (viram o retorno
+-- do yield) — ver argumentos_de_corrotinas.lua.
+
 --------------------------------------------------------------------------------
 -- Passo #1: Define a grade do jogo e as funções utilitárias:
 
-local tamanho_da_grade = 5
+local tamanhoDaGrade = 5
 
-local function criar_grade(tamanho)
+local function criarGrade(tamanho)
   local grade = {}
   for i = 1, tamanho do
     grade[i] = {}
@@ -16,7 +23,7 @@ local function criar_grade(tamanho)
   return grade
 end
 
-local function imprimir_grade(grade)
+local function imprimirGrade(grade)
   for i = 1, #grade do
     for j = 1, #grade[i] do
       io.write(grade[i][j] .. ' ')
@@ -25,7 +32,7 @@ local function imprimir_grade(grade)
   end
 end
 
-local function limpar_grade(grade)
+local function limparGrade(grade)
   for i = 1, #grade do
     for j = 1, #grade[i] do
       grade[i][j] = '.'
@@ -34,33 +41,28 @@ local function limpar_grade(grade)
 end
 
 --------------------------------------------------------------------------------
--- Passo #2:  Define a corrotina do jogador:
+-- Passo #2: Define a corrotina do jogador:
 
-local jogador = { x = 1, y = 1 }
-
-local function mover_jogador(grade, jogador)
+local function moverJogador(jogador)
   while true do
     local movimento = coroutine.yield()
     if movimento == 'w' and jogador.x > 1 then
       jogador.x = jogador.x - 1
-    elseif movimento == 's' and jogador.x < tamanho_da_grade then
+    elseif movimento == 's' and jogador.x < tamanhoDaGrade then
       jogador.x = jogador.x + 1
     elseif movimento == 'a' and jogador.y > 1 then
       jogador.y = jogador.y - 1
-    elseif movimento == 'd' and jogador.y < tamanho_da_grade then
+    elseif movimento == 'd' and jogador.y < tamanhoDaGrade then
       jogador.y = jogador.y + 1
     end
   end
 end
 
 --------------------------------------------------------------------------------
--- Passo #3:  Define a corrotina dos inimigos:
+-- Passo #3: Define a corrotina dos inimigos (um passo em direção ao
+-- jogador por turno):
 
-local inimigos = {
-  { x = 5, y = 5 },
-  { x = 5, y = 1 }
-}
-local function mover_inimigos(grade, inimigos, jogador)
+local function moverInimigos(inimigos, jogador)
   while true do
     for _, inimigo in ipairs(inimigos) do
       if inimigo.x < jogador.x then
@@ -79,40 +81,55 @@ local function mover_inimigos(grade, inimigos, jogador)
 end
 
 --------------------------------------------------------------------------------
--- Passo #4:  Inicializa as corrotinas e o laço principal do jogo:
+-- Passo #4: Inicializa o estado do jogo e as corrotinas:
 
-local corrotina_do_jogador = coroutine.create(mover_jogador)
-local corrotina_dos_inimigos = coroutine.create(mover_inimigos)
+local jogador = { x = 1, y = 1 }
+local inimigos = {
+  { x = 5, y = 5 },
+  { x = 5, y = 1 }
+}
+local grade = criarGrade(tamanhoDaGrade)
 
-coroutine.resume(corrotina_do_jogador, criar_grade(tamanho_da_grade), jogador)
-coroutine.resume(corrotina_dos_inimigos, criar_grade(tamanho_da_grade), inimigos, jogador)
+local corrotinaDoJogador = coroutine.create(moverJogador)
+local corrotinaDosInimigos = coroutine.create(moverInimigos)
 
-local function atualizar_grade(grade, jogador, inimigos)
-  limpar_grade(grade)
+-- primeiro resume: entrega os personagens e roda até o primeiro yield
+coroutine.resume(corrotinaDoJogador, jogador)
+coroutine.resume(corrotinaDosInimigos, inimigos, jogador)
+
+local function atualizarGrade()
+  limparGrade(grade)
   grade[jogador.x][jogador.y] = 'J'
   for _, inimigo in ipairs(inimigos) do
     grade[inimigo.x][inimigo.y] = 'I'
   end
 end
 
-local grade = criar_grade(tamanho_da_grade)
-
 --------------------------------------------------------------------------------
--- Passo #5:  Executa o jogo:
+-- Passo #5: Executa o jogo:
 
-while true do
-  atualizar_grade(grade, jogador, inimigos)
-  imprimir_grade(grade)
+print("Mova com w/a/s/d (+ Enter); 'q' ou fim da entrada encerra.")
+
+local fimDeJogo = false
+while not fimDeJogo do
+  atualizarGrade()
+  imprimirGrade(grade)
 
   local movimento = io.read()
-  coroutine.resume(corrotina_do_jogador, movimento)
-  coroutine.resume(corrotina_dos_inimigos)
+  if movimento == nil or movimento == 'q' then
+    print("Jogo encerrado.")
+    break
+  end
 
-  -- Verifica a condição de fim de jogo
+  coroutine.resume(corrotinaDoJogador, movimento)
+  coroutine.resume(corrotinaDosInimigos)
+
+  -- Verifica a condição de fim de jogo:
   for _, inimigo in ipairs(inimigos) do
     if inimigo.x == jogador.x and inimigo.y == jogador.y then
       print("Fim de jogo! Os inimigos pegaram você!")
-      os.exit()
+      fimDeJogo = true
+      break
     end
   end
 end

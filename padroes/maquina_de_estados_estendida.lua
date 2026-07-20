@@ -57,7 +57,10 @@ end
 -- Principal da Máquina de Estados
 
 function maquinaDeEstados:executar()
-  local estadoAtual = self.estados[1] -- Estado inicial
+  -- Estado inicial: o primeiro da lista de estados ("amarelo"), ao
+  -- contrário da versão base, que fixa "verde" em estadoInicial — são
+  -- duas convenções possíveis para o mesmo problema.
+  local estadoAtual = self.estados[1]
   local parametros = {}               -- Parâmetros para as funções de gatilho
   for _ = 1, #self.estados do         -- Um passo por estado configurado
     estadoAtual = self:atualizar(estadoAtual, parametros)

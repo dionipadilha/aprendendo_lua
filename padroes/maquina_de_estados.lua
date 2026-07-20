@@ -43,8 +43,10 @@ function maquinaDeEstados:atualizar(estadoAtual)
     return nil
   end
   for proximoEstado, gatilho in pairs(transicoesPossiveis) do
-    print("Transição de", estadoAtual, "para", proximoEstado)
+    -- só anuncia a transição DEPOIS que o gatilho a autoriza (anunciar
+    -- antes reportaria transições que podem não acontecer):
     if self.gatilhos[gatilho]() then
+      print("Transição de", estadoAtual, "para", proximoEstado)
       return proximoEstado
     end
   end

@@ -42,6 +42,7 @@ print(6 | 3)  --> 7    OR:     (0110 | 0011 = 0111)
 print(6 ~ 3)  --> 5    XOR:    (0110 ~ 0011 = 0101)
 print(3 << 2) --> 12   lshift: (0011 --> 1100)
 print(8 >> 3) --> 1    rshift: (1000 --> 0001)
+-- (ilustração truncada em 16 bits; os inteiros de Lua 5.4 têm 64)
 print(~3)     --> -4   NOT:    (~0000000000000011 = 1111111111111100)
 assert(6 & 3 == 2 and 6 | 3 == 7 and 6 ~ 3 == 5)
 assert(3 << 2 == 12 and 8 >> 3 == 1 and ~3 == -4)
@@ -70,27 +71,30 @@ assert("Olá " .. str == "Olá Lua!")
 -----------------------------------------------------------------------
 -- Pertinência:
 
+-- Lua não tem operador "in" para pertinência; o idioma correto é um
+-- laço comparando elemento a elemento:
+
 local nomes = { "ana", "bob" }
 
--- Pertinência com for in:
-for _, nome in ipairs(nomes) do print(nome) end --> ana, bob
-
--- Pertinência in:
-for _, nome in ipairs(nomes) do
-  if nome == "bob" then print(true) end
+local function pertence(lista, alvo)
+  for _, elemento in ipairs(lista) do
+    if elemento == alvo then return true end
+  end
+  return false
 end
---> true
 
-print(table.concat(nomes, ","):find("bob") and true)     --> true
-print(table.concat(nomes, ","):find("charlie") and true) --> nil
-assert((table.concat(nomes, ","):find("bob") and true) == true)
-assert((table.concat(nomes, ","):find("charlie") and true) == nil)
+assert(pertence(nomes, "bob") == true)
+assert(pertence(nomes, "charlie") == false)
 
 -- Pertinência not in:
-print(not table.concat(nomes, ","):find("bob"))     --> false
-print(not table.concat(nomes, ","):find("charlie")) --> true
-assert((not table.concat(nomes, ","):find("bob")) == false)
-assert((not table.concat(nomes, ","):find("charlie")) == true)
+assert(not pertence(nomes, "charlie"))
+
+-- CONTRAEXEMPLO — evite o atalho concat+find: ele testa SUBSTRING,
+-- não elemento. "ana" é substring de "banana", então o teste abaixo
+-- daria um falso-positivo:
+local outros = { "banana", "carlos" }
+assert(table.concat(outros, ","):find("ana") ~= nil) -- "encontrou"...
+assert(pertence(outros, "ana") == false)             -- ...mas não pertence!
 
 -----------------------------------------------------------------------
 -- Número variável de argumentos:

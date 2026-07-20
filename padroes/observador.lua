@@ -29,6 +29,18 @@ function Sujeito:anexar(novosObservadores)
   end
 end
 
+-- desanexar completa o contrato clássico do padrão: observadores
+-- também podem sair da lista.
+function Sujeito:desanexar(observador)
+  for posicao, atual in ipairs(self.observadores) do
+    if atual == observador then
+      table.remove(self.observadores, posicao)
+      return true
+    end
+  end
+  return false
+end
+
 function Sujeito:notificar(...)
   for _, observador in ipairs(self.observadores) do
     observador:atualizar(...)
@@ -88,6 +100,12 @@ assert(estacaoMeteorologica1.observadores ~= estacaoMeteorologica2.observadores,
 
 estacaoMeteorologica1:anexar({ painel3 })
 assert(#estacaoMeteorologica1.observadores == 3)
+
+-- desanexar remove só o observador pedido, e só daquele sujeito:
+assert(estacaoMeteorologica1:desanexar(painel3) == true)
+assert(#estacaoMeteorologica1.observadores == 2)
+assert(#estacaoMeteorologica2.observadores == 2) -- painel3 segue na outra
+assert(estacaoMeteorologica1:desanexar(painel3) == false) -- já não estava
 assert(#estacaoMeteorologica2.observadores == 2,
   "anexar na estação #1 não pode alterar a estação #2")
 

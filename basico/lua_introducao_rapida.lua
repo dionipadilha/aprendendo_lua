@@ -110,7 +110,9 @@ print(pessoa.idade) --> 42
 assert(pessoa.nome == "Bob" and pessoa.idade == 42)
 
 -- Operações de lista da biblioteca table:
-local amigos = table.pack("Charlie", "Ana") -- {"Charlie", "Ana"}
+local amigos = table.pack("Charlie", "Ana") -- {"Charlie", "Ana", n = 2}
+-- (o campo n de table.pack não é atualizado pelos insert/remove abaixo;
+--  aqui só usamos os elementos da lista — ver multiplos_retornos.lua)
 table.insert(amigos, "Bob")                 -- {"Charlie", "Ana", "Bob"}
 table.insert(amigos, 2, "Alex")             -- {"Charlie", "Alex", "Ana", "Bob"}
 table.sort(amigos)                          -- {"Alex", "Ana", "Bob", "Charlie"}
@@ -143,7 +145,7 @@ assert(sucesso == true and resultado == "Acesso permitido")
 local menor = { ehAdulto = false }
 local sucessoMenor, erroMenor = pcall(entrada, menor)
 -- a mensagem vem prefixada com a posição "arquivo:linha" do erro:
-print(sucessoMenor, erroMenor) --> false	lua_introducao_rapida.lua:135: Acesso negado
+print(sucessoMenor, erroMenor) --> false	lua_introducao_rapida.lua:137: Acesso negado
 assert(sucessoMenor == false)
 assert(string.find(erroMenor, "Acesso negado"))
 
@@ -157,3 +159,6 @@ local conteudo = arquivo:read()
 print(conteudo) --> torrada!
 assert(conteudo == "torrada!")
 assert(arquivo:close())
+
+-- remove o arquivo da demonstração (sem deixar lixo para trás):
+assert(os.remove("arquivo_demo.txt"))

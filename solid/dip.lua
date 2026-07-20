@@ -65,3 +65,7 @@ assert(aplicacao2:trabalhar() == "trabalhando ...") -- Registra no console
 -- Construir a Aplicacao sem um registrador válido deve falhar:
 local ok = pcall(function() return Aplicacao:novo { registrador = {} } end)
 assert(not ok, "Aplicacao sem registrador.registrar deveria ser rejeitada")
+
+-- remove o log da demonstração (sem ele, o arquivo cresceria a cada
+-- execução do exemplo):
+os.remove("log.txt")

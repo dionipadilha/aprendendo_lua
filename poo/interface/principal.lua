@@ -1,3 +1,5 @@
+-- principal.lua
+
 local CarrinhoDeCompras = require "carrinho_de_compras"
 local CartaoDeCredito = require "cartao_de_credito"
 local Pix = require "pix"

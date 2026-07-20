@@ -20,20 +20,23 @@ O código apresentado ilustra os conceitos básicos da POO em Lua, utilizando ta
 ```lua
 -- Definindo a classe
 Pessoa = {}
+Pessoa.__index = Pessoa
 ```
+
+- O `__index` é definido junto da declaração da classe (e não dentro do
+  construtor): assim a classe já está pronta para servir de base a
+  subclasses antes mesmo de a primeira instância ser criada.
 
 - Um método construtor cria instâncias da classe.
 
 ```lua
 -- Método construtor
 function Pessoa:novo(nome, idade)
-   local pessoa = {
-        _nome = nome or "indefinido",
-        _idade = idade or 0,
-    }
-    setmetatable(pessoa, self)
-    self.__index = self
-    return pessoa
+  local pessoa = {
+    _nome = nome or "indefinido",
+    _idade = idade or 0,
+  }
+  return setmetatable(pessoa, self)
 end
 ```
 
@@ -112,17 +115,20 @@ print(pessoa2:getIdade()) --> 43
 ```lua
 -- Definindo a subclasse Estudante
 Estudante = {}
-setmetatable(Estudante, Pessoa) -- Herança da classe Pessoa
+Estudante.__index = Estudante
+setmetatable(Estudante, Pessoa) -- Herança: busca em Pessoa o que faltar
 
 -- Método construtor da subclasse
 function Estudante:novo(nome, idade, curso)
-    local estudante = Pessoa:novo(nome, idade)
-    estudante._curso = curso or "indefinido"
-    setmetatable(estudante, self)
-    self.__index = self
-    return estudante
+  local estudante = Pessoa:novo(nome, idade)
+  estudante._curso = curso or "indefinido"
+  return setmetatable(estudante, self)
 end
 ```
+
+- A herança funciona porque `Pessoa.__index = Pessoa` já foi definido na
+  declaração da classe: quando um método não existe em `Estudante`, Lua
+  consulta a metatabela (`Pessoa`) e segue pelo `__index` dela.
 
 - Criando métodos específicos para a subclasse.
 
@@ -138,7 +144,7 @@ end
 
 -- Outros métodos
 function Estudante:estudar()
-    return string.format("Estudando no curso de %s.", self:getCurso())
+  return string.format("Estudando no curso de %s.", self:getCurso())
 end
 ```
 
@@ -149,7 +155,7 @@ end
 ```lua
 -- Sobrescrita do método comer
 function Estudante:comer()
-    return "Comendo um lanche na cantina."
+  return "Comendo um lanche na cantina."
 end
 ```
 
@@ -184,7 +190,7 @@ print(estudante1:estudar()) --> Estudando no curso de Engenharia.
 
 - Argumentos Opcionais: definidos com valores padrão.
 
-- Encapsulamento: embora não seja imposto em Lua, mas é uma boa prática usar a convenção do prefixo `_` para indicar propriedades privadas.
+- Encapsulamento: não é imposto em Lua, mas é uma boa prática usar a convenção do prefixo `_` para indicar propriedades privadas.
 
 - Uso de `self`: utilizada para se referir à instância atual da classe.
 

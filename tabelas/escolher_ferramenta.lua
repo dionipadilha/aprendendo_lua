@@ -42,8 +42,9 @@ end
 --------------------------------------------------------------------------------
 -- Cria um agente com um conjunto de ferramentas
 
+-- (a lista de ferramentas acima documenta o domínio; quem decide a
+-- escolha é apenas o mapa tarefa->ferramenta)
 local agente = Agente:novo {
-  ferramentas = ferramentas,
   mapaTarefaFerramenta = {
     ["limpar janela"] = "rodo",
     ["aspirar chão"] = "aspirador",

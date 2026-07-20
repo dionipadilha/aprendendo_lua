@@ -1,3 +1,5 @@
+-- carrinho_de_compras.lua
+
 local CarrinhoDeCompras = {}
 
 function CarrinhoDeCompras:novo()

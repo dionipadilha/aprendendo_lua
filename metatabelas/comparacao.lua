@@ -3,8 +3,8 @@
 -- Metamétodos de comparação: __eq (==), __lt (<) e __le (<=).
 -- Lua deriva os demais operadores:  a ~= b  é  not (a == b);
 -- a > b  é  b < a;  a >= b  é  b <= a.
--- __eq só é consultado quando os DOIS operandos são tabelas — e nunca
--- quando já são o mesmo objeto.
+-- __eq só é consultado quando os DOIS operandos são tabelas (ou os
+-- dois são full userdata) — e nunca quando já são o mesmo objeto.
 
 local Fracao = {}
 Fracao.__index = Fracao

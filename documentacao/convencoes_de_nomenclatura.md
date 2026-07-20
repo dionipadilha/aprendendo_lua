@@ -76,10 +76,10 @@ for _, item in ipairs(lista) do print(item) end
 Comentar o propósito, evitar o óbvio.
 
 ```lua
--- comentários desnecessário
+-- comentário desnecessário
   local soma = 0 -- Variável para armazenar a soma dos números
 
--- comentários descritivo
+-- comentário descritivo
   -- Conjuntos de notas da turma do bob:
   local notasPrimeiroSemestre = {10, 8, 7, 9}
   local notasSegundoSemestre = {6, 8, 8, 7}
@@ -91,7 +91,7 @@ Use MAIUSCULAS_COM_SUBLINHADO. Em Lua 5.4, marque com `<const>` quando o valor n
 
 ```lua
 local RAZAO_AUREA <const> = 1.61803
-local PI <const> = 3.14
+local PI <const> = math.pi
 ```
 
 ### Verbos no infinitivo e imperativo

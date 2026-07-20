@@ -21,6 +21,8 @@ local Nave = {
 
 -- clonar: copia os campos (inclusive tabelas aninhadas, recursivamente)
 -- para um objeto novo e independente.
+-- Limitações (suficiente para este exemplo): não copia metatabelas e
+-- entra em recursão infinita se houver ciclos (t.x = t).
 local function clonar(original)
   local copia = {}
   for chave, valor in pairs(original) do
