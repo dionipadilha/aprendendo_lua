@@ -54,6 +54,7 @@ Estruturas de repetição: # exemplos: controle_de_fluxo/
   - for numérico (intervalo) # for variavel = inicio, fim, passo do comandos end
   - for genérico (for each) # for chave, valor in pairs(tabela) do comandos end
   - break # break (não existe continue; veja o idioma goto continue em controle_de_fluxo/goto.lua)
+  - A variável de controle do for é local ao laço # alterá-la não muda a iteração (exemplos: controle_de_fluxo/lacos.lua)
 Funções: # exemplos: funcoes/
   - Definição # local function minhaFuncao(parametros) comandos end
   - Chamada # local x = minhaFuncao(arg)
@@ -61,6 +62,8 @@ Funções: # exemplos: funcoes/
   - Número variável de parâmetros # minhaFuncao(...)
   - Valores de retorno # return valor
   - Retornar múltiplos valores # return valor1, valor2
+  - Ajuste de múltiplos retornos # fora da última posição a chamada é truncada; (f()) reduz a um valor (exemplos: funcoes/multiplos_retornos.lua)
+  - Chamadas de cauda garantidas # return f(x) não empilha quadro novo
   - Retorno condicional (idioma and/or) # return a and b or c (Lua não tem operador ternário; falha se b for false ou nil)
 Tabelas como Arrays: # exemplos: tabelas/
   - Empacotar os elementos em um array # local frutas = table.pack("maçã", "banana")
@@ -77,23 +80,26 @@ Tabelas como Arrays: # exemplos: tabelas/
   - Remover elemento pelo índice # table.remove(frutas, 3)
   - Ordenação # table.sort(frutas)
   - Ordenação personalizada # table.sort(frutas, ordenacaoPersonalizada)
+  - Buracos e o operador de comprimento # t[i] = nil abre buraco e # vira fronteira não confiável (exemplos: tabelas/buracos_e_comprimento.lua)
 Tabelas como Dicionários: # exemplos: tabelas/
   - Criar um mapa # local pessoa = {nome = "João da Silva", idade = 30}
   - Acessar elementos # print(pessoa.nome) --> João da Silva
   - Percorrer os elementos # for chave, valor in pairs(tabela) do algumaCoisa(chave, valor) end
   - Adicionar novos elementos # pessoa.cargo = "programador lua"
+  - Referências e cópias # atribuição cria apelido; cópia rasa vs profunda (exemplos: tabelas/referencias_e_copias.lua)
+  - Conjuntos # conjunto[chave] = true (pertinência em O(1))
 Veja mais:
   - Manipulação de Strings # biblioteca string, padrões de captura (não é regex POSIX) (exemplos: basico/)
-  - Tratamento de Erros e Exceções # assert, error, pcall, xpcall (exemplos: erros/)
-  - Módulos # criar um módulo, require "modulo" (exemplos: modulos/)
+  - Tratamento de Erros e Exceções # assert, error, pcall, xpcall, warn, erros estruturados (exemplos: erros/)
+  - Módulos # criar um módulo, require "modulo", cache em package.loaded (exemplos: modulos/)
   - Manipulação de Arquivos # biblioteca io (exemplos: io/)
-  - Metaprogramação # metatables, metamétodos (exemplos: metatabelas/)
+  - Metaprogramação # metatables, metamétodos (índice completo em metatabelas/README.md)
   - Orientação a Objetos # classes, objetos, ... (exemplos: poo/)
-  - Corrotinas # coroutine (valores do tipo thread), ... (exemplos: corrotinas/)
-  - Coleta de Lixo (Garbage Collection) # collectgarbage, ... (exemplos: gc/)
+  - Corrotinas # coroutine (valores do tipo thread), geradores com wrap, produtor-consumidor (exemplos: corrotinas/)
+  - Coleta de Lixo (Garbage Collection) # collectgarbage, tabelas fracas, ephemerons (exemplos: gc/)
   - Sistema Operacional # biblioteca os, data e hora, medição de tempo (exemplos: sistema/)
   - Banco de Dados # SQLite via os.execute (exemplos: banco_de_dados/)
-  - Padrões de Projeto # fábrica, observador, estratégia, MVC, ... (exemplos: padroes/)
+  - Padrões de Projeto # fábrica, observador, estratégia, memento, composto, método modelo, MVC, ... (exemplos: padroes/)
   - Princípios SOLID # SRP, OCP, LSP, ISP, DIP (exemplos: solid/)
   - Testes # asserções, suítes de teste (exemplos: testes/)
   - Projetos Práticos # pluralizador, JSON, ferramentas de equipe (exemplos: projetos/)

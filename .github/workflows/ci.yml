@@ -19,3 +19,19 @@ jobs:
 
       - name: Análise estática (luacheck)
         run: luacheck . -q
+
+  # Valida a portabilidade dos exemplos (o repositório mantém um guia de
+  # instalação para Windows; ver sistema/dormir.lua para as esperas).
+  teste-de-fumaca-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar Lua 5.4
+        uses: leafo/gh-actions-lua@v11
+        with:
+          luaVersion: "5.4"
+
+      - name: Executar todos os exemplos
+        shell: bash
+        run: LUA=lua ./executar_testes.sh

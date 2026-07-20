@@ -1,0 +1,4 @@
+# Mantém finais de linha LF em todos os arquivos de texto, mesmo em
+# checkouts no Windows (onde o autocrlf converteria para CRLF e
+# quebraria o executar_testes.sh no Git Bash da CI).
+* text=auto eol=lf
