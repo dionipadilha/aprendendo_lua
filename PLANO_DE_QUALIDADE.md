@@ -4,6 +4,17 @@ Plano derivado da análise aprofundada de 2026-07-20: cinco frentes de revisão 
 
 Cada item traz o problema, a ação e o critério de aceitação. Gravidade indicada por fase.
 
+## Status de execução (2026-07-20)
+
+- ✅ **Fase 1 concluída** — os 4 bugs corrigidos com asserts de regressão (o tipo `thread` imprime `thread`; `lion → lions` e `criterion → criteria`; divisão por zero dispara o erro; roundtrip JSON com `\`, `"` e controles preservado).
+- ✅ **Fase 2 concluída** — LSP reescrito em violação + redesenho; `sistema/` sobre tempo de parede com `cpu_vs_parede.lua` provando a diferença; guias de corrotinas com o idioma correto de erro e os 4 estados; truthiness corrigido e demonstrado; API real de tabelas no roteiro; `__add` puro nas duas ocorrências; sobrescrita no lugar de sobrecarga; todos os comentários `-->` do repositório conferidos contra a execução real (incluindo bônus encontrados na verificação: `3 << 2 --> 16` era 12, e `assert` também prefixa `arquivo:linha`).
+- ✅ **Fase 3 concluída** — framework de teste conta aprovados/reprovados e o critério de aceitação foi comprovado (perturbar um caso correto → exit 1; remover a falha demonstrativa → exit 1); cobertura de asserts: **99/126 arquivos (79%)**, acima da meta de 70% (era 31%); suíte determinística em ~5s (era ~25s).
+- ✅ **Fase 4 concluída** — estado por instância (dois carrinhos de $15 pagam $15.10 cada); globais → `local`; removidos `try_except` duplicado (substituído por `tentar/capturar/finalmente` real), `Visao` morta, rascunhos, `heranca_multipla` e `testes_unitarios` redundantes; guias de corrotinas fundidos; `basico/` com 2 introduções; `goto.lua` demonstra `goto continue`.
+- ✅ **Fase 5 concluída** — `:novo()` na documentação (zero `:new(`); "corrotina" sem hífen; `README.md` maiúsculo nas subpastas; referências quebradas removidas; convenção camelCase prescrita nas convenções e aplicada nos focos de snake_case; trilha (roteiro e guia) conectada às pastas reais.
+- ✅ **Fase 6 concluída** — inteiro vs float (`math.type`) em `tipos.*`; `valores_verdadeiros.lua`; `<const>`/`<close>` (`metatabelas/finalizadores.lua`, `io/arquivo_com_close.lua`, `coroutine.close`); utf8 em `cadeias_de_texto.md`; `gc/modos_do_coletor.lua` (incremental vs geracional, `__mode` v/kv); `erros/objetos_de_erro.lua` (error com tabela, `debug.traceback`); 5 padrões novos (prototipo, singleton, construtor, adaptador, comando); SQL idempotente, checagem do CLI e fallback de `timeout` para macOS/BSD.
+
+Verificação final: **126 arquivos .lua, 0 falhas, ~5s** (`./executar_testes.sh`).
+
 ---
 
 ## Fase 1 — Bugs objetivos em código (gravidade alta)

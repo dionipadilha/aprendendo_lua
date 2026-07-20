@@ -37,6 +37,29 @@ print(str:len()) --> 16
 print(#str) --> 16
 ```
 
+**Atenção — bytes vs caracteres:** `#` e `string.len` contam **bytes**, não
+caracteres. `"Lua é incrível"` tem 14 caracteres, mas 16 bytes, porque em
+UTF-8 os acentos `é` e `í` ocupam 2 bytes cada. Para trabalhar com
+caracteres de verdade, use a biblioteca `utf8` (Lua 5.3+):
+
+```lua
+-- Contagem correta de caracteres com a biblioteca utf8:
+local str = "Lua é incrível"
+print(#str)           --> 16 (bytes)
+print(utf8.len(str))  --> 14 (caracteres)
+assert(#str == 16 and utf8.len(str) == 14)
+
+-- Percorrer caracteres (não bytes):
+for _, codigo in utf8.codes("éí") do
+  io.write(utf8.char(codigo), " ") --> é í
+end
+print()
+
+-- Fatiar por caractere: utf8.offset converte posição de caractere em byte:
+local inicio = utf8.offset(str, 5) -- 5º caractere ("é")
+print(str:sub(inicio, inicio + 1)) --> é (2 bytes)
+```
+
 ```lua
 -- Comprimento de string vazias:
 local str= ""
