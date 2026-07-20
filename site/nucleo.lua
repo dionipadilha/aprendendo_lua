@@ -69,7 +69,17 @@ footer { margin-top: 3rem; border-top: 1px solid var(--borda);
 .palavra-chave { color: var(--palavra); font-weight: 600; }
 .numero { color: var(--numero); }
 ul.arquivos { padding-left: 1.2rem; }
+ul.arquivos li { margin: .15rem 0; }
+p.tema { color: var(--comentario); }
+.descricao { color: var(--comentario); }
 ]]
+
+-- Favicon embutido (nenhum arquivo externo): um SVG em data URI com o
+-- emoji de lua. %3C/%3E/%20 codificam <, > e espaço; %F0%9F%8C%99 é o
+-- emoji 🌙 em UTF-8 percento-codificado.
+local FAVICON = "data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'"
+  .. "%20viewBox='0%200%2016%2016'%3E%3Ctext%20x='0'%20y='13'%20"
+  .. "font-size='13'%3E%F0%9F%8C%99%3C/text%3E%3C/svg%3E"
 
 --------------------------------------------------------------------------------
 -- Nomes, títulos e links (funções puras)
@@ -97,6 +107,21 @@ function nucleo.gerarSite(configuracao, leitura, escrita)
   local urlDoRepositorio = configuracao.urlDoRepositorio
   local pastasDoSite = configuracao.pastas
 
+  -- A trilha pedagógica (trilha.lua, via configuracao.pastas): posição
+  -- e descrição de cada lição, para ordenar os índices por pasta. O
+  -- campo `arquivos` é opcional — sem ele, o índice sai alfabético.
+  local infoDaTrilha = {}
+  local temaDoDiretorio = {}
+  local proximaOrdem = 0
+  for _, pasta in ipairs(pastasDoSite) do
+    temaDoDiretorio[pasta.nome] = pasta.tema
+    for _, item in ipairs(pasta.arquivos or {}) do
+      proximaOrdem = proximaOrdem + 1
+      infoDaTrilha[pasta.nome .. "/" .. item[1]] =
+        { ordem = proximaOrdem, descricao = item[2] }
+    end
+  end
+
   local function pagina(titulo, migalhas, conteudo, prefixo, urlDaFonte)
     local fonte = urlDaFonte
       and ('· <a href="' .. urlDaFonte .. '">fonte no GitHub</a>') or ""
@@ -106,6 +131,7 @@ function nucleo.gerarSite(configuracao, leitura, escrita)
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>%s — %s</title>
+<link rel="icon" href="%s">
 <style>%s</style>
 </head>
 <body>
@@ -120,7 +146,7 @@ function nucleo.gerarSite(configuracao, leitura, escrita)
 repositório %s</footer>
 </body>
 </html>
-]]):format(markdown.escaparHtml(titulo), tituloDoSite, ESTILO,
+]]):format(markdown.escaparHtml(titulo), tituloDoSite, FAVICON, ESTILO,
       prefixo, tituloDoSite, migalhas, conteudo,
       urlDoRepositorio, fonte)
   end
@@ -240,9 +266,13 @@ repositório %s</footer>
     end
   end
 
-  -- 3ª passada: um index.html por diretório com a lista dos arquivos.
-  -- Percorre TODOS os diretórios do inventário — inclusive os que só
-  -- contêm subpastas (como projetos/), que também precisam de índice.
+  -- 3ª passada: um index.html por diretório com a lista dos arquivos —
+  -- na ORDEM da trilha e com as descrições, quando a pasta as define;
+  -- arquivos no disco que faltem na trilha entram no fim, numa seção
+  -- "Outros arquivos" (o gerador nunca quebra por causa da trilha —
+  -- quem cobra o registro é verificar_trilha.lua). Percorre TODOS os
+  -- diretórios do inventário — inclusive os que só contêm subpastas
+  -- (como projetos/), que também precisam de índice.
   local diretorios = {}
   for chave in pairs(paginasPublicadas) do
     if chave:match("/$") then
@@ -251,24 +281,86 @@ repositório %s</footer>
   end
   table.sort(diretorios)
 
-  for _, diretorio in ipairs(diretorios) do
-    local itens = {}
-    for _, caminho in ipairs(subpastas[diretorio] or {}) do
-      table.insert(itens, ('<li><a href="%s.html"><code>%s</code></a></li>')
-        :format(caminho:match("([^/]+)$"), caminho:match("([^/]+)$")))
+  local function itemDeArquivo(caminho)
+    local nome = caminho:match("([^/]+)$")
+    local info = infoDaTrilha[caminho]
+    local descricao = (info and info.descricao)
+      and (' <span class="descricao">— ' .. markdown.escaparHtml(info.descricao) .. "</span>")
+      or ""
+    return ('<li><a href="%s.html"><code>%s</code></a>%s</li>')
+      :format(nome, nome, descricao)
+  end
+
+  -- a posição de um diretório na trilha é a da sua primeira lição:
+  local function primeiraOrdemDentroDe(diretorio)
+    local primeira = math.huge
+    for caminho, info in pairs(infoDaTrilha) do
+      if caminho:sub(1, #diretorio + 1) == diretorio .. "/"
+        and info.ordem < primeira then
+        primeira = info.ordem
+      end
     end
+    return primeira
+  end
+
+  for _, diretorio in ipairs(diretorios) do
+    -- arquivos diretos: os da trilha na ordem pedagógica; o resto à parte.
+    local daTrilha, fora = {}, {}
+    for _, caminho in ipairs(subpastas[diretorio] or {}) do
+      table.insert(infoDaTrilha[caminho] and daTrilha or fora, caminho)
+    end
+    table.sort(daTrilha, function(a, b)
+      return infoDaTrilha[a].ordem < infoDaTrilha[b].ordem
+    end)
+    table.sort(fora)
+
+    -- subpastas diretas, na ordem da primeira lição de cada uma:
+    local filhos = {}
     for _, outro in ipairs(diretorios) do
       local ehFilhoDireto = outro:sub(1, #diretorio + 1) == diretorio .. "/"
         and not outro:sub(#diretorio + 2):find("/", 1, true)
       if ehFilhoDireto then
-        table.insert(itens, ('<li><a href="%s/index.html">%s/</a></li>')
-          :format(outro:match("([^/]+)$"), outro:match("([^/]+)$")))
+        table.insert(filhos, { nome = outro:match("([^/]+)$"),
+          ordem = primeiraOrdemDentroDe(outro) })
       end
     end
-    table.sort(itens)
+    table.sort(filhos, function(a, b)
+      if a.ordem ~= b.ordem then return a.ordem < b.ordem end
+      return a.nome < b.nome
+    end)
+
+    local itens = {}
+    for _, caminho in ipairs(daTrilha) do
+      table.insert(itens, itemDeArquivo(caminho))
+    end
+    for _, filho in ipairs(filhos) do
+      table.insert(itens, ('<li><a href="%s/index.html">%s/</a></li>')
+        :format(filho.nome, filho.nome))
+    end
+
+    local secaoOutros = ""
+    if #fora > 0 then
+      if #itens == 0 then
+        -- pasta sem trilha nenhuma: mantém a lista única, alfabética.
+        for _, caminho in ipairs(fora) do
+          table.insert(itens, itemDeArquivo(caminho))
+        end
+      else
+        local itensFora = {}
+        for _, caminho in ipairs(fora) do
+          table.insert(itensFora, itemDeArquivo(caminho))
+        end
+        secaoOutros = "\n<h2>Outros arquivos</h2>\n<ul class=\"arquivos\">"
+          .. table.concat(itensFora) .. "</ul>"
+      end
+    end
+
+    local tema = temaDoDiretorio[diretorio]
+    local paragrafoDoTema = tema
+      and ('\n<p class="tema">' .. markdown.escaparHtml(tema) .. "</p>") or ""
     local caminhoFicticio = diretorio .. "/index"
-    local corpo = ("<h1><code>%s/</code></h1>\n<ul class=\"arquivos\">%s</ul>")
-      :format(diretorio, table.concat(itens))
+    local corpo = ("<h1><code>%s/</code></h1>%s\n<ul class=\"arquivos\">%s</ul>%s")
+      :format(diretorio, paragrafoDoTema, table.concat(itens), secaoOutros)
     escrever(diretorio .. "/index.html",
       pagina(diretorio .. "/", migalhasPara(caminhoFicticio), corpo,
         prefixoParaRaiz(caminhoFicticio)))
@@ -289,11 +381,26 @@ Lua.</p>]],
   }
   for _, pasta in ipairs(pastasDoSite) do
     table.insert(indice, ('<tr><td><a href="%s/index.html"><code>%s/</code></a></td><td>%s</td></tr>')
-      :format(pasta.nome, pasta.nome, pasta.tema))
+      :format(pasta.nome, pasta.nome, markdown.escaparHtml(pasta.tema)))
   end
   table.insert(indice, "</tbody></table>")
   escrever("index.html",
     pagina("início", "", table.concat(indice, "\n"), ""))
+  totalDePaginas = totalDePaginas + 1
+
+  -- 5ª passada: a página 404. O GitHub Pages serve o 404.html da RAIZ
+  -- da saída para qualquer URL inexistente do site, em qualquer
+  -- profundidade — por isso os links daqui usam a URL absoluta do site
+  -- (configuracao.urlDoSite) em vez de caminhos relativos.
+  local urlDoSite = configuracao.urlDoSite or ""
+  local corpo404 = table.concat({
+    "<h1>Página não encontrada</h1>",
+    "<p>O endereço que você tentou abrir não existe neste site — talvez",
+    "o arquivo tenha sido renomeado ou movido.</p>",
+    ('<p><a href="%sindex.html">Voltar ao índice</a></p>'):format(urlDoSite),
+  }, "\n")
+  escrever("404.html",
+    pagina("página não encontrada", "", corpo404, urlDoSite))
   totalDePaginas = totalDePaginas + 1
 
   ------------------------------------------------------------------------------

@@ -29,29 +29,36 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 
 ### Organização do repositório:
 
+As pastas na **ordem de estudo sugerida** (a mesma de `documentacao/guia_de_estudos.md`):
+
 | Pasta | Tema |
 |-------|------|
 | `basico/` | Primeiros passos, tipos, cadeias de texto, operadores e formatação |
 | `controle_de_fluxo/` | Condicionais, laços, break, switch e goto |
 | `funcoes/` | Funções, clausuras, varargs, múltiplos retornos e memoização |
-| `tabelas/` | Tabelas, vetores, pilhas, listas, iteradores, buracos/`#` e cópias |
-| `poo/` | Classes, herança, polimorfismo e interfaces |
+| `tabelas/` | Tabelas, vetores, pilhas, listas, iteradores, buracos/#, cópias e serialização |
 | `metatabelas/` | Metatabelas, metamétodos, proxies e tabelas somente leitura |
-| `gc/` | Coleta de lixo e tabelas fracas |
-| `corrotinas/` | Guias e exemplos de corrotinas |
+| `poo/` | Classes, herança, polimorfismo, mixins e interfaces |
+| `modulos/` | require, dofile, loadfile, ambientes (_ENV) e empacotamento com LuaRocks |
 | `erros/` | error, assert, pcall, xpcall e try/except |
-| `modulos/` | require, dofile, loadfile e empacotamento com LuaRocks |
-| `io/` | Leitura e escrita de arquivos |
-| `sistema/` | Data e hora, relógio, esperas e números aleatórios |
+| `io/` | Leitura e escrita de arquivos, em texto e binário |
+| `sistema/` | Data e hora, relógio, esperas, aleatórios e linha de comando |
+| `gc/` | Coleta de lixo e tabelas fracas |
+| `desempenho/` | Medição de desempenho: cronometrar antes de otimizar |
+| `depuracao/` | Biblioteca debug: introspecção da pilha e ganchos de execução |
+| `testes/` | Framework de teste unitário e exemplos de testes |
+| `padroes/` | Padrões de projeto, da fábrica ao MVC e à máquina de estados |
+| `solid/` | Princípios SOLID, um arquivo por princípio |
+| `corrotinas/` | Guias e exemplos de corrotinas |
 | `banco_de_dados/` | Integração com SQLite via CLI |
 | `capi/` | API C: embutir Lua em C e módulos C carregáveis via require |
-| `padroes/` | Padrões de projeto: fábrica, fábrica abstrata, construtor, protótipo, singleton, adaptador, comando, memento, decorador, composto, estratégia, fachada, observador, método modelo, MVC, máquina de estados |
-| `solid/` | Princípios SOLID, um arquivo por princípio |
-| `testes/` | Framework de teste unitário e exemplos de testes |
-| `projetos/` | Projetos completos (`pluralizador/`, `json/`, `equipe/`) e soluções dos exercícios (`exercicios/`) |
-| `documentacao/` | Guia de estudos, roteiro, paradigmas, convenções, instalação no Windows e guia de enunciados de projetos |
+| `projetos/` | Projetos completos (pluralizador, json, equipe) e soluções dos exercícios |
+| `documentacao/` | Guia de estudos, roteiro, paradigmas, convenções, guias de instalação, LuaJIT/versões e enunciados de projetos |
 | `site/` | Gerador do site estático em arquitetura hexagonal — estudo de caso de portas e adaptadores |
 
+Esta tabela é espelho de [`site/trilha.lua`](site/trilha.lua) — a fonte única, legível
+por máquina, da ordem das pastas e das lições (o site e o verificador
+`site/verificar_trilha.lua` a consomem; ao mudar uma, mude a outra).
 A trilha completa de estudo está em `documentacao/roteiro_de_estudos.yml` e `documentacao/guia_de_estudos.md`.
 
 ### Destaques:
@@ -86,6 +93,9 @@ Para verificar todos os scripts de uma vez (o mesmo teste executado pela CI):
 
 Os códigos disponibilizados neste repositório são livres para uso, sob a [licença MIT](LICENSE).
 A citação da fonte é apreciada.
+
+Contribuições são bem-vindas — as convenções e o passo a passo estão em
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Links:
 - [Manual de referência do Lua 5.4](https://www.lua.org/manual/5.4/)

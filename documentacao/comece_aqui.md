@@ -6,7 +6,9 @@ diz **o que abrir** e **o que executar** — sem decisões para tomar.
 Ao terminar, siga para a trilha completa em
 [`guia_de_estudos.md`](guia_de_estudos.md).
 
-> **Pré-requisito:** Lua 5.4 instalado. No Linux: `sudo apt install lua5.4`.
+> **Pré-requisito:** Lua 5.4 instalado. No Linux: `sudo apt install lua5.4`
+> (outras distribuições e macOS: siga
+> [`instalacao_linux_macos.md`](instalacao_linux_macos.md)).
 > No Windows: siga [`instalacao_lua_win10.md`](instalacao_lua_win10.md)
 > (lá o comando final é `lua`; neste roteiro usamos `lua5.4` — são o
 > mesmo interpretador).
@@ -35,6 +37,14 @@ Ao terminar, siga para a trilha completa em
    Uma linha. Modifique a mensagem, execute de novo. Você acabou de
    editar um programa Lua.
 
+   **Dica — o REPL:** além de executar arquivos, o interpretador tem
+   um modo interativo: `lua5.4 -i` abre um prompt em que cada linha
+   digitada roda na hora — experimente `print(2^10)`; para sair,
+   `os.exit()` (ou Ctrl+D). E para testar uma linha única sem abrir
+   nada: `lua5.4 -e 'print(1+1)'`. Use o REPL como rascunho ao longo
+   destes 3 dias: copie uma linha de qualquer lição, varie e veja o
+   resultado.
+
 4. **Faça o tour da linguagem.** Execute e depois **leia por inteiro**
    [`basico/lua_introducao_rapida.lua`](../basico/lua_introducao_rapida.lua):
 
@@ -50,11 +60,18 @@ Ao terminar, siga para a trilha completa em
    [`basico/tipos.lua`](../basico/tipos.lua). Guarde uma ideia-chave:
    em Lua, `nil` e `false` são os únicos valores falsos.
 
+6. **Encerre voltando à raiz do repositório** — cada dia deste roteiro
+   começa a partir dela:
+
+   ```sh
+   cd ..
+   ```
+
 ## Dia 2 — Controle de fluxo e funções
 
 1. **Condicionais e laços.** Leia
    [`controle_de_fluxo/controle_de_fluxo.md`](../controle_de_fluxo/controle_de_fluxo.md)
-   e execute, um a um, a partir da pasta `controle_de_fluxo/`:
+   e execute, um a um, **a partir da raiz do repositório**:
 
    ```sh
    cd controle_de_fluxo
@@ -77,13 +94,19 @@ Ao terminar, siga para a trilha completa em
 3. **Primeiro exercício.** Abra o exercício 1 da lista no fim desta
    página e tente resolver sem olhar a solução.
 
+4. **Encerre voltando à raiz do repositório:**
+
+   ```sh
+   cd ..
+   ```
+
 ## Dia 3 — Tabelas e o primeiro mini-projeto
 
 1. **Tabelas são TUDO em Lua** (listas, dicionários, objetos, módulos).
-   Execute a partir da pasta `tabelas/`:
+   Execute, **a partir da raiz do repositório**:
 
    ```sh
-   cd ../tabelas
+   cd tabelas
    lua5.4 tabelas.lua
    lua5.4 vetores.lua
    ```
@@ -91,10 +114,16 @@ Ao terminar, siga para a trilha completa em
 2. **Um clássico completo.** Leia e execute
    [`basico/fizzbuzz.lua`](../basico/fizzbuzz.lua) — repare que a
    lógica vive numa função *testável*, e os asserts no fim provam que
-   ela funciona.
+   ela funciona:
+
+   ```sh
+   cd ../basico
+   lua5.4 fizzbuzz.lua
+   ```
 
 3. **Seu primeiro programa.** Faça os exercícios 2 e 3 abaixo. Eles
-   usam apenas o que você viu nos três dias.
+   usam apenas o que você viu nos três dias. Ao terminar, volte à raiz
+   do repositório (`cd ..`).
 
 ---
 

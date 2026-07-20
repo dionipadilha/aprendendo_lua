@@ -53,6 +53,14 @@ composição (`gerar.lua`). Em Lua não há interfaces formais — cada porta
 5. **[`markdown.lua`](markdown.lua)** e **[`realce.lua`](realce.lua)** —
    serviços puros usados pelo núcleo (testados por
    [`testar_markdown.lua`](testar_markdown.lua)).
+6. **[`trilha.lua`](trilha.lua)** — a fonte única de verdade da
+   organização do repositório: pastas na ordem pedagógica, tema de cada
+   uma e as lições com descrição. É espelho da tabela do
+   [`README.md`](../README.md) da raiz, e dois verificadores guardam o
+   conjunto: [`verificar_trilha.lua`](verificar_trilha.lua) (trilha ↔
+   disco ↔ README sincronizados) e
+   [`verificar_saida.lua`](verificar_saida.lua) (o site gerado tem HTML
+   bem formado e links íntegros).
 
 ## Por que hexagonal aqui — e quando não usar
 
@@ -79,9 +87,11 @@ cruza os dois critérios — muitos scripts não cruzam nenhum.
 
 ```sh
 cd site
-lua5.4 testar_nucleo.lua    # testa o núcleo (qualquer plataforma)
-lua5.4 testar_markdown.lua  # testa o conversor e o realce
-lua5.4 gerar.lua            # gera tudo em site/_saida/ (POSIX)
+lua5.4 testar_nucleo.lua      # testa o núcleo (qualquer plataforma)
+lua5.4 testar_markdown.lua    # testa o conversor e o realce
+lua5.4 gerar.lua              # gera tudo em site/_saida/ (POSIX)
+lua5.4 verificar_trilha.lua   # trilha, disco e README em sincronia
+lua5.4 verificar_saida.lua    # HTML e links do site gerado íntegros
 ```
 
 Abra `_saida/index.html` no navegador. No Windows, `gerar.lua` avisa e
