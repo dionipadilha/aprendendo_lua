@@ -12,9 +12,16 @@ local Classe = {
 }
 
 --------------------------------------------------------------------------------
-local Sujeito = Classe:novo {
-  observadores = {}
-}
+local Sujeito = Classe:novo {}
+
+-- Campos mutáveis são inicializados POR INSTÂNCIA: se `observadores = {}`
+-- ficasse na tabela da classe, todos os sujeitos compartilhariam a MESMA
+-- lista e um notificaria os observadores do outro.
+function Sujeito:novo(objeto)
+  objeto = Classe.novo(self, objeto)
+  objeto.observadores = objeto.observadores or {}
+  return objeto
+end
 
 function Sujeito:anexar(novosObservadores)
   for _, novoObservador in ipairs(novosObservadores) do
@@ -66,4 +73,22 @@ estacaoMeteorologica1:notificar("estacaoMeteorologica #1 chamando")
 estacaoMeteorologica2:notificar("estacaoMeteorologica #2 chamando")
 --> estacaoMeteorologica #2 chamando	painel #2
 --> estacaoMeteorologica #2 chamando	painel #3
+
+--------------------------------------------------------------------------------
+-- Duas instâncias de Sujeito devem ser independentes: anexar um
+-- observador a uma estação não pode afetar a lista da outra.
+
+assert(#estacaoMeteorologica1.observadores == 2)
+assert(#estacaoMeteorologica2.observadores == 2)
+assert(estacaoMeteorologica1.observadores ~= estacaoMeteorologica2.observadores,
+  "os sujeitos não podem compartilhar a tabela de observadores")
+
+estacaoMeteorologica1:anexar({ painel3 })
+assert(#estacaoMeteorologica1.observadores == 3)
+assert(#estacaoMeteorologica2.observadores == 2,
+  "anexar na estação #1 não pode alterar a estação #2")
+
+-- E um sujeito criado sem observadores começa com a própria lista vazia:
+local estacaoNova = Sujeito:novo()
+assert(#estacaoNova.observadores == 0)
 --------------------------------------------------------------------------------

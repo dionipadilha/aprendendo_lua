@@ -13,22 +13,30 @@ function FonteDeTempo:novo(objeto)
   return objeto
 end
 
--- Implementação de FonteDeTempo #1: os.clock
-local fonteDeTempo1 = FonteDeTempo:novo {
-  agora = function(self) return os.clock() end
+-- Implementação de FonteDeTempo #1: relógio do sistema.
+-- os.time devolve a época (epoch) em segundos — a hora atual de verdade.
+-- (os.clock NÃO serviria aqui: mede tempo de CPU, não a hora do dia.)
+local relogioDoSistema = FonteDeTempo:novo {
+  agora = function(self) return os.time() end
 }
 
--- Implementação de FonteDeTempo #2: simulação de ntp
+-- Implementação de FonteDeTempo #2: simulação de sincronização via NTP.
+-- Um cliente NTP real consultaria um servidor de hora na rede; a simulação
+-- devolve a época atual (os.time), como faria um relógio recém-sincronizado.
 local function simularSincronizacaoNtp()
-  return os.clock()
+  return os.time()
 end
 
-local fonteDeTempo2 = FonteDeTempo:novo {
+local fonteNtp = FonteDeTempo:novo {
   agora = function(self) return simularSincronizacaoNtp() end
 }
 
 -- Usa diferentes implementações de fonte de tempo:
-local fontesDeTempo = { fonteDeTempo1, fonteDeTempo2 }
+local fontesDeTempo = { relogioDoSistema, fonteNtp }
 for _, fonteDeTempo in ipairs(fontesDeTempo) do
-  print("Hora atual: ", fonteDeTempo:agora())
+  local instante = fonteDeTempo:agora()
+  print("Hora atual (época): ", instante, os.date("%d/%m/%Y %X", instante))
+  -- Propriedades: época em segundos inteiros, próxima do relógio do sistema:
+  assert(math.type(instante) == "integer")
+  assert(math.abs(os.difftime(os.time(), instante)) <= 1)
 end

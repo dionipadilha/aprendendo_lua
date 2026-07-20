@@ -144,10 +144,10 @@ end
 
 **Polimorfismo:**
 
-- O polimorfismo permite que métodos com o mesmo nome sejam implementados de forma diferente em diferentes classes.
+- O polimorfismo permite que métodos com o mesmo nome sejam implementados de forma diferente em diferentes classes. Em Lua isso é feito por **sobrescrita** (override): a subclasse redefine o método herdado. Lua não tem sobrecarga (overloading) de métodos.
 
 ```lua
--- Sobrecarga do método apresentar
+-- Sobrescrita do método comer
 function Estudante:comer()
     return "Comendo um lanche na cantina."
 end
@@ -163,13 +163,13 @@ local estudante1 = Estudante:novo("Carlos", 22, "Engenharia")
 local estudante2 = Estudante:novo("Davi", 37, "Geografia")
 ```
 
-- Objetos da subclasse podem chamar métodos herdados, sobrecarregados e específicos.
+- Objetos da subclasse podem chamar métodos herdados, sobrescritos e específicos.
 
 ```lua
 -- Chamando métodos herdados
 print(estudante1:apresentarNome()) --> Olá, meu nome é Carlos.
 
--- Chamando métodos sobrecarregados
+-- Chamando métodos sobrescritos
 print(estudante1:comer()) --> Comendo um lanche na cantina.
 
 -- Chamando métodos específicos

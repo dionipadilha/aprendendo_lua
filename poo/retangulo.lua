@@ -111,33 +111,44 @@ end
 -- criar uma instância de retângulo:
 local ret1 = Retangulo:novo({ 0, 0 }, { 1, 3 })
 print(ret1) --> Retangulo({0.000000, 0.000000}, {1.000000, 3.000000})
+assert(tostring(ret1) == "Retangulo({0.000000, 0.000000}, {1.000000, 3.000000})")
 
 -- obter a geometria básica:
 print(ret1:perimetro()) --> 8
 print(ret1:area())      --> 3
+assert(ret1:perimetro() == 8)
+assert(ret1:area() == 3)
 
 -- obter o centroide do retângulo:
 local centroide = ret1:centroideDaRegiao()
-print(table.unpack(centroide)) --> 0.5 1.5
+print(table.unpack(centroide)) --> 0.5	1.5
 print(ret1:contem(centroide))  --> true
 print(ret1:contem({ 1, 4 }))   --> false
+assert(centroide[1] == 0.5 and centroide[2] == 1.5)
+assert(ret1:contem(centroide) == true)
+assert(ret1:contem({ 1, 4 }) == false)
 
 -- Verificar se outro retângulo intersecta este retângulo:
 local ret2 = Retangulo:novo({ 0.5, 0.5 }, { 2, 4 })
 print(ret1:intersecta(ret2)) --> true
+assert(ret1:intersecta(ret2) == true)
 
--- obter o retângulo escalado:
+-- obter o retângulo escalado (ret1 permanece intacto):
 local retEscalado = ret1:escalar(2)
-print(ret1)       --> Retangulo({0.000000, 0.000000}, {1.000000, 3.000000})
+print(ret1)        --> Retangulo({0.000000, 0.000000}, {1.000000, 3.000000})
 print(retEscalado) --> Retangulo({-0.500000, -1.500000}, {1.500000, 4.500000})
+assert(tostring(ret1) == "Retangulo({0.000000, 0.000000}, {1.000000, 3.000000})")
+assert(tostring(retEscalado) == "Retangulo({-0.500000, -1.500000}, {1.500000, 4.500000})")
 
 -- mover o retângulo:
 local retMovido = ret1:mover(1, 1)
 print(retMovido) --> Retangulo({1.000000, 1.000000}, {2.000000, 4.000000})
+assert(tostring(retMovido) == "Retangulo({1.000000, 1.000000}, {2.000000, 4.000000})")
 
 -- redimensionar o retângulo:
 local retRedimensionado = ret1:redimensionar(2, 4)
 print(retRedimensionado) --> Retangulo({0.000000, 0.000000}, {2.000000, 4.000000})
+assert(tostring(retRedimensionado) == "Retangulo({0.000000, 0.000000}, {2.000000, 4.000000})")
 
 --------------------------------------------------------------------------------
 -- Retornar a classe Retangulo:

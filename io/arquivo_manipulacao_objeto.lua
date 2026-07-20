@@ -48,3 +48,4 @@ if conteudo then
 else
     print("Nenhum conteúdo lido do arquivo.")
 end
+assert(conteudo == "Olá, Lua!")

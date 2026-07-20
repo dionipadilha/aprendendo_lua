@@ -5,7 +5,7 @@
 --------------------------------------------------------------------------------
 -- Classe base dos animais:
 
-Animal = {
+local Animal = {
   nomeDaClasse = "animal"
 }
 
@@ -23,7 +23,7 @@ end
 --------------------------------------------------------------------------------
 -- Subclasses de Animal:
 
-Passaro = Animal:novo {
+local Passaro = Animal:novo {
   nomeDaClasse = "pássaro"
 }
 
@@ -35,10 +35,10 @@ end
 -- Subclasses de Passaro:
 
 -- Classe Pardal:
-Pardal = Passaro:novo {}
+local Pardal = Passaro:novo {}
 
 -- Classe Pinguim:
-Pinguim = Passaro:novo {}
+local Pinguim = Passaro:novo {}
 function Pinguim:voar()
   return false, "Pinguins não podem voar"
 end
@@ -46,13 +46,23 @@ end
 --------------------------------------------------------------------------------
 -- Fazer um pássaro andar:
 
-print(Pardal:andar())  --> true Este pássaro pode andar
-print(Pinguim:andar()) --> true Este pássaro pode andar
+print(Pardal:andar())  --> true	Este pássaro pode andar
+print(Pinguim:andar()) --> true	Este pássaro pode andar
+
+local pode, mensagem = Pardal:andar()
+assert(pode == true and mensagem == "Este pássaro pode andar")
+pode, mensagem = Pinguim:andar()
+assert(pode == true and mensagem == "Este pássaro pode andar")
 
 --------------------------------------------------------------------------------
--- Fazer um pássaro voar:
+-- Fazer um pássaro voar: cada classe responde à sua maneira (polimorfismo).
 
-print(Pardal:voar())  --> true Este pássaro pode voar
-print(Pinguim:voar()) --> false Pinguins não podem voar
+print(Pardal:voar())  --> true	Este pássaro pode voar
+print(Pinguim:voar()) --> false	Pinguins não podem voar
+
+pode, mensagem = Pardal:voar()
+assert(pode == true and mensagem == "Este pássaro pode voar")
+pode, mensagem = Pinguim:voar()
+assert(pode == false and mensagem == "Pinguins não podem voar")
 
 --------------------------------------------------------------------------------

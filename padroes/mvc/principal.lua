@@ -23,4 +23,9 @@ local function principal()
   return "O padrão MVC está funcionando como esperado."
 end
 
-print(pcall(principal)) --> true	O padrão MVC está funcionando como esperado.
+local ok, mensagem = pcall(principal)
+print(ok, mensagem) --> true	O padrão MVC está funcionando como esperado.
+
+-- assert de topo: o pcall acima não afeta o código de saída, então
+-- verificamos aqui o resultado de verdade.
+assert(ok and mensagem == "O padrão MVC está funcionando como esperado.", mensagem)

@@ -35,7 +35,7 @@ Eis um exemplo de POO em Lua:
 Conta = {}
 Conta.__index = Conta
 
-function Conta:new(nome, saldo)
+function Conta:novo(nome, saldo)
     local obj = {nome = nome, saldo = saldo}
     setmetatable(obj, Conta)
     return obj
@@ -57,7 +57,7 @@ function Conta:obterSaldo()
     return self.saldo
 end
 
-local minhaConta = Conta:new("João da Silva", 1000)
+local minhaConta = Conta:novo("João da Silva", 1000)
 minhaConta:depositar(500)
 minhaConta:sacar(200)
 print(minhaConta:obterSaldo())  -- Saída: 1300

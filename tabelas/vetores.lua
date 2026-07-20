@@ -13,6 +13,7 @@ local vetorPredefinido = {"maçã","banana", "laranja"}
 
 -- Empacota os elementos em um vetor:
 local vetorEmpacotado = table.pack("maçã", "banana", "laranja")
+assert(vetorEmpacotado.n == 3 and vetorEmpacotado[1] == "maçã")
 
 --------------------------------------------------------------------------------
 -- Acesso aos Elementos
@@ -21,14 +22,17 @@ local frutas = {"maçã","banana", "laranja"}
 
 -- Acessando elementos pelo índice:
 print(frutas[2]) --> banana
+assert(frutas[2] == "banana")
 
 -- O índice começa em 1:
 print(frutas[1]) --> maçã
+assert(frutas[1] == "maçã")
 
 -- Acessando elementos fora dos limites:
 print(frutas[4]) --> nil
 print(frutas[0]) --> nil
 print(frutas[-1]) --> nil
+assert(frutas[4] == nil and frutas[0] == nil and frutas[-1] == nil)
 
 
 --------------------------------------------------------------------------------
@@ -38,6 +42,7 @@ local frutas = {"maçã","banana", "laranja"}
 
 -- Número de elementos:
 print(#frutas) --> 3
+assert(#frutas == 3)
 
 -- Percorrendo os elementos usando um intervalo:
 for i = 1, #frutas do
@@ -58,6 +63,7 @@ end
 
 -- Imprime os elementos concatenados:
 print(table.concat(frutas, ", ")) --> maçã, banana, laranja
+assert(table.concat(frutas, ", ") == "maçã, banana, laranja")
 
 --------------------------------------------------------------------------------
 -- Manipulação
@@ -67,22 +73,27 @@ local frutas = {"maçã","banana", "laranja"}
 -- Modificando elementos:
 frutas[2] = "manga"
 print(table.concat(frutas, ", ")) --> maçã, manga, laranja
+assert(table.concat(frutas, ", ") == "maçã, manga, laranja")
 
 -- Acrescentando elementos:
 table.insert(frutas, "kiwi")
 print(table.concat(frutas, ", ")) --> maçã, manga, laranja, kiwi
+assert(table.concat(frutas, ", ") == "maçã, manga, laranja, kiwi")
 
 -- Inserindo em um índice específico:
 table.insert(frutas, 2, "pera")
 print(table.concat(frutas, ", ")) --> maçã, pera, manga, laranja, kiwi
+assert(table.concat(frutas, ", ") == "maçã, pera, manga, laranja, kiwi")
 
 -- Remove o último elemento:
 table.remove(frutas)
 print(table.concat(frutas, ", ")) --> maçã, pera, manga, laranja
+assert(table.concat(frutas, ", ") == "maçã, pera, manga, laranja")
 
 -- Removendo em um índice específico:
 table.remove(frutas, 3)
 print(table.concat(frutas, ", ")) --> maçã, pera, laranja
+assert(table.concat(frutas, ", ") == "maçã, pera, laranja")
 
 --------------------------------------------------------------------------------
 -- Ordenação*
@@ -92,19 +103,21 @@ local frutas = {"maçã","pera", "laranja"}
 -- Ordenação padrão:
 table.sort(frutas)
 print(table.concat(frutas, ", ")) --> laranja, maçã, pera
+assert(table.concat(frutas, ", ") == "laranja, maçã, pera")
 
 -- Ordenação personalizada:
 local ordenacaoPersonalizada = function (a, b) return #a > #b end
 table.sort(frutas, ordenacaoPersonalizada)
 print(table.concat(frutas, ", ")) --> laranja, maçã, pera
+assert(table.concat(frutas, ", ") == "laranja, maçã, pera")
 
 -- Ordenação inversa:
 local OrdenacaoInversa = function(a, b) return a > b end
 table.sort(frutas, OrdenacaoInversa)
 print(table.concat(frutas, ", ")) --> pera, maçã, laranja
+assert(table.concat(frutas, ", ") == "pera, maçã, laranja")
 
 -- *O algoritmo de ordenação não é estável.
--- veja mais sobre ordenação de vetores em sort_arrays.lua
 
 --------------------------------------------------------------------------------
 -- Mesclando vetores
@@ -116,17 +129,20 @@ for _, item in ipairs(v2) do
   table.insert(v1, item)
 end
 print(table.concat(v1, ", ")) --> maçã, banana, cereja, manga, pera
+assert(table.concat(v1, ", ") == "maçã, banana, cereja, manga, pera")
 
 -- Mescla vetores usando table.move:
 local v1 = {"maçã","banana", "cereja"}
 local v2 = {"manga","pera"}
 table.move(v2, 1, #v2, #v1+1, v1)
 print(table.concat(v1, ", ")) --> maçã, banana, cereja, manga, pera
+assert(table.concat(v1, ", ") == "maçã, banana, cereja, manga, pera")
 
 -- Mescla vetores usando table.unpack:
 local v2 = {"manga","pera"}
 local v1 = {"maçã","banana", "cereja", table.unpack(v2)}
 print(table.concat(v1, ", ")) --> maçã, banana, cereja, manga, pera
+assert(table.concat(v1, ", ") == "maçã, banana, cereja, manga, pera")
 
 --------------------------------------------------------------------------------
 -- Introdução aos vetores multidimensionais
@@ -141,6 +157,7 @@ for i = 1, n do
         grade[i][j] = 0
     end
 end
+assert(#grade == 3 and #grade[1] == 4 and grade[3][4] == 0)
 
 -- Cria um vetor multidimensional:
 local matriz = {
@@ -151,6 +168,7 @@ local matriz = {
 
 -- Acessando elementos em vetores multidimensionais:
 print(matriz[2][1]) --> 4
+assert(matriz[2][1] == 4)
 
 
 -- Percorrendo um vetor multidimensional:
@@ -163,6 +181,6 @@ end
 -- Manipulando elementos em vetores multidimensionais:
 matriz[2][1] = 99
 print(matriz[2][1]) --> 99
+assert(matriz[2][1] == 99)
 
--- veja mais sobre vetores multidimensionais em multidimensional.lua
 --------------------------------------------------------------------------------

@@ -5,12 +5,18 @@
 -- os irregulares são tratados em irregulares.lua
 
 --------------------------------------------------------------------------------
--- caso nº 1: palavras terminadas em "on"
+-- caso nº 1: palavras de origem grega terminadas em "on"
 -- criterion --> criteria
+-- Uma regra genérica "on$ --> a" super-generalizava (lion --> lia,
+-- lemon --> lema); por isso a regra usa uma lista fechada de palavras
+-- que de fato seguem o plural grego.
+local pluraisGregosEmOn = {
+    criterion = "criteria",
+    phenomenon = "phenomena"
+}
+
 local function pluralizarOn(palavra)
-    if palavra:match("on$") then
-        return palavra:sub(1, -3) .. "a"
-    end
+    return pluraisGregosEmOn[palavra]
 end
 
 -- caso nº 2: palavras terminadas em "y" precedido de consoante
@@ -61,13 +67,11 @@ local function pluralizarConsoanteO(palavra)
     end
 end
 
--- caso nº 8: palavras terminadas em "us"
--- focus --> foci
-local function pluralizarUs(palavra)
-    if palavra:match("us$") then
-        return palavra:sub(1, -3) .. "i"
-    end
-end
+-- Observação: não há regra "us --> i" (focus --> foci). Ela existia aqui,
+-- mas era inalcançável: o caso nº 6 ("[xsz]$") captura antes qualquer
+-- palavra terminada em "s". Escolhemos manter o plural anglicizado
+-- (focus --> focuses, bus --> buses) e removemos a regra morta.
+-- Plurais latinos (focus --> foci) podem ser tratados em irregulares.lua.
 
 -- regra padrão
 -- dog --> dogs
@@ -84,7 +88,6 @@ local regrasDePluralizacao = {
     pluralizarIs,
     pluralizarTerminacoesEspeciais,
     pluralizarConsoanteO,
-    pluralizarUs,
     pluralizarPadrao
 }
 

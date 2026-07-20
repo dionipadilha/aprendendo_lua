@@ -26,3 +26,6 @@ local pessoa2 = Pessoa:novo { nome = "Jane", sobrenome = "Smith", idade = 25 }
 
 print(pessoa1) --> Nome: John, Sobrenome: Doe, Idade: 30
 print(pessoa2) --> Nome: Jane, Sobrenome: Smith, Idade: 25
+
+assert(tostring(pessoa1) == "Nome: John, Sobrenome: Doe, Idade: 30")
+assert(tostring(pessoa2) == "Nome: Jane, Sobrenome: Smith, Idade: 25")

@@ -21,11 +21,11 @@ local function calcularMedia(notas)
 end
 
 -- Conjuntos de notas semestrais
-notasPrimeiroSemestre = {10, 8, 7, 9}
-notasSegundoSemestre = {6, 8, 8, 7}
+local notasPrimeiroSemestre = {10, 8, 7, 9}
+local notasSegundoSemestre = {6, 8, 8, 7}
 
 -- Imprimir a média do primeiro semestre
-media = calcularMedia(notasPrimeiroSemestre)
+local media = calcularMedia(notasPrimeiroSemestre)
 print("Média do primeiro semestre: " .. media) --> 8.5
 ```
 
@@ -39,15 +39,25 @@ calcularAreaQuadrado(lado)
 calcularAreaTriangulo(base, altura)
 ```
 
-### Consistência
+### Consistência — convenção oficial deste repositório
 
-Utilize as convenções de nomenclatura.
+Todos os exemplos e exercícios deste repositório seguem uma única convenção. Não é uma lista de opções: é a regra a ser aplicada.
+
+| Elemento | Estilo | Exemplo |
+| --- | --- | --- |
+| Variáveis, funções e métodos | camelCase | `calcularMedia`, `notasParciais` |
+| Classes e módulos-classe | PascalCase | `PedidoDeVenda`, `ContaBancaria` |
+| Constantes | MAIUSCULAS_COM_SUBLINHADO | `RAZAO_AUREA`, `TAMANHO_MAXIMO` |
+| Nomes de arquivo | minusculas_com_sublinhado | `controle_de_fluxo.lua` |
 
 ```lua
-CalcularMedia(NotasParciais) -- PascalCase
-calcularMedia(notasParciais) -- camelCase
-calcular_media(notas_parciais) -- snake_case
+local notasParciais = {8, 7, 9}         -- variável: camelCase
+local function calcularMedia(notas) end -- função: camelCase
+local ContaBancaria = {}                -- classe: PascalCase
+local RAZAO_AUREA <const> = 1.61803     -- constante: MAIUSCULAS_COM_SUBLINHADO
 ```
+
+Identificadores não levam acento: Lua 5.4 só aceita letras ASCII (`A`–`Z`, `a`–`z`), dígitos e `_` em nomes. Escreva `calcularMedia`, e não `calcularMédia`; acentuação fica para strings e comentários.
 
 ### Iteradores Simples
 
@@ -71,17 +81,17 @@ Comentar o propósito, evitar o óbvio.
 
 -- comentários descritivo
   -- Conjuntos de notas da turma do bob:
-  notasPrimeiroSemestre = {10, 8, 7, 9}
-  notasSegundoSemestre = {6, 8, 8, 7}
+  local notasPrimeiroSemestre = {10, 8, 7, 9}
+  local notasSegundoSemestre = {6, 8, 8, 7}
 ```
 
 ### Constantes
 
-Letras maiúsculas em muitas linguagens.
+Use MAIUSCULAS_COM_SUBLINHADO. Em Lua 5.4, marque com `<const>` quando o valor não deve ser reatribuído.
 
 ```lua
-RAZAO_AUREA = 1.61803
-PI = 3.14
+local RAZAO_AUREA <const> = 1.61803
+local PI <const> = 3.14
 ```
 
 ### Verbos no infinitivo e imperativo
@@ -109,7 +119,7 @@ Representar claramente o objeto da função.
 
 ```lua
 ordenarLista(listaUsuarios)
-lerArquivo(usuario.txt)
+lerArquivo("usuario.txt")
 ```
 
 ### Adjetivos
@@ -147,7 +157,7 @@ criarPDF()
 
 ```lua
 --  Nomes que não fornecem informações sobre o propósito da variável ou função.
-variavel1
+local variavel1
 funcao2()
 
 -- Não use números para diferenciar variáveis ou funções semelhantes
@@ -159,12 +169,12 @@ processarDados2()
 
 ```lua
 -- Casos onde o número é uma parte integral e bem conhecida do item
-HTTPStatus404()
-UTF8Encoding()
+statusHTTP404()
+codificacaoUTF8()
 
 -- Contextos matemáticos ou científicos
-EixoX1()
-EixoY2()
+eixoX1()
+eixoY2()
 ```
 
 ## Nomenclatura de Classes e Objetos
@@ -175,17 +185,17 @@ EixoY2()
 - Use a convenção PascalCase.
 
 ```lua
-PedidoDeVenda = {}
+local PedidoDeVenda = {}
 ```
 
 ### Objetos
 
-- Use CamelCase.
+- Use camelCase.
 - Use nomes descritivos.
 - O nome do objeto geralmente deve ter uma relação clara com o nome da classe.
 
 ```lua
-pedidoDeVenda = PedidoDeVenda:new()
+local pedidoDeVenda = PedidoDeVenda:novo()
 ```
 
 ## Exemplos de Nomes em diferentes contextos
@@ -269,6 +279,6 @@ Evite nomes genéricos como `funcao1()` ou `func_temporaria()`, pois não fornec
 Evite partes que não agregam valor ao nome.
 
 ```lua
-calcularMediaTotal(notas_lista)` -- redundante
-calcularMedia(notas)` -- suficiente
+calcularMediaTotal(notasLista) -- redundante
+calcularMedia(notas) -- suficiente
 ```

@@ -3,6 +3,13 @@
 --------------------------------------------------------------------------------
 -- chaves fracas: permitem a coleta de lixo de objetos referenciados fracamente.
 
+-- utilitário para contar as entradas de uma tabela:
+local function contarEntradas(t)
+  local quantidade = 0
+  for _ in pairs(t) do quantidade = quantidade + 1 end
+  return quantidade
+end
+
 -- #1. Cria uma tabela fraca com chaves fracas para cache:
 local tabelaFraca = setmetatable({}, { __mode = "k" })
 
@@ -10,19 +17,23 @@ local tabelaFraca = setmetatable({}, { __mode = "k" })
 local chave = {}
 tabelaFraca[chave] = "x"
 for k, v in pairs(tabelaFraca) do print(k, v) end
---> table: 0x557a8f50ae70	x
+--> table: 0x...	x
+assert(contarEntradas(tabelaFraca) == 1)
 
 -- #3. Substituindo a referência anterior:
 chave = {}
 tabelaFraca[chave] = "y"
 for k, v in pairs(tabelaFraca) do print(k, v) end
---> table: 0x557a8f50ae70	x
---> table: 0x557a8f50aef0	y
+--> table: 0x...	x
+--> table: 0x...	y
+assert(contarEntradas(tabelaFraca) == 2)
 
--- #4. Coletando as chaves fracas:
+-- #4. Coletando as chaves fracas (a chave "x" ficou sem referência forte):
 collectgarbage()
 for k, v in pairs(tabelaFraca) do print(k, v) end
---> table: 0x557a8f50aef0	y
+--> table: 0x...	y
+assert(contarEntradas(tabelaFraca) == 1)
+assert(tabelaFraca[chave] == "y")
 
 --------------------------------------------------------------------------------
 -- Implementação: cache de sessões de usuário
@@ -59,6 +70,7 @@ print("Sessões após adicionar os usuários:")
 for k, v in pairs(cacheDeSessoes) do print(k.nome, v.dados) end
 --> Ana	dados do usuário #1
 --> Bob	dados do usuário #2
+assert(contarEntradas(cacheDeSessoes) == 2)
 
 -- #5. Simulando a expiração da sessão:
 usuario1 = nil
@@ -66,3 +78,5 @@ collectgarbage()
 print("Sessões após a coleta de lixo:")
 for k, v in pairs(cacheDeSessoes) do print(k.nome, v.dados) end
 --> Bob	dados do usuário #2
+assert(contarEntradas(cacheDeSessoes) == 1)
+assert(cacheDeSessoes[usuario2] ~= nil)

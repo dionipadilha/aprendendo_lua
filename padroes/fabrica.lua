@@ -164,3 +164,16 @@ Tesla:ligar()        --> self.verificar: 	true	Todos os componentes estão funci
 Tesla:dirigir("bob") --> Carro sendo dirigido por: bob
 
 --------------------------------------------------------------------------------
+-- Asserts de topo (fora de pcall): cada carro foi montado com as partes
+-- intercambiáveis certas e todas funcionam.
+
+assert(Ford:verificar() == "Todos os componentes estão funcionais")
+assert(Tesla:verificar() == "Todos os componentes estão funcionais")
+assert(Ford.motor:ligar() == "MotorTipo1 está roncando")
+assert(Tesla.motor:ligar() == "MotorTipo2 está roncando")
+
+-- a classe base continua abstrata: verificar() sem sobrescrita falha.
+local ok = pcall(function() return FabricaDeCarro:novo({}):verificar() end)
+assert(not ok, "verificar() da base deveria exigir sobrescrita")
+
+--------------------------------------------------------------------------------

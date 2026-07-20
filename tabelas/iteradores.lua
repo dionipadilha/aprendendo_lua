@@ -31,3 +31,12 @@ end
 -------------------------------------------------------
 local nomes = { "ana", "bob", "charlie" }
 for nome in iterador_de_lista(nomes) do print(nome) end
+
+-------------------------------------------------------
+-- Verificação: o iterador percorre em ordem e termina com nil
+local letras = { "a", "b", "c" }
+local proximaLetra = iterador_de_lista(letras)
+assert(proximaLetra() == "a")
+assert(proximaLetra() == "b")
+assert(proximaLetra() == "c")
+assert(proximaLetra() == nil)

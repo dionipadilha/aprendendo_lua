@@ -23,3 +23,7 @@ objeto.chave_propria = "valor_proprio"
 print(objeto.chave_pai)     --> valor_pai
 print(objeto.chave_filha)   --> valor_filho
 print(objeto.chave_propria) --> valor_proprio
+
+assert(objeto.chave_pai == "valor_pai")         -- herdada do protótipo pai
+assert(objeto.chave_filha == "valor_filho")     -- herdada do protótipo filho
+assert(objeto.chave_propria == "valor_proprio") -- própria do objeto

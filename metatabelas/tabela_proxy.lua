@@ -8,6 +8,7 @@ local tabela = {}
 -- Tentando atribuir um valor a uma chave que não existe:
 tabela["foo"] = "bar"
 print(tabela["foo"]) --> bar
+assert(tabela["foo"] == "bar")
 
 -------------------------------------------------------------
 --  Interceptando e tratando atribuições:
@@ -24,5 +25,6 @@ setmetatable(nova_tabela, proxy)
 -- Tentando atribuir um valor a uma chave que não existe:
 nova_tabela["foo"] = "bar" --> atualização negada: foo para bar
 print(nova_tabela["foo"])  --> nil
+assert(nova_tabela["foo"] == nil) -- __newindex bloqueou a atribuição
 
 -------------------------------------------------------------

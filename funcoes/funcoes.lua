@@ -10,7 +10,8 @@ local function somaProduto(x, y)
   return x + y, x * y
 end
 local soma, produto = somaProduto(2, 3)
-print(soma, produto) --> 5 6
+print(soma, produto) --> 5	6
+assert(soma == 5 and produto == 6)
 
 -- Argumentos opcionais:
 local function saudar(nome, saudacao)
@@ -43,6 +44,8 @@ saudar("Ana", "Bob", "Carlos") --> Oi Ana, Oi Bob, Oi Carlos
 -- Função anônima:
 print((function(x) return 2*x end)(3)) --> 6
 print((function(x) return 2*x end)(5)) --> 10
+assert((function(x) return 2*x end)(3) == 6)
+assert((function(x) return 2*x end)(5) == 10)
 
 -- Variável com funções anônimas:
 local saudar = function(nome)
@@ -88,6 +91,7 @@ local contar = contador()
 print(contar()) --> 1
 print(contar()) --> 2
 print(contar()) --> 3
+assert(contar() == 4) -- a clausura preserva o estado entre as chamadas
 
 -- Recursão:
 local function fatorial(n)
@@ -96,16 +100,21 @@ local function fatorial(n)
   end
 end
 print(fatorial(5)) --> 120
+assert(fatorial(5) == 120)
 
 --------------------------------------------------------------------------------
 -- Tratamento de erros:
+-- error(mensagem) prefixa a posição "arquivo:linha" à mensagem de erro:
 local status, resultado = pcall(function() error("Algum erro") end)
-print(status) --> false
-print(resultado) --> Algum erro
+print(status)    --> false
+print(resultado) --> funcoes.lua:108: Algum erro
+assert(status == false)
+assert(string.find(resultado, "funcoes%.lua:%d+: Algum erro"))
 
 local status, resultado = pcall(function() return "Algum resultado" end)
-print(status) --> true
+print(status)    --> true
 print(resultado) --> Algum resultado
+assert(status == true and resultado == "Algum resultado")
 
 --------------------------------------------------------------------------------
 -- Recursão de cauda:
@@ -115,6 +124,7 @@ local function fatorial(n, acumulador)
   end
 end
 print(fatorial(5, 1)) --> 120
+assert(fatorial(5, 1) == 120)
 
 -- Recursão anônima:
 local fatorial
@@ -124,6 +134,7 @@ fatorial = function(n)
   end
 end
 print(fatorial(5)) --> 120
+assert(fatorial(5) == 120)
 
 -- Memoização:
 local memo = {}
@@ -140,6 +151,7 @@ print(fatorial(5)) --> 120
 print(fatorial(5)) --> 120
 print(fatorial(6)) --> 720
 print(fatorial(6)) --> 720
+assert(fatorial(5) == 120 and fatorial(6) == 720)
 
 -- Currying:
 local function somar(x)
@@ -150,6 +162,7 @@ end
 local somar2 = somar(2)
 print(somar2(3)) --> 5
 print(somar2(5)) --> 7
+assert(somar2(3) == 5 and somar2(5) == 7)
 
 -- Aplicação parcial:
 local function somar(x, y)
@@ -158,6 +171,7 @@ end
 local somar2 = function(y) return somar(2, y) end
 print(somar2(3)) --> 5
 print(somar2(5)) --> 7
+assert(somar2(3) == 5 and somar2(5) == 7)
 
 -- Composição:
 local function somar2(x)
@@ -173,6 +187,7 @@ local function compor(f, g)
 end
 local somar2DepoisMult3 = compor(mult3, somar2)
 print(somar2DepoisMult3(5)) --> 21
+assert(somar2DepoisMult3(5) == 21)
 
 -- Pipe:
 local function somar2(x)
@@ -188,3 +203,4 @@ local function pipe(f, g)
 end
 local somar2DepoisMult3 = pipe(somar2, mult3)
 print(somar2DepoisMult3(5)) --> 21
+assert(somar2DepoisMult3(5) == 21)

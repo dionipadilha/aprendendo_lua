@@ -13,7 +13,9 @@ local plural = setmetatable({}, {
 
 -- #2. Chamar a tabela como uma função:
 print("A tabela é chamada como uma função!")
-plural("gato", "cachorro") --> gatos, cachorros
+plural("gato", "cachorro") --> gatos
+                           --> cachorros
+assert(type(getmetatable(plural).__call) == "function")
 -----------------------------------------------------------------------------
 -- Aplicando o conceito:
 
@@ -23,6 +25,11 @@ local transformacoes = {
   capitalizar = function(palavra) return palavra:sub(1, 1):upper() .. palavra:sub(2) end,
   inverter = function(palavra) return palavra:reverse() end
 }
+
+-- As transformações são funções puras; asserts provam o resultado:
+assert(transformacoes.plural("gato") == "gatos")
+assert(transformacoes.capitalizar("gato") == "Gato")
+assert(transformacoes.inverter("gato") == "otag")
 
 -- #2. Criar uma tabela que funciona como função:
 local transformador = setmetatable({}, {

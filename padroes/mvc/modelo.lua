@@ -18,11 +18,6 @@ function Modelo:obterDados()
   return self.dados
 end
 
--- Visão: Cuida da camada de apresentação.
-local Visao = Classe:novo {}
-
-function Visao:renderizar(dados)
-  print("Renderizando dados: " .. dados)
-end
+-- A camada de apresentação (Visao) mora em visao.lua.
 
 return Modelo

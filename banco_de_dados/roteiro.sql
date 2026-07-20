@@ -1,5 +1,8 @@
 -- motor: sqlite3
+-- Roteiro idempotente: pode ser executado várias vezes seguidas,
+-- pois cada tabela é descartada (se existir) antes de ser recriada.
 
+DROP TABLE IF EXISTS Artists;
 CREATE TABLE Artists(
   artist_id   INTEGER PRIMARY KEY,
   artist_name TEXT NOT NULL
@@ -10,6 +13,7 @@ INSERT INTO Artists (artist_name) VALUES
 ('Bob'),
 ('Carl');
 
+DROP TABLE IF EXISTS Albums;
 CREATE TABLE Albums(
   album_id   INTEGER PRIMARY KEY,
   album_name TEXT NOT NULL,
@@ -22,6 +26,7 @@ INSERT INTO Albums (album_name, artist_id) VALUES
 ('Brown', 2),
 ('Carpinter', 3);
 
+DROP TABLE IF EXISTS Tracks;
 CREATE TABLE Tracks(
   track_id     INTEGER PRIMARY KEY,
   track_name   TEXT NOT NULL,
