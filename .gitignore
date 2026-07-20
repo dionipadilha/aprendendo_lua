@@ -6,6 +6,9 @@ arquivo_close_demo.txt
 solid/log.txt
 banco_de_dados.db
 
+# Saída do gerador do site (publicada pela CI, nunca commitada)
+site/_saida/
+
 # Artefatos de compilação dos exemplos da API C (capi/)
 capi/embutir
 *.o
