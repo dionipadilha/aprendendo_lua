@@ -1,0 +1,93 @@
+# Roteiro de Estudos da Programação em Lua
+Comentários:
+  - Comentários de uma linha # -- Comentário de uma linha
+  - Comentários de múltiplas linhas # --[[ Comentário de múltiplas linhas --]]
+  - Comentários de saída esperada # print(frutas[1]) --> maçã
+Variáveis:
+  - Escopo de variáveis # global, local
+  - Declaração de variáveis # local nomeDaVariavel
+  - Atribuição de variáveis # local nomeDaVariavel = valor
+Tipos de Dados:
+  - Strings # "Olá, Lua!"
+  - Números # 3.14
+  - Booleanos # true ou false
+  - Tabelas # frutas = {"maçã", ...}, pessoa = {nome = "João da Silva", ...}
+  - Nil # local x, print(x) --> nil
+  - Funções # local function minhaFuncao() end
+Operadores:
+  - Operadores aritméticos:
+      - Adição # 5 + 2 --> 7
+      - Subtração # 5 - 2 --> 3
+      - Multiplicação # 5 * 2 --> 10
+      - Divisão # 5/2 --> 2.5
+      - Divisão inteira # 5//2 --> 2
+      - Módulo # 5%2 --> 1
+      - Exponenciação # 2^3 --> 8
+  - Operadores relacionais:
+      - Igualdade # 5 == 2 --> false
+      - Desigualdade # 5 ~= 2 --> true
+      - Menor que # 5 < 2 --> false
+      - Maior que # 5 > 2 --> true
+      - Menor ou igual a # 5 <= 2 --> false
+      - Maior ou igual a # 5 >= 2 --> true
+  - Operadores lógicos:
+      - E (and) # true and false --> false
+      - Ou (or) # true or false --> true
+      - Não (not) # not true --> false
+  - Operadores bit a bit:
+      - E bit a bit (AND) # 5 & 2 --> 0 (0000 0101 & 0000 0010 = 0000 0000)
+      - Ou bit a bit (OR) # 5 | 2 --> 7 (0000 0101 | 0000 0010 = 0000 0111)
+      - Ou exclusivo bit a bit (XOR) # 5 ~ 2 --> 7 (0000 0101 ~ 0000 0010 = 0000 0111)
+      - Negação bit a bit (NOT) # ~5 --> -6 (0000 0101 = 1111 1010)
+      - Deslocamento de bits à esquerda # 5 << 2 --> 20 (0000 0101 << 2 = 0001 0100)
+      - Deslocamento de bits à direita # 5 >> 2 --> 1 (0000 0101 >> 2 = 0000 0001)
+  - Operador de concatenação # "Olá" .. " " .. "Lua!" --> "Olá Lua!"
+  - Operador de comprimento # #frutas --> 3
+Estruturas condicionais:
+  - if # if condicao then comandos end
+  - elseif # elseif condicao then comandos end
+  - else # else comandos end
+Estruturas de repetição:
+  - while # while condicao do comandos end
+  - repeat...until # repeat comandos until condicao
+  - for numérico (intervalo) # for variavel = inicio, fim, passo do comandos end
+  - for genérico (for each) # for chave, valor in pairs(tabela) do comandos end
+  - break # break (continue N/A)
+Funções:
+  - Definição # local function minhaFuncao(parametros) comandos end
+  - Chamada # local x = minhaFuncao(arg)
+  - Valores padrão de parâmetros # minhaFuncao(param = valor)
+  - Número variável de parâmetros # minhaFuncao(...)
+  - Valores de retorno # return valor
+  - Retornar múltiplos valores # return valor1, valor2
+  - Retorno condicional com operador ternário # return a and b or c
+Tabelas como Arrays:
+  - Empacotar os elementos em um array # local frutas = table.pack("maçã", "banana")
+  - Criar um array vazio # local array = {}
+  - Criar um array com elementos # local frutas = {"maçã", "banana", "cereja"}
+  - Número de elementos # print(#frutas) --> 3
+  - Acessar elementos # print(frutas[1]) --> maçã
+  - Acessar elementos fora dos limites # --> nil
+  - Percorrer os elementos # for _, fruta in ipairs(frutas) do algumaCoisa(fruta) end
+  - Modificar elementos pelo índice # frutas[3] = "chocolate"
+  - Acrescentar novos elementos # frutas:insert("laranja")
+  - Adicionar novos elementos pelo índice # frutas:insert("manga", 3)
+  - Remover o último elemento # frutas:remove()
+  - Remover elemento pelo índice # frutas:remove(3)
+  - Ordenação # table.sort(frutas)
+  - Ordenação personalizada # table.sort(frutas, ordenacaoPersonalizada)
+Tabelas como Dicionários:
+  - Criar um mapa # local pessoa = {nome = "João da Silva", idade = 30}
+  - Acessar elementos # print(pessoa.nome) --> João da Silva
+  - Percorrer os elementos # for chave, valor in pairs(tabela) do algumaCoisa(chave, valor) end
+  - Adicionar novos elementos # pessoa.cargo = "programador lua"
+Veja mais:
+  - Manipulação de Strings # regex, ...
+  - Tratamento de Erros e Exceções # assert, error, pcall, xpcall
+  - Módulos # criar um módulo, require "modulo"
+  - Manipulação de Arquivos # biblioteca io
+  - Metaprogramação # metatables, metamétodos
+  - Orientação a Objetos # classes, objetos, ...
+  - Threads # coroutine, ...
+  - Coleta de Lixo (Garbage Collection) # ...
+  - API C # ...

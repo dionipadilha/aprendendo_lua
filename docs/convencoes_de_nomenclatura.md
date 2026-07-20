@@ -55,10 +55,10 @@ Utilize nomes curtos, desde que permaneçam significativos.
 
 ```lua
 -- Iteradores indexados
-for i=1, #list do print(list[i]) end
+for i=1, #lista do print(lista[i]) end
 
 -- Iteradores descritivos
-for _, item in ipairs(list) do print(item) end
+for _, item in ipairs(lista) do print(item) end
 ```
 
 ### Comentários
@@ -80,7 +80,7 @@ Comentar o propósito, evitar o óbvio.
 Letras maiúsculas em muitas linguagens.
 
 ```lua
-GOLDEN_RATIO = 1.61803
+RAZAO_AUREA = 1.61803
 PI = 3.14
 ```
 
@@ -109,7 +109,7 @@ Representar claramente o objeto da função.
 
 ```lua
 ordenarLista(listaUsuarios)
-lerArquivo(user.txt)
+lerArquivo(usuario.txt)
 ```
 
 ### Adjetivos
@@ -262,7 +262,7 @@ Evite sinônimos para a mesma ação ou entidade, a menos que haja uma razão es
 
 ### Nomes Genéricos
 
-Evite nomes genéricos como `funcao1()` ou `temp_func()`, pois não fornecem informações sobre a finalidade da função.
+Evite nomes genéricos como `funcao1()` ou `func_temporaria()`, pois não fornecem informações sobre a finalidade da função.
 
 ### Prefixos/Sufixos Redundantes
 
