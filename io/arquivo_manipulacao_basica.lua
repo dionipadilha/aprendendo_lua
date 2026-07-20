@@ -15,7 +15,7 @@ end
 local arquivoDeLeitura = io.open("teste.txt", "r")
 local conteudo = nil
 if arquivoDeLeitura then
-    conteudo = arquivoDeLeitura:read("*a")
+    conteudo = arquivoDeLeitura:read("a")
     arquivoDeLeitura:close()
 else
     print("Erro ao abrir o arquivo para leitura.")

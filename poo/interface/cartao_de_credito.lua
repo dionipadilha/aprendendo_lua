@@ -54,7 +54,7 @@ end
 
 -- implementa o contrato de IPagamento
 function CartaoDeCredito:implementa(interface)
-  local log = "\nfalha: a classe CartaoDeCredito implementa IPagamento %s"
+  local log = "\nfalha: a classe CartaoDeCredito não implementa o membro %s de IPagamento"
   for nomeDaPropriedade, tipoDaPropriedade in pairs(interface) do
     assert(
       tipoDaPropriedade == type(self[nomeDaPropriedade]),

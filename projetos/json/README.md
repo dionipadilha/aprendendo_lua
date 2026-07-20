@@ -8,6 +8,10 @@ O codificador escapa `\`, `"` e os caracteres de controle (`\n`, `\t`, `\r`,
 sequências de escape básicas (`\"`, `\\`, `\/`, `\n`, `\t`, `\r`, `\b`, `\f`).
 Os testes de roundtrip estão em `principal.lua`.
 
+Ambos são estritos: o decodificador rejeita sobras após o valor
+(`123abc`) e vírgulas finais (`[1,2,]`, `{"a":1,}`); o codificador lança
+erro para NaN e ±infinito, que não têm representação em JSON.
+
 ## Limitações conhecidas
 
 Esta implementação é didática e simplificada. As limitações abaixo permanecem

@@ -12,8 +12,8 @@
 -- Exemplos básicos:
 
 local function divisaoArriscada(x, y)
-    assert(y ~= 0, "Divisão por zero")
-    return x / y
+  assert(y ~= 0, "Divisão por zero")
+  return x / y
 end
 
 local ok1, resultado1 = pcall(divisaoArriscada, 8, 4)

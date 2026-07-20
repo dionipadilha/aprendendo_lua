@@ -1,179 +1,84 @@
 -- fabrica.lua
 
--- construindo objetos complexos com partes intercambiáveis.
+-- Padrão Fábrica (Factory Method): uma função criadora decide QUAL tipo
+-- concreto instanciar a partir de um parâmetro. O código cliente pede
+-- "um inimigo" pelo nome e recebe o tipo certo — sem conhecer as classes
+-- concretas e sem espalhar if/else de criação pelo programa.
+--
+-- Para criar FAMÍLIAS de produtos compatíveis (vários componentes por
+-- fábrica), veja fabrica_abstrata.lua.
 
 --------------------------------------------------------------------------------
--- Classe Base Fábrica:
+-- Classe base e tipos concretos:
 
-local Fabrica = {}
+local Inimigo = {}
 
-function Fabrica:novo(instancia)
+function Inimigo:novo(instancia)
   instancia = instancia or {}
   setmetatable(instancia, self)
   self.__index = self
   return instancia
 end
 
---------------------------------------------------------------------------------
--- Fábrica de Chassi e Tipos:
-
-local FabricaDeChassi = Fabrica:novo {}
-
-function FabricaDeChassi:sustentar()
-  error("Este método deve ser sobrescrito")
+function Inimigo:atacar()
+  error("Este método deve ser sobrescrito pelo tipo concreto")
 end
 
-local chassiTipo1 = FabricaDeChassi:novo {}
-
-function chassiTipo1:sustentar()
-  return "ChassiTipo1 ok"
+local Zumbi = Inimigo:novo { vida = 30 }
+function Zumbi:atacar()
+  return ("Zumbi morde (vida %d)"):format(self.vida)
 end
 
-local chassiTipo2 = FabricaDeChassi:novo {}
-
-function chassiTipo2:sustentar()
-  return "ChassiTipo2 ok"
+local Esqueleto = Inimigo:novo { vida = 20 }
+function Esqueleto:atacar()
+  return ("Esqueleto atira flechas (vida %d)"):format(self.vida)
 end
 
 --------------------------------------------------------------------------------
--- Fábrica de Motor e Tipos:
+-- O método fabril: a decisão de qual classe instanciar fica em UM lugar.
 
-local FabricaDeMotor = Fabrica:novo {}
-
-function FabricaDeMotor:ligar()
-  error("Este método deve ser sobrescrito")
-end
-
-local motorTipo1 = FabricaDeMotor:novo {}
-
-function motorTipo1:ligar()
-  return "MotorTipo1 está roncando"
-end
-
-local motorTipo2 = FabricaDeMotor:novo {}
-
-function motorTipo2:ligar()
-  return "MotorTipo2 está roncando"
-end
-
---------------------------------------------------------------------------------
--- Fábrica de Transmissão e Tipos:
-
-local FabricaDeTransmissao = Fabrica:novo {}
-
-function FabricaDeTransmissao:trocarMarcha()
-  error("Este método deve ser sobrescrito")
-end
-
-local transmissaoTipo1 = FabricaDeTransmissao:novo {}
-
-function transmissaoTipo1:trocarMarcha()
-  return "TransmissaoTipo1 está trocando de marcha"
-end
-
-local transmissaoTipo2 = FabricaDeTransmissao:novo {}
-
-function transmissaoTipo2:trocarMarcha()
-  return "TransmissaoTipo2 está trocando de marcha"
-end
-
---------------------------------------------------------------------------------
--- Fábrica de Roda e Tipos:
-
-local FabricaDeRoda = Fabrica:novo {}
-
-function FabricaDeRoda:girar()
-  error("Este método deve ser sobrescrito")
-end
-
-local rodaTipo1 = FabricaDeRoda:novo {}
-
-function rodaTipo1:girar()
-  return "RodaTipo1 está girando"
-end
-
-local rodaTipo2 = FabricaDeRoda:novo {}
-
-function rodaTipo2:girar()
-  return "RodaTipo2 está girando"
-end
-
---------------------------------------------------------------------------------
--- Montagem do Carro e Tipos:
-
-local FabricaDeCarro = Fabrica:novo {}
-
-function FabricaDeCarro:verificar()
-  error("Este método deve ser sobrescrito")
-end
-
-function FabricaDeCarro:ligar()
-  local status, resultado = pcall(self.verificar, self)
-  print("self.verificar: ", status, resultado)
-end
-
-function FabricaDeCarro:dirigir(motorista)
-  print("Carro sendo dirigido por: " .. motorista)
-end
-
---------------------------------------------------------------------------------
--- Tipo de Carro Ford:
-
-local Ford = FabricaDeCarro:novo {
-  chassi = chassiTipo1:novo {},
-  motor = motorTipo1:novo {},
-  transmissao = transmissaoTipo1:novo {},
-  roda = rodaTipo1:novo {}
+local tiposDeInimigo = {
+  zumbi = Zumbi,
+  esqueleto = Esqueleto
 }
 
-function Ford:verificar()
-  assert(self.chassi and self.motor and self.transmissao and self.roda)
-  assert(self.chassi:sustentar() == "ChassiTipo1 ok")
-  assert(self.motor:ligar() == "MotorTipo1 está roncando")
-  assert(self.transmissao:trocarMarcha() == "TransmissaoTipo1 está trocando de marcha")
-  assert(self.roda:girar() == "RodaTipo1 está girando")
-  return "Todos os componentes estão funcionais"
+local function criarInimigo(tipo, atributos)
+  local classe = tiposDeInimigo[tipo]
+  assert(classe, "tipo de inimigo desconhecido: " .. tostring(tipo))
+  return classe:novo(atributos)
 end
 
 --------------------------------------------------------------------------------
--- Tipo de Carro Tesla:
+-- Uso: o cliente cria por NOME e trata todos os produtos pela mesma
+-- interface (atacar), sem tocar nas classes concretas.
 
-local Tesla = FabricaDeCarro:novo {
-  chassi = chassiTipo2:novo {},
-  motor = motorTipo2:novo {},
-  transmissao = transmissaoTipo2:novo {},
-  roda = rodaTipo2:novo {}
+local horda = {
+  criarInimigo("zumbi"),
+  criarInimigo("esqueleto"),
+  criarInimigo("zumbi", { vida = 50 }) -- atributos opcionais por instância
 }
 
-function Tesla:verificar()
-  assert(self.chassi and self.motor and self.transmissao and self.roda)
-  assert(self.chassi:sustentar() == "ChassiTipo2 ok")
-  assert(self.motor:ligar() == "MotorTipo2 está roncando")
-  assert(self.transmissao:trocarMarcha() == "TransmissaoTipo2 está trocando de marcha")
-  assert(self.roda:girar() == "RodaTipo2 está girando")
-  return "Todos os componentes estão funcionais"
+assert(horda[1]:atacar() == "Zumbi morde (vida 30)")
+assert(horda[2]:atacar() == "Esqueleto atira flechas (vida 20)")
+assert(horda[3]:atacar() == "Zumbi morde (vida 50)")
+
+for _, inimigo in ipairs(horda) do
+  print(inimigo:atacar())
 end
 
---------------------------------------------------------------------------------
--- Usando as Fábricas
-
-Ford:ligar()         --> self.verificar: 	true	Todos os componentes estão funcionais
-Ford:dirigir("ana")  --> Carro sendo dirigido por: ana
-
-Tesla:ligar()        --> self.verificar: 	true	Todos os componentes estão funcionais
-Tesla:dirigir("bob") --> Carro sendo dirigido por: bob
+-- tipos desconhecidos falham com mensagem clara:
+local ok, erro = pcall(criarInimigo, "dragao")
+assert(not ok and tostring(erro):find("tipo de inimigo desconhecido"))
 
 --------------------------------------------------------------------------------
--- Asserts de topo (fora de pcall): cada carro foi montado com as partes
--- intercambiáveis certas e todas funcionam.
+-- Extensão sem alterar o cliente: registrar um tipo novo basta.
 
-assert(Ford:verificar() == "Todos os componentes estão funcionais")
-assert(Tesla:verificar() == "Todos os componentes estão funcionais")
-assert(Ford.motor:ligar() == "MotorTipo1 está roncando")
-assert(Tesla.motor:ligar() == "MotorTipo2 está roncando")
+local Fantasma = Inimigo:novo { vida = 10 }
+function Fantasma:atacar()
+  return ("Fantasma assombra (vida %d)"):format(self.vida)
+end
 
--- a classe base continua abstrata: verificar() sem sobrescrita falha.
-local ok = pcall(function() return FabricaDeCarro:novo({}):verificar() end)
-assert(not ok, "verificar() da base deveria exigir sobrescrita")
+tiposDeInimigo.fantasma = Fantasma
+assert(criarInimigo("fantasma"):atacar() == "Fantasma assombra (vida 10)")
 
---------------------------------------------------------------------------------
+print("Factory Method: todos os inimigos criados pelo nome.")

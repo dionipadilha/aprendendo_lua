@@ -29,7 +29,7 @@ function ManipuladorDeArquivo:ler()
     local arquivoDeLeitura = io.open(self.nomeDoArquivo, "r")
     local conteudo = nil
     if arquivoDeLeitura then
-        conteudo = arquivoDeLeitura:read("*a")
+        conteudo = arquivoDeLeitura:read("a")
         arquivoDeLeitura:close()
         return conteudo
     else

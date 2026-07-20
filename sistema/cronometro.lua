@@ -70,7 +70,8 @@ local function teste(cronometro)
 
   -- Espera OCIOSA (a CPU fica livre): um cronômetro de parede conta mesmo assim.
   -- Com os.clock aqui, o tempo medido seria ~0 — essa é a diferença.
-  os.execute("sleep 1")
+  local dormir = require "dormir"
+  dormir(1)
 
   print(cronometro:registrar()) --> Cronômetro em execução. Tempo decorrido: 1 segundos.
   assert(cronometro.executando)

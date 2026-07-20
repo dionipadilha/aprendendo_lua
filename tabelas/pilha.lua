@@ -4,6 +4,9 @@
 -- Estrutura de dados básica de pilha
 
 -- Cria uma classe de pilha:
+-- (os métodos usam a forma com ponto e `self` explícito —
+-- function Pilha.metodo(self, ...) — que é equivalente à forma com
+-- dois-pontos, function Pilha:metodo(...), usada no resto do repositório)
 local Pilha = {}
 
 -- Construtor:
@@ -19,7 +22,7 @@ end
 
 -- Adiciona um elemento ao topo da pilha:
 function Pilha.empilhar(self, valor)
-  return table.insert(self.elementos, valor)
+  table.insert(self.elementos, valor) -- table.insert não devolve valor
 end
 
 -- Remove o elemento no topo da pilha:

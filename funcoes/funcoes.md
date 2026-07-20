@@ -13,8 +13,8 @@
 
 **Argumentos Opcionais:**
 
-- Argumentos que podem ser omitidos ao chamar uma função.
-- Valores padrão podem ser especificados usando `=`.
+- Argumentos que podem ser omitidos ao chamar uma função (chegam como `nil`).
+- Lua **não tem** sintaxe de valor padrão na declaração; o idioma é atribuir dentro da função: `saudacao = saudacao or "Olá"` (veja `funcoes.lua`).
 - Exemplo: `saudar("Bob", "Oi")` ou `saudar("Bob")`
 
 **Argumentos Nomeados:**

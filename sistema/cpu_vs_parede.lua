@@ -10,8 +10,10 @@
 -- #1: durante uma espera OCIOSA (sleep), a CPU quase não trabalha:
 -- os.clock quase não avança, mas os.time avança.
 
+local dormir = require "dormir"
+
 local cpuInicio, paredeInicio = os.clock(), os.time()
-os.execute("sleep 1") -- o processo fica ocioso por 1 segundo
+dormir(1) -- o processo fica ocioso por 1 segundo
 local cpuDecorrido = os.clock() - cpuInicio
 local paredeDecorrida = os.difftime(os.time(), paredeInicio)
 

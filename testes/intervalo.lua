@@ -14,6 +14,8 @@ local function tratadorDeEntrada(inicio, fim, passo)
   end
   -- O passo padrão é 1 quando não for fornecido:
   passo = passo or 1
+  -- Um passo zero nunca aproxima i de fim: o iterador seria infinito.
+  assert(passo ~= 0, "O passo não pode ser zero")
   return inicio, fim, passo
 end
 

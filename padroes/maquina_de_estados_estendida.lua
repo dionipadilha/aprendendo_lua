@@ -30,13 +30,20 @@ maquinaDeEstados.gatilhos = {
 ------------------------------------------------------------------------
 -- Laço da Máquina de Estados
 
+-- Contrato de retorno: sem transição possível, devolve o PRÓPRIO
+-- estadoAtual (o laço continua girando no mesmo estado). A versão base,
+-- maquina_de_estados.lua, devolve nil nesse caso — lá o chamador é quem
+-- decide parar.
 function maquinaDeEstados:atualizar(estadoAtual, parametros)
   local transicoesPossiveis = self.transicoes[estadoAtual]
   if transicoesPossiveis then
     for proximoEstado, gatilho in pairs(transicoesPossiveis) do
-      print("Transição de", estadoAtual, "para", proximoEstado)
+      -- Só anuncia e executa os ganchos DEPOIS que o gatilho autoriza
+      -- a transição; os ganchos recebem os estados reais envolvidos.
       if self.gatilhos[gatilho](parametros) then
-        -- Execute as ações de saída do estado aqui
+        print("Transição de", estadoAtual, "para", proximoEstado)
+        self:aoSairDoEstado(estadoAtual)
+        self:aoEntrarNoEstado(proximoEstado)
         return proximoEstado
       end
     end
@@ -84,9 +91,6 @@ function maquinaDeEstados:aoSairDoEstado(estado)
   -- Adicione as ações de saída aqui
 end
 
--- Estados Hierárquicos
--- Implemente conforme necessário
-
 -- Histórico de Estados
 function maquinaDeEstados:atualizarHistoricoDeEstados(estadoAtual, historico)
   table.insert(historico, estadoAtual)
@@ -96,29 +100,12 @@ function maquinaDeEstados:executarComHistorico()
   local estadoAtual = self.estados[1] -- Estado inicial
   local parametros = {}               -- Parâmetros para as funções de gatilho
   local historico = {}                -- Rastreia o histórico de estados
-  for _, estado in ipairs(self.estados) do
-    self:aoEntrarNoEstado(estado)
+  for _ = 1, #self.estados do         -- Um passo por estado configurado
     estadoAtual = self:atualizar(estadoAtual, parametros)
-    self:aoSairDoEstado(estado)
     self:atualizarHistoricoDeEstados(estadoAtual, historico)
   end
   return historico
 end
-
--- Transições Assíncronas
--- Implemente conforme necessário
-
--- Configuração Externa
--- Implemente o carregamento da configuração da máquina de estados de uma fonte externa
-
--- Visualização
--- Crie uma representação visual da máquina de estados
-
--- Testes Unitários
--- Escreva testes unitários para a funcionalidade da máquina de estados
-
--- Documentação
--- Documente funções, parâmetros e uso
 
 ------------------------------------------------------------------------
 

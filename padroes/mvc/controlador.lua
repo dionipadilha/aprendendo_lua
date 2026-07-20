@@ -2,10 +2,17 @@
 
 local Classe = require "comum"
 
-local Controlador = Classe:novo {
-  modelo = {},
-  visao = {}
-}
+local Controlador = Classe:novo {}
+
+-- O modelo e a visão são dependências POR INSTÂNCIA, injetadas no
+-- construtor: como defaults na tabela da classe, todos os controladores
+-- compartilhariam as MESMAS tabelas mutáveis.
+function Controlador:novo(objeto)
+  objeto = Classe.novo(self, objeto)
+  assert(objeto.modelo and objeto.visao,
+    "o controlador requer um modelo e uma visão")
+  return objeto
+end
 
 function Controlador:definirDados(dados)
   assert(

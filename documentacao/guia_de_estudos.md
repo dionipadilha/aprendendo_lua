@@ -41,7 +41,7 @@ end
 Exemplos práticos: pasta [`controle_de_fluxo/`](../controle_de_fluxo/).
 
 **4. Funções**
-Em Lua, funções são valores de primeira classe, o que permite que sejam atribuídas a variáveis, passadas como argumentos e retornadas como resultados. Funções em Lua também podem ser anônimas (closures), o que aumenta a flexibilidade e a modularidade no design do código. Compreender funções é essencial para escrever programas Lua reutilizáveis e modulares.
+Em Lua, funções são valores de primeira classe, o que permite que sejam atribuídas a variáveis, passadas como argumentos e retornadas como resultados. Funções também podem ser anônimas (sem nome), e qualquer função — anônima ou não — pode capturar variáveis do escopo em que foi criada, formando uma clausura (veja `funcoes/clausuras.lua`). Compreender funções é essencial para escrever programas Lua reutilizáveis e modulares.
 
 ```lua
 -- Exemplo de funções em Lua

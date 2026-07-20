@@ -39,7 +39,9 @@ end
 local Observador = Classe:novo {}
 
 function Observador:atualizar(...)
-  print(..., self.id)
+  -- `...` no meio de uma lista de expressões é ajustado para UM único
+  -- valor; por isso o id vem primeiro e o vararg fica por último.
+  print(self.id, ...)
 end
 
 --------------------------------------------------------------------------------
@@ -67,12 +69,13 @@ local estacaoMeteorologica2 = Sujeito:novo {
 }
 
 estacaoMeteorologica1:notificar("estacaoMeteorologica #1 chamando")
---> estacaoMeteorologica #1 chamando	painel #1
---> estacaoMeteorologica #1 chamando	painel #2
+--> painel #1	estacaoMeteorologica #1 chamando
+--> painel #2	estacaoMeteorologica #1 chamando
 
-estacaoMeteorologica2:notificar("estacaoMeteorologica #2 chamando")
---> estacaoMeteorologica #2 chamando	painel #2
---> estacaoMeteorologica #2 chamando	painel #3
+-- a notificação repassa TODOS os argumentos aos observadores:
+estacaoMeteorologica2:notificar("chuva", "42mm")
+--> painel #2	chuva	42mm
+--> painel #3	chuva	42mm
 
 --------------------------------------------------------------------------------
 -- Duas instâncias de Sujeito devem ser independentes: anexar um

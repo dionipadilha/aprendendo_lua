@@ -3,7 +3,9 @@
 -- collectgarbage aceita opções que controlam o coletor de lixo de Lua 5.4:
 --   "incremental"  - ativa o modo incremental (coleta em pequenos passos).
 --   "generational" - ativa o modo geracional (foca nos objetos jovens;
---                    é o modo padrão nesta build de Lua 5.4).
+--                    é o modo em que o interpretador de linha de comando
+--                    `lua` inicia — um estado Lua embutido em C via
+--                    liblua, porém, começa no modo incremental).
 --   "count"        - memória em uso pelo Lua, em kilobytes.
 --   "collect"      - executa um ciclo completo de coleta (opção padrão).
 
@@ -25,8 +27,8 @@ local memoriaInicialEmKb = collectgarbage("count")
 print(("memória em uso: %.1f KB"):format(memoriaInicialEmKb))
 assert(type(memoriaInicialEmKb) == "number" and memoriaInicialEmKb > 0)
 
--- Alocar objetos aumenta a contagem:
-local listaGrande = {}
+-- Alocar objetos aumenta a contagem (a lista existe só para ocupar memória):
+local listaGrande = {} -- luacheck: ignore 241
 for i = 1, 10000 do listaGrande[i] = { i } end
 local memoriaComLista = collectgarbage("count")
 assert(memoriaComLista > memoriaInicialEmKb)

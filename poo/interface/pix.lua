@@ -32,7 +32,7 @@ end
 -- Método de IPagamento: processarPagamento
 function Pix:processarPagamento(valor)
   local log = "processarPagamento: O processamento do pagamento falhou"
-  local resposta = true -- -- #simulação
+  local resposta = true -- #simulação
   assert(resposta, log)
   return resposta
 end
@@ -53,7 +53,7 @@ end
 
 -- Método para verificar a implementação da interface IPagamento
 function Pix:implementa(interface)
-  local log = "\nfalha: a classe Pix implementa IPagamento %s"
+  local log = "\nfalha: a classe Pix não implementa o membro %s de IPagamento"
   for nomeDaPropriedade, tipoDaPropriedade in pairs(interface) do
     assert(
       tipoDaPropriedade == type(self[nomeDaPropriedade]),

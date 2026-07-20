@@ -42,7 +42,7 @@ assert(tabelaFraca[chave] == "y")
 local cacheDeSessoes = setmetatable({}, { __mode = "k" })
 
 -- #2. Definindo a classe Usuario:
-local Usuario = {nome = "" }
+local Usuario = { nome = "" }
 
 function Usuario:novo(objeto)
   self.__index = self
@@ -50,7 +50,7 @@ function Usuario:novo(objeto)
   return setmetatable(objeto, self)
 end
 
--- #2. Definindo a classe Sessao:
+-- #3. Definindo a classe Sessao:
 local Sessao = {}
 
 function Sessao:novo(objeto)

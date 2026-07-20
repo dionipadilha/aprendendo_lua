@@ -2,7 +2,7 @@
 
 **Observações:**
 
-- Lua é uma linguagem de tipagem dinâmica, o que significa que o tipo de um valor pode ser alterado durante a execução do programa.
+- Lua é uma linguagem de tipagem dinâmica: as variáveis não têm tipo fixo — a mesma variável pode guardar um número agora e uma string depois. (Os valores em si sempre têm um tipo definido.)
 - A função `type()` pode ser usada para verificar o tipo de um valor.
 
 Em Lua, existem oito tipos de dados básicos:
@@ -129,8 +129,8 @@ bibliotecaC.destruirObjeto(userdata)
 
 **7. thread:**
 
-- Representa unidades de execução paralelas em Lua.
-- Permite executar várias tarefas ao mesmo tempo.
+- Representa uma corrotina: uma linha de execução **cooperativa**, que pausa (`yield`) e retoma (`resume`) sob controle do programa.
+- Apenas uma corrotina executa por vez — não há paralelismo. Veja a pasta `corrotinas/`.
 
 **Exemplo:**
 
