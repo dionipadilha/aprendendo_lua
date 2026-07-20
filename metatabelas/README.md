@@ -12,9 +12,13 @@ print(t) --> olá!
 | Metamétodo | O que personaliza | Arquivo |
 |---|---|---|
 | `__add` | Operador `+` (soma pura, sem mutar os operandos) | `metatabela.lua` |
+| `__eq`, `__lt`, `__le` | Comparações `==`, `<`, `<=` (e as derivadas `~=`, `>`, `>=`) | `comparacao.lua` |
+| `__len` | Operador `#` | `tamanho_e_concatenacao.lua` |
+| `__concat` | Operador `..` (e a armadilha da associatividade à direita) | `tamanho_e_concatenacao.lua` |
 | `__tostring` | Conversão para texto (`print`/`tostring`) | `tostring.lua`, `metatabela.lua` |
-| `__index` | Leitura de chave inexistente (herança/somente leitura) | `somente_leitura.lua` |
-| `__newindex` | Escrita de chave inexistente (bloqueio/interceptação) | `somente_leitura.lua`, `tabela_proxy.lua` |
+| `__index` (tabela) | Leitura de chave inexistente (herança/somente leitura) | `somente_leitura.lua` |
+| `__index` (função) | Leitura interceptada: valores sob demanda e proxy completo | `indice_como_funcao.lua` |
+| `__newindex` | Escrita de chave inexistente (bloqueio/interceptação) | `somente_leitura.lua`, `tabela_proxy.lua`, `indice_como_funcao.lua` |
 | `__call` | Chamar a tabela como se fosse uma função | `chamada.lua` |
 | `__close` | Variáveis to-be-closed (`local x <close>`, Lua 5.4) | `finalizadores.lua` |
 | `__gc` | Finalizadores executados pelo coletor de lixo | `finalizadores.lua` |
