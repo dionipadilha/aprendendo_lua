@@ -23,9 +23,25 @@ Pessoa = {}
 Pessoa.__index = Pessoa
 ```
 
-- O `__index` é definido junto da declaração da classe (e não dentro do
-  construtor): assim a classe já está pronta para servir de base a
-  subclasses antes mesmo de a primeira instância ser criada.
+- Há **dois idiomas válidos** para o `__index` de uma classe — e, depois
+  da primeira instância criada, o efeito dos dois é o mesmo:
+
+  1. **Na declaração da classe** (`Pessoa.__index = Pessoa`, como acima):
+     custa uma linha explícita a mais, e a classe já nasce pronta para
+     servir de base a subclasses, antes mesmo de a primeira instância
+     existir. É o idioma usado neste guia — a seção de herança abaixo
+     depende dele.
+  2. **Dentro do construtor** (`self.__index = self` em `novo()`): o
+     idioma clássico do livro *Programming in Lua*, usado pela maioria
+     dos exemplos executáveis desta pasta (`classe.lua`,
+     `retangulo.lua`, ...). Economiza a linha da declaração, mas a
+     classe só fica preparada para herdar depois da primeira chamada a
+     `novo()`, e o construtor reatribui `__index` a cada instância
+     criada (inócuo, porém repetitivo).
+
+  Ao ler os `.lua` da pasta, reconheça os dois como equivalentes; ao
+  escrever código novo, prefira a forma da declaração, que não depende
+  da ordem de criação dos objetos.
 
 - Um método construtor cria instâncias da classe.
 
@@ -180,6 +196,39 @@ print(estudante1:comer()) --> Comendo um lanche na cantina.
 
 -- Chamando métodos específicos
 print(estudante1:estudar()) --> Estudando no curso de Engenharia.
+```
+
+**Metamétodos não são herdados:**
+
+- A herança via `__index` vale para **métodos e atributos**, mas **não**
+  para metamétodos (`__tostring`, `__eq`, `__add`, `__concat`, ...):
+  quando Lua precisa de um metamétodo, ele o procura **diretamente** na
+  metatabela do valor, com acesso bruto (raw) — a busca **não** segue a
+  cadeia `__index`. A metatabela de `estudante1` é `Estudante`; se o
+  metamétodo foi definido só em `Pessoa`, a busca termina sem encontrá-lo
+  — silenciosamente.
+
+```lua
+-- Metamétodo definido na classe base:
+function Pessoa:__tostring()
+  return "Pessoa: " .. self:getNome()
+end
+
+print(tostring(pessoa1))    --> Pessoa: Ana Clara
+print(tostring(estudante1)) --> table: 0x... (o __tostring NÃO foi encontrado!)
+```
+
+- Note a falha silenciosa: `Estudante.__tostring` até é acessível por
+  indexação normal (herdado via `__index`), mas isso não basta — o campo
+  precisa existir **na própria** tabela `Estudante`. O idioma da correção
+  é **copiar explicitamente** o metamétodo na declaração da subclasse
+  (em hierarquias maiores, faça essa cópia na função que cria classes):
+
+```lua
+-- Na declaração da subclasse, copie os metamétodos da classe base:
+Estudante.__tostring = Pessoa.__tostring
+
+print(tostring(estudante1)) --> Pessoa: Carlos
 ```
 
 ## Conceitos complementares
