@@ -6,23 +6,23 @@
 --   * conta aprovados e reprovados e RETORNA os totais, para que quem
 --     chama possa fazer assert sobre eles (e reprovar o build de verdade).
 
-local TesteUnitarioBasico = {
-  id = "",
-  teste = function(caso) return nil end,
-  casos = {
-    { entrada = nil, esperado = nil },
-  }
-}
+local TesteUnitarioBasico = {}
+TesteUnitarioBasico.__index = TesteUnitarioBasico
 
 -- define o construtor
 function TesteUnitarioBasico:novo(objeto)
   objeto = objeto or {}
-  setmetatable(objeto, self)
-  self.__index = self
-  return objeto
+  -- Defaults POR INSTÂNCIA: uma tabela default na classe seria
+  -- COMPARTILHADA por todos os testes (o antipadrão demonstrado em
+  -- ../padroes/observador.lua) — cada instância recebe a sua.
+  objeto.id = objeto.id or ""
+  objeto.teste = objeto.teste or function(caso) return nil end
+  objeto.casos = objeto.casos or {}
+  return setmetatable(objeto, self)
 end
 
--- define os logs:
+-- define os logs (constante de classe, compartilhada de propósito:
+-- são apenas formatos de mensagem, nunca modificados):
 TesteUnitarioBasico.log = {
   execucao = "\n[Executando] Teste Unitário: %s",
   campos = "[Campos] caso, esperado, obtido, asserção",
@@ -83,5 +83,12 @@ local meusTestes = TesteUnitarioBasico:novo {
 local aprovados, reprovados = meusTestes:tentar()
 assert(aprovados == 3 and reprovados == 0)
 ------------------------------------------------------------------------------]]
+
+-- Independência entre instâncias: os casos de um teste não vazam
+-- para outro (é isso que os defaults por instância garantem).
+local testeA = TesteUnitarioBasico:novo {}
+local testeB = TesteUnitarioBasico:novo {}
+table.insert(testeA.casos, { entrada = 1, esperado = 1 })
+assert(#testeA.casos == 1 and #testeB.casos == 0)
 
 return TesteUnitarioBasico

@@ -55,8 +55,10 @@ ClasseAB:mixin(ClasseA, ClasseB)
 
 assert(Classe == getmetatable(ClasseAB))
 assert(ClasseAB.pa == "va")
-assert(ClasseAB.fa() == "ra")
-assert(ClasseAB.fb() == "rb")
+-- métodos declarados com self são chamados com ':' (que passa o
+-- próprio objeto como self):
+assert(ClasseAB:fa() == "ra")
+assert(ClasseAB:fb() == "rb")
 assert(ClasseAB.pb == "x")
 
 assert(ClasseAB:temPropriedade("pa"))
@@ -74,8 +76,8 @@ assert(ClasseComFalso:temPropriedade("ativo") == true)
 local instancia = ClasseAB:novo {}
 assert(ClasseAB == getmetatable(instancia))
 assert(instancia.pa == "va")
-assert(instancia.fa() == "ra")
-assert(instancia.fb() == "rb")
+assert(instancia:fa() == "ra")
+assert(instancia:fb() == "rb")
 assert(instancia.pb == "x")
 
 -- #4. Sobrescrita de método:

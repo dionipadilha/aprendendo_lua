@@ -70,27 +70,30 @@ assert("Olá " .. str == "Olá Lua!")
 -----------------------------------------------------------------------
 -- Pertinência:
 
+-- Lua não tem operador "in" para pertinência; o idioma correto é um
+-- laço comparando elemento a elemento:
+
 local nomes = { "ana", "bob" }
 
--- Pertinência com for in:
-for _, nome in ipairs(nomes) do print(nome) end --> ana, bob
-
--- Pertinência in:
-for _, nome in ipairs(nomes) do
-  if nome == "bob" then print(true) end
+local function pertence(lista, alvo)
+  for _, elemento in ipairs(lista) do
+    if elemento == alvo then return true end
+  end
+  return false
 end
---> true
 
-print(table.concat(nomes, ","):find("bob") and true)     --> true
-print(table.concat(nomes, ","):find("charlie") and true) --> nil
-assert((table.concat(nomes, ","):find("bob") and true) == true)
-assert((table.concat(nomes, ","):find("charlie") and true) == nil)
+assert(pertence(nomes, "bob") == true)
+assert(pertence(nomes, "charlie") == false)
 
 -- Pertinência not in:
-print(not table.concat(nomes, ","):find("bob"))     --> false
-print(not table.concat(nomes, ","):find("charlie")) --> true
-assert((not table.concat(nomes, ","):find("bob")) == false)
-assert((not table.concat(nomes, ","):find("charlie")) == true)
+assert(not pertence(nomes, "charlie"))
+
+-- CONTRAEXEMPLO — evite o atalho concat+find: ele testa SUBSTRING,
+-- não elemento. "ana" é substring de "banana", então o teste abaixo
+-- daria um falso-positivo:
+local outros = { "banana", "carlos" }
+assert(table.concat(outros, ","):find("ana") ~= nil) -- "encontrou"...
+assert(pertence(outros, "ana") == false)             -- ...mas não pertence!
 
 -----------------------------------------------------------------------
 -- Número variável de argumentos:
