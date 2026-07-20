@@ -5,6 +5,10 @@
 **1. Introdução a Lua**
 Lua é uma linguagem de script leve e de alto nível, projetada para sistemas embarcados e programação de propósito geral. É conhecida por sua simplicidade, eficiência e facilidade de integração com outras linguagens. A sintaxe de Lua é direta e minimalista, tornando-a acessível para programadores iniciantes e, ao mesmo tempo, oferecendo recursos poderosos para usuários avançados.
 
+Para instalar o Lua 5.4 — o alvo de todos os exemplos — siga
+[`instalacao_linux_macos.md`](instalacao_linux_macos.md) (Linux e macOS)
+ou [`instalacao_lua_win10.md`](instalacao_lua_win10.md) (Windows).
+
 Exemplos práticos: pasta [`basico/`](../basico/).
 
 **2. Conceitos Básicos**
@@ -78,15 +82,15 @@ print("Contatos:", table.concat(pessoa.contatos, ", "))
 Exemplos práticos: pasta [`tabelas/`](../tabelas/) — não deixe de ver as armadilhas de `#` com buracos (`buracos_e_comprimento.lua`) e a diferença entre referência e cópia (`referencias_e_copias.lua`).
 
 **6. Metaprogramação**
-A metaprogramação em Lua envolve técnicas como metatables e reflexão, permitindo a modificação dinâmica de comportamento em tempo de execução. Essa capacidade é particularmente útil para criar linguagens de domínio específico (DSLs), implementar estruturas de dados avançadas e aumentar a expressividade e a flexibilidade do código. É também o alicerce da orientação a objetos em Lua — por isso este tópico vem antes da POO.
+A metaprogramação em Lua envolve técnicas como metatabelas e reflexão, permitindo a modificação dinâmica de comportamento em tempo de execução. Essa capacidade é particularmente útil para criar linguagens de domínio específico (DSLs), implementar estruturas de dados avançadas e aumentar a expressividade e a flexibilidade do código. É também o alicerce da orientação a objetos em Lua — por isso este tópico vem antes da POO.
 
 ```lua
--- Exemplo de metatables em Lua para sobrecarga de operadores
+-- Exemplo de metatabelas em Lua para sobrecarga de operadores
 local mt = {}
 
 function mt.__add(v1, v2)
   local resultado = {x = v1.x + v2.x, y = v1.y + v2.y}
-  -- A nova tabela recebe a mesma metatable, herdando __tostring
+  -- A nova tabela recebe a mesma metatabela, herdando __tostring
   return setmetatable(resultado, mt)
 end
 
@@ -107,7 +111,7 @@ Exemplos práticos: pasta [`metatabelas/`](../metatabelas/) — o `README.md` de
 Lua oferece suporte à programação orientada a objetos (POO) por meio das metatabelas da seção anterior — em especial o metamétodo `__index` — permitindo que os desenvolvedores implementem classes, herança e polimorfismo. Embora os recursos de POO de Lua sejam diferentes dos das linguagens mais populares, eles fornecem ferramentas poderosas para estruturar aplicações maiores.
 
 ```lua
--- Exemplo de POO básica em Lua usando metatables
+-- Exemplo de POO básica em Lua usando metatabelas
 local Animal = {}
 Animal.__index = Animal
 
@@ -147,7 +151,7 @@ local meumodulo = require("meumodulo")
 meumodulo.dizerOla()  -- Saída: Olá do meu módulo!
 ```
 
-Exemplos práticos: pasta [`modulos/`](../modulos/) — o par `modulo.lua`/`usando_require.lua` demonstra também o cache do `require` em `package.loaded`. O empacotamento com LuaRocks, incluindo o rockspec real do pluralizador que a CI instala, está em [`modulos/empacotamento.md`](../modulos/empacotamento.md).
+Exemplos práticos: pasta [`modulos/`](../modulos/) — o par `modulo.lua`/`usando_require.lua` demonstra também o cache do `require` em `package.loaded`. A relação entre globais e módulos passa por `_ENV`: todo nome global é açúcar sintático para um campo do ambiente, e trocar o ambiente cria um **sandbox** — veja [`modulos/ambientes.lua`](../modulos/ambientes.lua). O empacotamento com LuaRocks, incluindo o rockspec real do pluralizador que a CI instala, está em [`modulos/empacotamento.md`](../modulos/empacotamento.md).
 
 **9. Tratamento de Erros**
 Lua sinaliza erros com `error` e os captura em modo protegido com `pcall`/`xpcall`. Dominar esse mecanismo — incluindo objetos de erro, o nível do erro e asserções — é o que separa scripts frágeis de programas que falham com mensagens claras.
@@ -183,7 +187,7 @@ end
 print("Soma dos 100 primeiros números:", calcularSoma(100))
 ```
 
-Exemplos práticos: pasta [`gc/`](../gc/) (com visão geral no `README.md` de lá).
+Exemplos práticos: pasta [`desempenho/`](../desempenho/) — desempenho se **mede**, não se afirma: `medicao.lua` cronometra com `os.clock` os dois idiomas clássicos (concatenação em laço vs `table.concat`; global vs local em laço quente) — e pasta [`gc/`](../gc/), sobre o coletor de lixo (com visão geral no `README.md` de lá). Para construir um profiler artesanal com ganchos de execução, veja [`depuracao/`](../depuracao/).
 
 **12. Testes**
 Exemplos autoverificáveis com `assert` são o primeiro passo; o passo seguinte é organizar casos de teste em um framework, ainda que mínimo, com contagem de aprovados e reprovados e código de saída correto para a integração contínua.
@@ -212,7 +216,7 @@ coroutine.resume(co)  -- Saída: Contagem da corrotina: 2
 coroutine.resume(co)  -- Saída: Contagem da corrotina: 3
 ```
 
-Exemplos práticos: pasta [`corrotinas/`](../corrotinas/) — o uso clássico como gerador (`coroutine.wrap` em `for ... in`) está em `gerador_com_wrap.lua`. Para integração com o mundo externo, veja [`banco_de_dados/`](../banco_de_dados/) (SQLite via CLI) e [`capi/`](../capi/) — embutir Lua em C e estender Lua com módulos C, com os exemplos compilados e executados pela CI.
+Exemplos práticos: pasta [`corrotinas/`](../corrotinas/) — o uso clássico como gerador (`coroutine.wrap` em `for ... in`) está em `gerador_com_wrap.lua`, e um agendador cooperativo em `agendador.lua`. Para integração com o mundo externo, veja [`banco_de_dados/`](../banco_de_dados/) (SQLite via CLI) e [`capi/`](../capi/) — embutir Lua em C e estender Lua com módulos C, com os exemplos compilados e executados pela CI. A biblioteca `debug` — introspecção da pilha, locais e upvalues, e os ganchos de execução que sustentam depuradores e profilers — está em [`depuracao/`](../depuracao/). E antes de levar seu Lua para outros ambientes (motores de jogos com LuaJIT, código legado 5.1), o guia de bolso [`luajit_e_versoes.md`](luajit_e_versoes.md) mapeia o que muda de verdade entre as versões.
 
 **15. Projetos Práticos**
 A melhor forma de consolidar o aprendizado é aplicá-lo em projetos completos, com módulos, testes e README próprios.

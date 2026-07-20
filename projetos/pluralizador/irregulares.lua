@@ -1,3 +1,5 @@
+-- irregulares.lua
+
 local irregulares = {
   man = "men",
   woman = "women",

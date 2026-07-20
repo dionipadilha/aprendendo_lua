@@ -27,7 +27,7 @@ principal()
 Neste exemplo, o programa define um procedimento `saudar` para imprimir uma mensagem de saudação e depois chama esse procedimento a partir da função `principal`.
 
 #### Programação Orientada a Objetos
-A programação orientada a objetos (POO) gira em torno do conceito de "objetos", que são instâncias de classes. As classes definem a estrutura e o comportamento dos objetos, encapsulando dados e funções que operam sobre esses dados. Lua oferece suporte a POO por meio de metatables e da sintaxe `:` para chamadas de métodos.
+A programação orientada a objetos (POO) gira em torno do conceito de "objetos", que são instâncias de classes. As classes definem a estrutura e o comportamento dos objetos, encapsulando dados e funções que operam sobre esses dados. Lua oferece suporte a POO por meio de metatabelas e da sintaxe `:` para chamadas de métodos.
 
 Eis um exemplo de POO em Lua:
 

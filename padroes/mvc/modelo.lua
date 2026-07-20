@@ -1,3 +1,5 @@
+-- modelo.lua
+
 -- Modelo: Gerencia a lógica de negócio dos dados.
 
 local Classe = require "comum"

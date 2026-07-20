@@ -1,3 +1,5 @@
+-- arquivo_com_close.lua
+
 -- Variáveis to-be-closed (Lua 5.4): local f <close>
 --
 -- Um arquivo aberto com <close> é fechado automaticamente quando a

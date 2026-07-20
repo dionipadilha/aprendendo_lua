@@ -1,3 +1,5 @@
+-- principal.lua
+
 local LeitorDVD    = require "leitor_dvd"
 local Projetor     = require "projetor"
 local Amplificador = require "amplificador"

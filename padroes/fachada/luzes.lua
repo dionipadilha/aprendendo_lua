@@ -1,3 +1,5 @@
+-- luzes.lua
+
 -- `local` evita vazar a classe como variável global ao ser requerida.
 local LuzesDoCinema = {}
 

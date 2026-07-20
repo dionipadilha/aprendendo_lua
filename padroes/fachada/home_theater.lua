@@ -1,3 +1,5 @@
+-- home_theater.lua
+
 -- Classe HomeTheater: a FACHADA que esconde a orquestração dos
 -- subsistemas (luzes, projetor, amplificador, leitor de DVD) atrás de
 -- duas operações simples.

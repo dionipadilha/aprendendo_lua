@@ -1,3 +1,5 @@
+-- leitor_dvd.lua
+
 -- `local` evita vazar a classe como variável global ao ser requerida.
 local LeitorDVD = {}
 

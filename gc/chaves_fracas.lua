@@ -1,4 +1,4 @@
---  chaves_fracas.lua
+-- chaves_fracas.lua
 
 --------------------------------------------------------------------------------
 -- chaves fracas: permitem a coleta de lixo de objetos referenciados fracamente.

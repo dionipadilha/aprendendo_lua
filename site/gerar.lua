@@ -20,34 +20,17 @@ end
 
 local nucleo = require "nucleo"
 local adaptadorDeArquivos = require "adaptador_arquivos"
+local trilha = require "trilha"
 
 local configuracao = {
   titulo = "Aprendendo Lua",
   urlDoRepositorio = "https://github.com/dionipadilha/aprendendo_lua",
+  urlDoSite = "https://dionipadilha.github.io/aprendendo_lua/",
 
-  -- As pastas publicadas, na ordem e com as descrições da tabela do README:
-  pastas = {
-    { nome = "basico", tema = "Primeiros passos, tipos, cadeias de texto, operadores e formatação" },
-    { nome = "controle_de_fluxo", tema = "Condicionais, laços, break, switch e goto" },
-    { nome = "funcoes", tema = "Funções, clausuras, varargs, múltiplos retornos e memoização" },
-    { nome = "tabelas", tema = "Tabelas, vetores, pilhas, listas, iteradores, buracos/# e cópias" },
-    { nome = "poo", tema = "Classes, herança, polimorfismo e interfaces" },
-    { nome = "metatabelas", tema = "Metatabelas, metamétodos, proxies e tabelas somente leitura" },
-    { nome = "gc", tema = "Coleta de lixo e tabelas fracas" },
-    { nome = "corrotinas", tema = "Guias e exemplos de corrotinas" },
-    { nome = "erros", tema = "error, assert, pcall, xpcall e try/except" },
-    { nome = "modulos", tema = "require, dofile, loadfile e empacotamento com LuaRocks" },
-    { nome = "io", tema = "Leitura e escrita de arquivos" },
-    { nome = "sistema", tema = "Data e hora, relógio, esperas e números aleatórios" },
-    { nome = "banco_de_dados", tema = "Integração com SQLite via CLI" },
-    { nome = "capi", tema = "API C: embutir Lua em C e módulos C carregáveis via require" },
-    { nome = "padroes", tema = "Padrões de projeto, da fábrica ao MVC e à máquina de estados" },
-    { nome = "solid", tema = "Princípios SOLID, um arquivo por princípio" },
-    { nome = "testes", tema = "Framework de teste unitário e exemplos de testes" },
-    { nome = "projetos", tema = "Projetos completos e soluções dos exercícios" },
-    { nome = "documentacao", tema = "Guia de estudos, roteiro, paradigmas e convenções" },
-    { nome = "site", tema = "O gerador deste site em arquitetura hexagonal (autopublicado)" },
-  },
+  -- As pastas publicadas — ordem, temas e lições — vêm de trilha.lua,
+  -- a FONTE ÚNICA DE VERDADE da organização do repositório (a mesma da
+  -- tabela do README; verificar_trilha.lua garante a sincronia):
+  pastas = trilha,
 
   -- sanidade específica DESTE repositório:
   minimoDeFontes = 140,
@@ -56,6 +39,7 @@ local configuracao = {
     "basico/ola_mundo.lua.html",
     "capi/embutir.c.html",
     "projetos/pluralizador/pluralizador-1.0-1.rockspec.html",
+    "404.html",
   },
 }
 
@@ -64,3 +48,6 @@ local estatisticas = nucleo.gerarSite(configuracao, leitura, escrita)
 
 print(("site gerado em _saida/: %d fontes, %d páginas.")
   :format(estatisticas.fontes, estatisticas.paginas))
+
+-- para verificar_saida.lua, que valida o produto desta geração:
+return { configuracao = configuracao, estatisticas = estatisticas }

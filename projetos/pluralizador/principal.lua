@@ -1,3 +1,5 @@
+-- principal.lua
+
 -- Este projeto pluraliza substantivos do INGLÊS (ex.: man --> men, child --> children).
 -- Por isso, os dados (as palavras em inglês) não são traduzidos; apenas os
 -- identificadores, comentários e mensagens estão em português.

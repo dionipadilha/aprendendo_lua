@@ -1,6 +1,6 @@
---------------------------------------------------------------------------------
 -- suite_de_testes.lua
 
+--------------------------------------------------------------------------------
 local TesteUnitarioBasico = require "teste_unitario_basico"
 local esperaOcupada = require "espera"
 

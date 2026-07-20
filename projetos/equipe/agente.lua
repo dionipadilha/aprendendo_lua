@@ -1,3 +1,5 @@
+-- agente.lua
+
 local Classe = require "classe"
 
 -- Os agentes são os blocos de construção da Equipe.

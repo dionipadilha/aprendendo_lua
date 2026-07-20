@@ -20,6 +20,18 @@ jobs:
       - name: Análise estática (luacheck)
         run: luacheck . -q
 
+      # Valida o PRODUTO do site, não só a geração (que a suíte já
+      # executa): gera _saida/ e roda os verificadores — trilha/README
+      # em sincronia (verificar_trilha.lua) e HTML bem formado com
+      # links íntegros (verificar_saida.lua). O pages.yml publica esta
+      # mesma saída a partir do main.
+      - name: Gerar o site e verificar o produto
+        run: |
+          cd site
+          lua5.4 gerar.lua
+          lua5.4 verificar_trilha.lua
+          lua5.4 verificar_saida.lua
+
       # Valida o rockspec real do repositório: instala o pluralizador
       # com luarocks make e o utiliza de fora da pasta do projeto
       # (o ciclo completo está documentado em modulos/empacotamento.md).

@@ -97,6 +97,8 @@ Veja mais:
   - Orientação a Objetos # classes, objetos, ... (exemplos: poo/)
   - Corrotinas # coroutine (valores do tipo thread), geradores com wrap, produtor-consumidor (exemplos: corrotinas/)
   - Coleta de Lixo (Garbage Collection) # collectgarbage, tabelas fracas, ephemerons (exemplos: gc/)
+  - Desempenho # medição com os.clock, benchmark antes de otimizar (exemplos: desempenho/)
+  - Depuração # biblioteca debug, introspecção da pilha, ganchos com sethook (exemplos: depuracao/)
   - Sistema Operacional # biblioteca os, data e hora, medição de tempo (exemplos: sistema/)
   - Banco de Dados # SQLite via os.execute (exemplos: banco_de_dados/)
   - Padrões de Projeto # fábrica, observador, estratégia, memento, composto, método modelo, MVC, ... (exemplos: padroes/)
