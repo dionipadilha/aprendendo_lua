@@ -104,4 +104,5 @@ Veja mais:
   - Testes # asserções, suítes de teste (exemplos: testes/)
   - Projetos Práticos # pluralizador, JSON, ferramentas de equipe (exemplos: projetos/)
   - Exercícios Guiados # enunciados em documentacao/comece_aqui.md, soluções em projetos/exercicios/
+  - Arquitetura Hexagonal # portas e adaptadores no gerador do site (exemplos: site/)
   - API C # embutir Lua em C e módulos C via require (exemplos: capi/)
