@@ -14,7 +14,7 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 - **Explicações claras e concisas:** Conceitos básicos da linguagem de programação são expostos de forma didática e objetiva.
 - **Exemplos práticos e soluções:** Diversos exemplos demonstram a aplicação prática dos conceitos, além de oferecer soluções para desafios comuns em programação.
 - **Cobertura:** Os guias abrangem a instalação da linguagem, tópicos básicos e tópicos mais avançados.
-- **Códigos revisados:** Todos os scripts são executados automaticamente pela CI (veja `smoke_test.sh`).
+- **Códigos revisados:** Todos os scripts são executados automaticamente pela CI (veja `executar_testes.sh`).
 
 ### Organização do repositório:
 

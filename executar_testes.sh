@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Smoke test: executa todos os arquivos .lua do repositório com Lua 5.4.
+# Teste de fumaça: executa todos os arquivos .lua do repositório com Lua 5.4.
 # Cada arquivo roda a partir do seu próprio diretório (para que os
 # requires relativos funcionem) e deve terminar com código de saída 0.
 #
