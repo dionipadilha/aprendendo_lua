@@ -1,5 +1,7 @@
 # Plano de Ação — Repositório de Tutoriais de Lua
 
+> **Documento histórico (concluído).** Todas as fases abaixo foram executadas em 2026-07-20. Os caminhos citados no corpo refletem os nomes da época — anteriores à migração do repositório para pt-BR — e podem não existir mais. O plano vigente é o [`PLANO_DE_QUALIDADE.md`](PLANO_DE_QUALIDADE.md), derivado da análise aprofundada de conteúdo.
+
 Plano baseado em uma auditoria executada em 2026-07-20: todos os arquivos `.lua` da raiz e os subprojetos foram executados com Lua 5.4, e os guias em Markdown foram revisados. O plano está organizado em quatro fases, da mais urgente à mais opcional. Cada item traz o problema, a ação proposta e o critério de aceitação.
 
 ## Status de execução (2026-07-20)
