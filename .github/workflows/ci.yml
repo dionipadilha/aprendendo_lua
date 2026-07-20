@@ -20,6 +20,31 @@ jobs:
       - name: Análise estática (luacheck)
         run: luacheck . -q
 
+      # Valida o rockspec real do repositório: instala o pluralizador
+      # com luarocks make e o utiliza de fora da pasta do projeto
+      # (o ciclo completo está documentado em modulos/empacotamento.md).
+      - name: Empacotar e instalar o pluralizador (LuaRocks)
+        run: |
+          sudo apt-get install -y luarocks liblua5.4-dev
+          cd projetos/pluralizador
+          luarocks --lua-version=5.4 make --local pluralizador-1.0-1.rockspec
+          eval "$(luarocks --lua-version=5.4 path)"
+          cd /tmp
+          lua5.4 -e 'local plural = require "pluralizador"
+            assert(plural("child") == "children")
+            assert(plural("box") == "boxes")
+            print("rock pluralizador instalada e verificada")'
+
+      # A API C: compila o host embutido e o módulo C e executa ambos
+      # (ver capi/README.md). Compilação testada apenas no Linux; o
+      # README da pasta traz as linhas equivalentes para MSVC.
+      - name: Compilar e executar os exemplos da API C
+        run: |
+          sudo apt-get install -y build-essential liblua5.4-dev
+          make -C capi
+          ./capi/embutir
+          cd capi && lua5.4 testar_modulo.lua
+
   # Valida a portabilidade dos exemplos (o repositório mantém um guia de
   # instalação para Windows; ver sistema/dormir.lua para as esperas).
   teste-de-fumaca-windows:
