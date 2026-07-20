@@ -1,6 +1,6 @@
 **Guia de Estudos para a Linguagem de Programação Lua**
 
-**Objetivo:** Este guia de estudos tem como objetivo fornecer uma abordagem estruturada para aprender a linguagem de programação Lua, adequada para iniciantes e para quem já possui alguma experiência em programação. A ordem das seções segue a trilha de `roteiro_de_estudos.yml`: em particular, metaprogramação (metatabelas) vem **antes** de orientação a objetos, porque POO em Lua é construída sobre metatabelas.
+**Objetivo:** Este guia de estudos tem como objetivo fornecer uma abordagem estruturada para aprender a linguagem de programação Lua, adequada para iniciantes e para quem já possui alguma experiência em programação. (Se você está começando do absoluto zero, faça antes o roteiro guiado de 3 dias em [`comece_aqui.md`](comece_aqui.md).) A ordem das seções segue a trilha de `roteiro_de_estudos.yml`: em particular, metaprogramação (metatabelas) vem **antes** de orientação a objetos, porque POO em Lua é construída sobre metatabelas.
 
 **1. Introdução a Lua**
 Lua é uma linguagem de script leve e de alto nível, projetada para sistemas embarcados e programação de propósito geral. É conhecida por sua simplicidade, eficiência e facilidade de integração com outras linguagens. A sintaxe de Lua é direta e minimalista, tornando-a acessível para programadores iniciantes e, ao mesmo tempo, oferecendo recursos poderosos para usuários avançados.

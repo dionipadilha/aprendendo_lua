@@ -5,6 +5,9 @@
 Este repositório oferece guias para a linguagem de programação Lua, abrangendo diversos conceitos.
 O material aqui apresentado é fruto de meu estudo e desenvolvimento, e visa auxiliar programadores em diferentes níveis de experiência.
 
+> **Novo por aqui?** Comece pelo roteiro guiado de 3 dias:
+> [`documentacao/comece_aqui.md`](documentacao/comece_aqui.md).
+
 ## Objetivo:
 
 Este repositório tem como objetivo contribuir para a comunidade de programadores.
@@ -36,7 +39,7 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | `padroes/` | Padrões de projeto: fábrica, fábrica abstrata, construtor, protótipo, singleton, adaptador, comando, memento, decorador, composto, estratégia, fachada, observador, método modelo, MVC, máquina de estados |
 | `solid/` | Princípios SOLID, um arquivo por princípio |
 | `testes/` | Framework de teste unitário e exemplos de testes |
-| `projetos/` | Projetos completos: `pluralizador/`, `json/`, `equipe/` |
+| `projetos/` | Projetos completos (`pluralizador/`, `json/`, `equipe/`) e soluções dos exercícios (`exercicios/`) |
 | `documentacao/` | Guia de estudos, roteiro, paradigmas, convenções, instalação no Windows e guia de enunciados de projetos |
 
 A trilha completa de estudo está em `documentacao/roteiro_de_estudos.yml` e `documentacao/guia_de_estudos.md`.
