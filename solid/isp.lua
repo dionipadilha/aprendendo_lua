@@ -1,50 +1,50 @@
 -- isp.lua
 
--- Interface Segregation Principle:
--- Clients shouldn't be forced to depend on methods they don't use.
+-- Princípio da Segregação de Interface:
+-- Clientes não devem ser forçados a depender de métodos que não usam.
 
--- Abstract Class:
-local Class = {}
+-- Classe Abstrata:
+local Classe = {}
 
-function Class:new(instance)
+function Classe:novo(instancia)
   self.__index = self
-  instance = instance or {}
-  return setmetatable(instance, self)
+  instancia = instancia or {}
+  return setmetatable(instancia, self)
 end
 
-function Class:mixin(...)
+function Classe:mixin(...)
   local classes = { ... }
-  for _, class in ipairs(classes) do
-    for k, v in pairs(class) do self[k] = v end
+  for _, classe in ipairs(classes) do
+    for k, v in pairs(classe) do self[k] = v end
   end
 end
 
 -- Interfaces:
-local Worker = Class:new {
-  work = function(self) return "working" end
+local Trabalhador = Classe:novo {
+  trabalhar = function(self) return "trabalhando" end
 }
 
-local Eatable = Class:new {
-  eat = function(self) return "eating" end
+local Comedor = Classe:novo {
+  comer = function(self) return "comendo" end
 }
 
--- Clients:
-local Robot = Worker:new {
+-- Clientes:
+local Robo = Trabalhador:novo {
   id = "0000",
-  model = "undefined"
+  modelo = "indefinido"
 }
 
-local Human = Worker:new {
-  name = "name",
-  age = 0
+local Humano = Trabalhador:novo {
+  nome = "nome",
+  idade = 0
 }
-Human:mixin(Eatable)
+Humano:mixin(Comedor)
 
--- Testing:
-local human = Human:new { name = "John", age = 30 }
-assert(human:work() == "working", "Human should be working")
-assert(human:eat() == "eating", "Human should be eating")
+-- Testes:
+local humano = Humano:novo { nome = "João", idade = 30 }
+assert(humano:trabalhar() == "trabalhando", "Humano deveria estar trabalhando")
+assert(humano:comer() == "comendo", "Humano deveria estar comendo")
 
-local robot = Robot:new { id = "1234", model = "T-800" }
-assert(robot:work() == "working", "Robot should be working")
-assert(robot.eat == nil, "Robot should not have eat method")
+local robo = Robo:novo { id = "1234", modelo = "T-800" }
+assert(robo:trabalhar() == "trabalhando", "Robô deveria estar trabalhando")
+assert(robo.comer == nil, "Robô não deveria ter o método comer")

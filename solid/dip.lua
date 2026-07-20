@@ -1,54 +1,54 @@
 -- dip.lua
 
--- Dependency Inversion Principle:
--- Depend on abstractions, not on concretions.
+-- Princípio da Inversão de Dependência:
+-- Dependa de abstrações, não de concretizações.
 
--- #1. Abstraction Interface:
-local Logger = {}
+-- #1. Interface de Abstração:
+local Registrador = {}
 
-function Logger:new(instance)
+function Registrador:novo(instancia)
   self.__index = self
-  instance = instance or {}
-  return setmetatable(instance, self)
+  instancia = instancia or {}
+  return setmetatable(instancia, self)
 end
 
-function Logger:log(message)
-  error("This method should be overridden")
+function Registrador:registrar(mensagem)
+  error("Este método deve ser sobrescrito")
 end
 
--- #2. Concrete Implementations:
-local FileLogger = Logger:new {}
-function FileLogger:log(message)
-  local file, err = io.open(self.filename, "a")
-  assert(file, err)
-  file:write(message .. "\n")
-  file:close()
+-- #2. Implementações Concretas:
+local RegistradorDeArquivo = Registrador:novo {}
+function RegistradorDeArquivo:registrar(mensagem)
+  local arquivo, erro = io.open(self.nomeDoArquivo, "a")
+  assert(arquivo, erro)
+  arquivo:write(mensagem .. "\n")
+  arquivo:close()
 end
 
-local ConsoleLogger = Logger:new {}
-function ConsoleLogger:log(message)
-  print(message)
+local RegistradorDeConsole = Registrador:novo {}
+function RegistradorDeConsole:registrar(mensagem)
+  print(mensagem)
 end
 
--- High-Level Module:
-Application = {}
+-- Módulo de Alto Nível:
+Aplicacao = {}
 
-function Application:new(instance)
-  assert(instance.logger.log, "required: logger.log")
+function Aplicacao:novo(instancia)
+  assert(instancia.registrador.registrar, "obrigatório: registrador.registrar")
   self.__index = self
-  return setmetatable(instance, self)
+  return setmetatable(instancia, self)
 end
 
-function Application:doWork()
-  self.logger:log("working ...")
+function Aplicacao:trabalhar()
+  self.registrador:registrar("trabalhando ...")
 end
 
--- Usage Example:
-local fileLogger = FileLogger:new { filename = "log.txt" }
-local consoleLogger = ConsoleLogger:new {}
+-- Exemplo de Uso:
+local registradorDeArquivo = RegistradorDeArquivo:novo { nomeDoArquivo = "log.txt" }
+local registradorDeConsole = RegistradorDeConsole:novo {}
 
-local app1 = Application:new { logger = fileLogger }
-local app2 = Application:new { logger = consoleLogger }
+local aplicacao1 = Aplicacao:novo { registrador = registradorDeArquivo }
+local aplicacao2 = Aplicacao:novo { registrador = registradorDeConsole }
 
-app1:doWork() -- Logs to a file
-app2:doWork() -- Logs to the console
+aplicacao1:trabalhar() -- Registra em um arquivo
+aplicacao2:trabalhar() -- Registra no console
