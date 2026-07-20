@@ -35,6 +35,7 @@ return {
       { "operadores.lua", "Operadores aritméticos, relacionais, lógicos e bit a bit" },
       { "cadeias_de_texto.md", "Guia de manipulação de strings" },
       { "cadeias_de_texto.lua", "Strings na prática, com as armadilhas de UTF-8" },
+      { "utf8_na_pratica.lua", "Validação, iteração e limites da biblioteca utf8" },
       { "padroes_de_texto.lua", "Recursos avançados da biblioteca de padrões" },
       { "formatacao_de_saida.lua", "Técnicas de formatação de saída" },
       { "fizzbuzz.lua", "O clássico FizzBuzz com lógica testável" },

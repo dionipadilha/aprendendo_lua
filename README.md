@@ -1,6 +1,7 @@
 # Repositório de Tutoriais de Programação Lua
 
 [![CI](https://github.com/dionipadilha/aprendendo_lua/actions/workflows/ci.yml/badge.svg)](https://github.com/dionipadilha/aprendendo_lua/actions/workflows/ci.yml)
+[![Versão](https://img.shields.io/github/v/tag/dionipadilha/aprendendo_lua?label=vers%C3%A3o&color=blue)](https://github.com/dionipadilha/aprendendo_lua/tags)
 [![Lua 5.4](https://img.shields.io/badge/Lua-5.4-blue)](https://www.lua.org/manual/5.4/)
 [![Licença MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-green)](LICENSE)
 [![pt-BR](https://img.shields.io/badge/idioma-pt--BR-yellow)](#convenções-de-idioma)
