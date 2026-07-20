@@ -16,5 +16,6 @@ valor — inclusive tabelas estruturadas.
 | `try_except.lua` | Um try/except/finally construído sobre pcall |
 
 Convenção do repositório: os asserts que valem como teste ficam no
-**topo** do arquivo — um assert que falha dentro de `pcall` é capturado
-e não afeta o código de saída, então não serve como verificação de CI.
+**nível principal** do arquivo (fora de qualquer `pcall`) — um assert
+que falha dentro de `pcall` é capturado e não afeta o código de saída,
+então não serve como verificação de CI.

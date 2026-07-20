@@ -12,11 +12,11 @@ A programação procedural é um paradigma baseado no conceito de chamadas de pr
 Em Lua, a programação procedural é natural e simples. Eis um exemplo:
 
 ```lua
-function saudar(nome)
+local function saudar(nome)
     print("Olá, " .. nome)
 end
 
-function principal()
+local function principal()
     saudar("Mundo")
     saudar("Lua")
 end
@@ -32,7 +32,7 @@ A programação orientada a objetos (POO) gira em torno do conceito de "objetos"
 Eis um exemplo de POO em Lua:
 
 ```lua
-Conta = {}
+local Conta = {}
 Conta.__index = Conta
 
 function Conta:novo(nome, saldo)
@@ -71,7 +71,7 @@ A programação funcional é um paradigma que trata a computação como a avalia
 Em Lua, funções são cidadãs de primeira classe. Eis um exemplo de programação funcional:
 
 ```lua
-function fatorial(n)
+local function fatorial(n)
     if n == 0 then
         return 1
     else
@@ -79,12 +79,12 @@ function fatorial(n)
     end
 end
 
-function map(array, func)
-    local novo_array = {}
+local function map(array, func)
+    local novoArray = {}
     for i, v in ipairs(array) do
-        novo_array[i] = func(v)
+        novoArray[i] = func(v)
     end
-    return novo_array
+    return novoArray
 end
 
 local numeros = {1, 2, 3, 4, 5}
@@ -139,7 +139,7 @@ local pessoa = {
     }
 }
 
-function imprimirPessoa(p)
+local function imprimirPessoa(p)
     print("Nome: " .. p.nome)
     print("Idade: " .. p.idade)
     print("Endereço: " .. p.endereco.rua .. ", " .. p.endereco.cidade .. ", " .. p.endereco.estado .. " " .. p.endereco.cep)
