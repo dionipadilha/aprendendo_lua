@@ -39,6 +39,7 @@ Este repositório tem como objetivo contribuir para a comunidade de programadore
 | `io/` | Leitura e escrita de arquivos |
 | `sistema/` | Data e hora, relógio, esperas e números aleatórios |
 | `banco_de_dados/` | Integração com SQLite via CLI |
+| `capi/` | API C: embutir Lua em C e módulos C carregáveis via require |
 | `padroes/` | Padrões de projeto: fábrica, fábrica abstrata, construtor, protótipo, singleton, adaptador, comando, memento, decorador, composto, estratégia, fachada, observador, método modelo, MVC, máquina de estados |
 | `solid/` | Princípios SOLID, um arquivo por princípio |
 | `testes/` | Framework de teste unitário e exemplos de testes |

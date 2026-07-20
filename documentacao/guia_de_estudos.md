@@ -212,7 +212,7 @@ coroutine.resume(co)  -- Saída: Contagem da corrotina: 2
 coroutine.resume(co)  -- Saída: Contagem da corrotina: 3
 ```
 
-Exemplos práticos: pasta [`corrotinas/`](../corrotinas/) — o uso clássico como gerador (`coroutine.wrap` em `for ... in`) está em `gerador_com_wrap.lua`. Para integração com o mundo externo, veja [`banco_de_dados/`](../banco_de_dados/) (SQLite via CLI).
+Exemplos práticos: pasta [`corrotinas/`](../corrotinas/) — o uso clássico como gerador (`coroutine.wrap` em `for ... in`) está em `gerador_com_wrap.lua`. Para integração com o mundo externo, veja [`banco_de_dados/`](../banco_de_dados/) (SQLite via CLI) e [`capi/`](../capi/) — embutir Lua em C e estender Lua com módulos C, com os exemplos compilados e executados pela CI.
 
 **15. Projetos Práticos**
 A melhor forma de consolidar o aprendizado é aplicá-lo em projetos completos, com módulos, testes e README próprios.

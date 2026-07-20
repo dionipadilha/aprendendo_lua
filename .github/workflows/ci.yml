@@ -35,6 +35,16 @@ jobs:
             assert(plural("box") == "boxes")
             print("rock pluralizador instalada e verificada")'
 
+      # A API C: compila o host embutido e o módulo C e executa ambos
+      # (ver capi/README.md). Compilação testada apenas no Linux; o
+      # README da pasta traz as linhas equivalentes para MSVC.
+      - name: Compilar e executar os exemplos da API C
+        run: |
+          sudo apt-get install -y build-essential liblua5.4-dev
+          make -C capi
+          ./capi/embutir
+          cd capi && lua5.4 testar_modulo.lua
+
   # Valida a portabilidade dos exemplos (o repositório mantém um guia de
   # instalação para Windows; ver sistema/dormir.lua para as esperas).
   teste-de-fumaca-windows:

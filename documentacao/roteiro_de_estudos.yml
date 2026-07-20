@@ -104,4 +104,4 @@ Veja mais:
   - Testes # asserções, suítes de teste (exemplos: testes/)
   - Projetos Práticos # pluralizador, JSON, ferramentas de equipe (exemplos: projetos/)
   - Exercícios Guiados # enunciados em documentacao/comece_aqui.md, soluções em projetos/exercicios/
-  - API C # integração com C (sem pasta de exemplos neste repositório)
+  - API C # embutir Lua em C e módulos C via require (exemplos: capi/)
