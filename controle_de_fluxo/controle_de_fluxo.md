@@ -74,5 +74,5 @@ Veja o exemplo executável em `valores_verdadeiros.lua`.
 
 **Observações:**
 
-- Os blocos de código em Lua são delimitados por `do` e `end`.
+- Um bloco avulso pode ser criado com `do ... end`; cada estrutura delimita seu bloco com a própria sintaxe (`then ... end` no `if`, `do ... end` no `while` e no `for`, `until` fechando o `repeat`, `end` encerrando corpos de função).
 - É importante usar indentação para organizar o código e facilitar a leitura.

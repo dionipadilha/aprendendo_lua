@@ -37,6 +37,12 @@ local co = coroutine.create(quadratica)
 print(type(co)) --> thread
 assert(type(co) == "thread")
 
+-- userdata:
+-- dados gerenciados por código C; a própria biblioteca io demonstra o
+-- tipo — arquivos abertos (como a saída padrão io.stdout) são userdata:
+print(type(io.stdout)) --> userdata
+assert(type(io.stdout) == "userdata")
+
 --------------------------------------------------------------------------------
 -- Inteiro vs float (Lua 5.4)
 

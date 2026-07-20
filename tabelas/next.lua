@@ -7,10 +7,13 @@
 -- garantido é que cada par é visitado exatamente uma vez.
 local frutas = { "maçã", "banana", "laranja" }
 
--- percorre a tabela inteira com next, colecionando o que visitou:
+-- percorre a tabela inteira com next, colecionando o que visitou.
+-- A parada compara com nil, e não com a veracidade (`while indice do`):
+-- nil é a única chave impossível numa tabela — false é chave VÁLIDA e
+-- encerraria o laço no meio da enumeração (demonstração adiante):
 local visitados = {}
 local indice, valor = next(frutas)
-while indice do
+while indice ~= nil do
   print(indice, valor)
   visitados[indice] = valor
   indice, valor = next(frutas, indice)
@@ -30,12 +33,25 @@ assert(next({}) == nil)
 assert(next(frutas) ~= nil)
 
 -------------------------------------------------------
+-- false é chave válida — a prova de que comparar com nil importa:
+local interruptores = { [false] = "desligado", [true] = "ligado" }
+assert(interruptores[false] == "desligado") -- a chave false existe mesmo
+
+local visitas = 0
+local chave = next(interruptores)
+while chave ~= nil do -- `while chave do` pararia ao receber a chave false
+  visitas = visitas + 1
+  chave = next(interruptores, chave)
+end
+assert(visitas == 2) -- ambas as chaves visitadas, inclusive false
+
+-------------------------------------------------------
 -- laço while usando next:
 local nomes = { "ana", "bob", "charlie" }
 
 local contagem = 0
 local i, nome = next(nomes)
-while i do
+while i ~= nil do -- de novo: compare com nil, nunca com a veracidade
   print(nome)
   contagem = contagem + 1
   i, nome = next(nomes, i)

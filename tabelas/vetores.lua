@@ -1,7 +1,11 @@
 -- vetores.lua
 
 --------------------------------------------------------------------------------
--- Aspectos essenciais sobre as tabelas de Lua como vetores/listas
+-- PAPEL deste arquivo: operações BÁSICAS de array — criação, acesso por
+-- índice, percurso, manipulação direta pelos índices e matrizes. Para o
+-- tour da biblioteca table (insert, remove, sort, move, concat), veja
+-- biblioteca_de_tabelas.lua; para a lista como TAD com operações
+-- nomeadas, veja lista.lua.
 --------------------------------------------------------------------------------
 -- Inicialização
 
@@ -55,9 +59,10 @@ for _, fruta in ipairs(frutas) do
 end
 
 -- Iterando com next (a ordem de visita NÃO é garantida pelo manual,
--- nem para índices numéricos — use ipairs quando a ordem importar):
+-- nem para índices numéricos — use ipairs quando a ordem importar).
+-- A parada compara com nil porque false é chave válida — veja next.lua:
 local indice, valor = next(frutas)
-while indice do
+while indice ~= nil do
   print(valor) -- visita todos os elementos, em ordem não especificada
   indice, valor = next(frutas, indice)
 end
@@ -67,7 +72,7 @@ print(table.concat(frutas, ", ")) --> maçã, banana, laranja
 assert(table.concat(frutas, ", ") == "maçã, banana, laranja")
 
 --------------------------------------------------------------------------------
--- Manipulação
+-- Manipulação direta pelos índices
 
 local frutas = {"maçã","banana", "laranja"}
 
@@ -76,74 +81,19 @@ frutas[2] = "manga"
 print(table.concat(frutas, ", ")) --> maçã, manga, laranja
 assert(table.concat(frutas, ", ") == "maçã, manga, laranja")
 
--- Acrescentando elementos:
-table.insert(frutas, "kiwi")
+-- Acrescentando ao fim (#frutas + 1 é a primeira posição livre):
+frutas[#frutas + 1] = "kiwi"
 print(table.concat(frutas, ", ")) --> maçã, manga, laranja, kiwi
 assert(table.concat(frutas, ", ") == "maçã, manga, laranja, kiwi")
 
--- Inserindo em um índice específico:
-table.insert(frutas, 2, "pera")
-print(table.concat(frutas, ", ")) --> maçã, pera, manga, laranja, kiwi
-assert(table.concat(frutas, ", ") == "maçã, pera, manga, laranja, kiwi")
+-- Removendo o último elemento (atribuir nil apaga a posição):
+frutas[#frutas] = nil
+print(table.concat(frutas, ", ")) --> maçã, manga, laranja
+assert(table.concat(frutas, ", ") == "maçã, manga, laranja")
 
--- Remove o último elemento:
-table.remove(frutas)
-print(table.concat(frutas, ", ")) --> maçã, pera, manga, laranja
-assert(table.concat(frutas, ", ") == "maçã, pera, manga, laranja")
-
--- Removendo em um índice específico:
-table.remove(frutas, 3)
-print(table.concat(frutas, ", ")) --> maçã, pera, laranja
-assert(table.concat(frutas, ", ") == "maçã, pera, laranja")
-
---------------------------------------------------------------------------------
--- Ordenação*
-
-local frutas = {"maçã","pera", "laranja"}
-
--- Ordenação padrão:
-table.sort(frutas)
-print(table.concat(frutas, ", ")) --> laranja, maçã, pera
-assert(table.concat(frutas, ", ") == "laranja, maçã, pera")
-
--- Ordenação personalizada:
-local ordenacaoPersonalizada = function (a, b) return #a > #b end
-table.sort(frutas, ordenacaoPersonalizada)
-print(table.concat(frutas, ", ")) --> laranja, maçã, pera
-assert(table.concat(frutas, ", ") == "laranja, maçã, pera")
-
--- Ordenação inversa:
-local ordenacaoInversa = function(a, b) return a > b end
-table.sort(frutas, ordenacaoInversa)
-print(table.concat(frutas, ", ")) --> pera, maçã, laranja
-assert(table.concat(frutas, ", ") == "pera, maçã, laranja")
-
--- *O algoritmo de ordenação não é estável.
-
---------------------------------------------------------------------------------
--- Mesclando vetores
-
--- Mescla vetores usando table.insert:
-local v1 = {"maçã","banana", "cereja"}
-local v2 = {"manga","pera"}
-for _, item in ipairs(v2) do
-  table.insert(v1, item)
-end
-print(table.concat(v1, ", ")) --> maçã, banana, cereja, manga, pera
-assert(table.concat(v1, ", ") == "maçã, banana, cereja, manga, pera")
-
--- Mescla vetores usando table.move:
-local v1 = {"maçã","banana", "cereja"}
-local v2 = {"manga","pera"}
-table.move(v2, 1, #v2, #v1+1, v1)
-print(table.concat(v1, ", ")) --> maçã, banana, cereja, manga, pera
-assert(table.concat(v1, ", ") == "maçã, banana, cereja, manga, pera")
-
--- Mescla vetores usando table.unpack:
-local v2 = {"manga","pera"}
-local v1 = {"maçã","banana", "cereja", table.unpack(v2)}
-print(table.concat(v1, ", ")) --> maçã, banana, cereja, manga, pera
-assert(table.concat(v1, ", ") == "maçã, banana, cereja, manga, pera")
+-- Para inserir/remover em posições intermediárias (deslocando os
+-- demais), ordenar e mesclar vetores, use a API table.* — todas essas
+-- operações estão demonstradas em biblioteca_de_tabelas.lua.
 
 --------------------------------------------------------------------------------
 -- Introdução aos vetores multidimensionais

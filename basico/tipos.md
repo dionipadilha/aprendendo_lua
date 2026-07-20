@@ -120,6 +120,12 @@ print(resultado)
 **Exemplo:**
 
 ```lua
+-- Não é preciso biblioteca externa para ver um userdata de verdade:
+-- os arquivos abertos pela biblioteca io são userdata.
+assert(type(io.stdout) == "userdata")
+
+-- Bibliotecas C de terceiros expõem seus próprios userdata
+-- (exemplo ilustrativo — "bibliotecaC" não existe de fato):
 local bibliotecaC = require("bibliotecaC")
 
 local userdata = bibliotecaC.criarObjeto()

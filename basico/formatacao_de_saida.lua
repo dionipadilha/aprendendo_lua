@@ -56,8 +56,12 @@ print(palavra1, palavra2, palavra3) --> Bom	dia	Lua
 assert(palavra1 == "Bom" and palavra2 == "dia" and palavra3 == "Lua")
 
 -- Centralização de Texto:
+-- #str contaria BYTES: em UTF-8, letras acentuadas ocupam 2+ bytes cada
+-- e o texto sairia descentralizado (veja cadeias_de_texto.lua). Por isso
+-- o tamanho vem de utf8.len, que conta CARACTERES — a medida que
+-- corresponde à largura visual do texto:
 local function centralizar(str, largura)
-  local tamanho = #str
+  local tamanho = utf8.len(str)
   if tamanho >= largura then return str end
   local preenchimento = (largura - tamanho) / 2
   local preenchimentoEsquerda = math.floor(preenchimento)
@@ -71,3 +75,9 @@ print("|" .. centralizar("centro", 12) .. "|") --> |   centro   |
 assert(centralizar("centro", 10) == "  centro  ")
 assert(centralizar("centro", 11) == "  centro   ")
 assert(centralizar("centro", 12) == "   centro   ")
+
+-- Com acento também alinha: "está" tem 4 caracteres (embora 5 bytes),
+-- e centraliza exatamente como a versão sem acento:
+print("|" .. centralizar("está", 10) .. "|") --> |   está   |
+assert(centralizar("está", 10) == "   está   ")
+assert(centralizar("esta", 10) == "   esta   ")

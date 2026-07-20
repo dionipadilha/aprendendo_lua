@@ -69,6 +69,35 @@ print("Olá " .. str) --> Olá Lua!
 assert("Olá " .. str == "Olá Lua!")
 
 -----------------------------------------------------------------------
+-- Coerção (conversão automática entre número e string):
+
+-- A aritmética converte strings com formato de número — o resultado é
+-- um NÚMERO de verdade (aqui, um inteiro):
+print("10" + 5) --> 15
+assert("10" + 5 == 15)
+assert(math.type("10" + 5) == "integer")
+
+-- A concatenação faz o caminho inverso: converte números para string:
+print(42 .. "") --> 42
+assert(42 .. "" == "42")
+assert(type(42 .. "") == "string")
+
+-- A coerção vale para OPERADORES, não para a igualdade: `==` entre
+-- tipos diferentes é sempre false, sem converter nada:
+assert(("10" == 10) == false)
+
+-- Para converter de propósito, use tonumber e tostring — explícitos,
+-- sem depender de coerção implícita:
+assert(tonumber("3.14") == 3.14)
+assert(tostring(42) == "42")
+
+-- tonumber aceita uma base (2 a 36)...
+assert(tonumber("ff", 16) == 255)
+-- ...e devolve nil quando o texto não é um número — por isso serve
+-- para validar entrada do usuário:
+assert(tonumber("abc") == nil)
+
+-----------------------------------------------------------------------
 -- Pertinência:
 
 -- Lua não tem operador "in" para pertinência; o idioma correto é um
