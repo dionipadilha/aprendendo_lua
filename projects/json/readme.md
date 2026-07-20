@@ -1,3 +1,3 @@
-# JSON encoding/decoding
+# Codificação/decodificação de JSON
 
-This should cover basic JSON encoding and decoding without the need for external libraries. Note that this implementation is simplified and may not handle all edge cases or errors gracefully. For production use, more robust error handling and edge case management would be required.
+Este projeto cobre a codificação e a decodificação básicas de JSON sem a necessidade de bibliotecas externas. Observe que esta implementação é simplificada e pode não tratar todos os casos extremos ou erros com elegância. Para uso em produção, seriam necessários um tratamento de erros mais robusto e um melhor gerenciamento de casos extremos.
