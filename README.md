@@ -1,6 +1,6 @@
 # Repositório de Tutoriais de Programação Lua
 
-[![CI](https://github.com/dionipadilha/lua/actions/workflows/ci.yml/badge.svg)](https://github.com/dionipadilha/lua/actions/workflows/ci.yml)
+[![CI](https://github.com/dionipadilha/aprendendo_lua/actions/workflows/ci.yml/badge.svg)](https://github.com/dionipadilha/aprendendo_lua/actions/workflows/ci.yml)
 
 Este repositório oferece guias para a linguagem de programação Lua, abrangendo diversos conceitos.
 O material aqui apresentado é fruto de meu estudo e desenvolvimento, e visa auxiliar programadores em diferentes níveis de experiência.

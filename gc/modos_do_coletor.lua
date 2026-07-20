@@ -27,8 +27,8 @@ local memoriaInicialEmKb = collectgarbage("count")
 print(("memória em uso: %.1f KB"):format(memoriaInicialEmKb))
 assert(type(memoriaInicialEmKb) == "number" and memoriaInicialEmKb > 0)
 
--- Alocar objetos aumenta a contagem:
-local listaGrande = {}
+-- Alocar objetos aumenta a contagem (a lista existe só para ocupar memória):
+local listaGrande = {} -- luacheck: ignore 241
 for i = 1, 10000 do listaGrande[i] = { i } end
 local memoriaComLista = collectgarbage("count")
 assert(memoriaComLista > memoriaInicialEmKb)

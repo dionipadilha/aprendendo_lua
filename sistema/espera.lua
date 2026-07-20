@@ -2,8 +2,8 @@
 
 -- Espera OCUPADA (busy-wait): prende a CPU em um laço até o tempo passar.
 -- Usa os.clock porque o laço consome CPU — exatamente o que os.clock mede.
--- Para uma espera OCIOSA (sem gastar CPU), delegue ao sistema:
--- os.execute("sleep 1"). Veja cpu_vs_parede.lua para a diferença.
+-- Para uma espera OCIOSA (sem gastar CPU), delegue ao sistema — veja
+-- dormir.lua. Em cpu_vs_parede.lua as duas aparecem lado a lado.
 
 -- Define uma função:
 local function espera(n)
